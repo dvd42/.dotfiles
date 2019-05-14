@@ -1,0 +1,2 @@
+*.vim filter=gitignore
+*.py filter=gitignore
