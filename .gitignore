@@ -1,1 +1,6 @@
 oh-my-zsh/
+autoload
+backup
+plugged
+undodir
+.netrwhist
