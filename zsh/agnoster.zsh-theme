@@ -204,7 +204,15 @@ prompt_hg() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment blue $CURRENT_FG '%c'
+  if [ "$HOME" = "$PWD" ]; then
+    () {
+      local LC_ALL="" LC_CTYPE="en_US.UTF-8"
+      HICON=$'\u26FA'
+    }
+     prompt_segment blue $CURRENT_FG $HICON
+  else
+    prompt_segment blue $CURRENT_FG '%c'
+  fi
 }
 
 # Virtualenv: current working virtualenv
