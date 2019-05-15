@@ -207,7 +207,7 @@ prompt_dir() {
   if [ "$HOME" = "$PWD" ]; then
     () {
       local LC_ALL="" LC_CTYPE="en_US.UTF-8"
-      HICON=$'\u26C7'
+      HICON=$'\u0397''\u0398''\u039C''\u0395'
     }
      prompt_segment blue $CURRENT_FG $HICON
   else
