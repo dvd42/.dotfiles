@@ -1,4 +1,4 @@
-" *** Inspited by https://github.com/prlz77/nvim *** 
+" *** Inspited by https://github.com/prlz77/nvim ***
 
 " *** Fixes *** "
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0 "Solves the garbage chars problem.
@@ -92,7 +92,14 @@ map <C-b> Oimport ipbd; ipbd.set_trace()  # BREAKPOINT<C-c>
 set nohlsearch
 
 "Remove all trailing whitespace by pressing F5
-noremap <silent><F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+:nnoremap <silent> <F5> :let _save_pos=getpos(".") <Bar>
+    \ :let _s=@/ <Bar>
+    \ :%s/\s\+$//e <Bar>
+    \ :let @/=_s <Bar>
+    \ :nohl <Bar>
+    \ :unlet _s<Bar>
+    \ :call setpos('.', _save_pos)<Bar>
+    \ :unlet _save_pos<CR>
 
 "remap escape to Caps_Lock
 au VimEnter * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
@@ -138,8 +145,10 @@ endfunction
 
 "Ip autcompletion from frequent servers
 function! IpCompletion(A, L, P)
-    "Uncomment the following line and replace IP and P with server's IP and Port
-    "let trustedips = ['IP_1, P_1', 'IP_2, P_2', 'IP_n, P_n']
+    "Replace this file with the one that contains your ips in the format 
+    "IP_0 Port_0\nIP_1 Port_1\n IP_2 Port_2\n
+    let trustedips = readfile($HOME.'/.config/nvim/trusted_ips.txt')
+    echo trustedips
     return filter(trustedips, 'v:val =~ "^'.a:A.'"')
 endfunction
 
@@ -153,7 +162,7 @@ function! Graph()
     execute "!display pycallgraph.png"
     call feedkeys("\<CR>")
 endfunction
-    
+
 "Cprofiler function
 function! Profiler(file, ...)
     "profiler mode (graph:execution graph and time, mem: lots of stuff, plain: just cprofile output)

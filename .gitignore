@@ -5,3 +5,4 @@ plugged/
 undodir/
 .netrwhist
 plugins/
+trusted_ips.txt
