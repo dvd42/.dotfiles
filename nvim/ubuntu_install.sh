@@ -2,7 +2,7 @@
 
 #Taken from https://github.com/prlz77/nvim
 
-# Add repo and install
+# Update and install
 sudo apt-get -y install software-properties-common
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt-get update
@@ -16,7 +16,6 @@ sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
 sudo update-alternatives --config vim
 sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
 sudo update-alternatives --config editor
-sudo pip install neovim
 sudo pip3 install neovim
 # Common configuration
 ./common_install.sh
