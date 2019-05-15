@@ -10,3 +10,4 @@ nvim --headless +PlugInstall +qa
 nvim --headless +PlugUpdate +qa
 
 pip3 install --user -r requirements.txt
+touch trusted_ips.txt
