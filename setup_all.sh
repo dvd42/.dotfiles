@@ -3,6 +3,12 @@
 # My prefered font
 sudo apt -y install fonts-firacode
 
+# Terminal music player
+sudo apt-get -y install cms
+
+# Hangouts terminal client
+sudo pip3 install hangups
+
 cd ~/.config/env_setup/
 # Tmux installation
 sh tmux/install.sh
