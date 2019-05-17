@@ -145,32 +145,50 @@ endfunction
 
 "Ip autcompletion from frequent servers
 function! IpCompletion(A, L, P)
-    "Replace this file with the one that contains your ips in the format 
+    "Replace this file with the one that contains your ips in the format
     "IP_0 Port_0\nIP_1 Port_1\n IP_2 Port_2\n
     let trustedips = readfile($HOME.'/.config/nvim/trusted_ips.txt')
     echo trustedips
     return filter(trustedips, 'v:val =~ "^'.a:A.'"')
 endfunction
 
-augroup showgraph
-    au!
-    autocmd User NeomakeFinished call Graph()
-augroup END
 
-"Run this after using the graph: option on the Profiler function
-function! Graph()
-    execute "!display pycallgraph.png"
-    call feedkeys("\<CR>")
+"Run this after neomake finishes
+function! Graph(job_status)
+    if a:job_status['status'] == 0
+        execute "!display pycallgraph.png"
+        call feedkeys("\<CR>")
+    else
+        copen
+    endif
 endfunction
+
+function! Mem(job_status)
+    if a:job_status['status'] == 0
+        echo items(a:job_status)
+        NeomakeCancelJob a:job_status['id']
+    else 
+        copen
+    endif
+endfunction
+
+function! Plain(job_status)
+    copen
+endfunction
+
 
 "Cprofiler function
 function! Profiler(file, ...)
-    "profiler mode (graph:execution graph and time, mem: lots of stuff, plain: just cprofile output)
+    "profiler mode (graph:execution graph and time, mem: lots of nice stuff,
+    "plain: just Cprofile output on plaintext'
     let arg1 = get(a:, 1, "mem") "default mode
     if arg1 == "graph"
         call neomake#Sh("pycallgraph --max-depth=4 -v graphviz -- ".a:file, function('Graph'))
     elseif arg1 == "mem"
-         call neomake#Sh("vprof -c cmhp ".a:file)
+         call neomake#Sh("vprof -c cmhp ".a:file, function('Mem'))
+    elseif arg1 == 'plain'
+        call neomake#Sh("python3 -m cProfile -s cumtime ".a:file, function('Plain'))
+
     endif
 endfunction
 
@@ -181,4 +199,3 @@ command! -complete=customlist,IpCompletion -nargs=+ Sync call Deploy(<f-args>)
 command! -complete=file -nargs=+ Profile call Profiler(<f-args>)
 
 command! Lint execute "PymodeLintAuto"
-
