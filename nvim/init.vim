@@ -176,7 +176,11 @@ function! Plain(job_status)
     copen
 endfunction
 
+function! InitProject(root)
+    execute "PymodeRopeNewProject ".a:root
 
+endfunction
+"
 "Cprofiler function
 function! Profiler(file, ...)
     "profiler mode (graph:execution graph and time, mem: lots of nice stuff,
@@ -198,4 +202,8 @@ command! -complete=customlist,IpCompletion -nargs=+ Sync call Deploy(<f-args>)
 "run cProfile on file
 command! -complete=file -nargs=+ Profile call Profiler(<f-args>)
 
-command! Lint execute "PymodeLintAuto"
+"Correct lint errors
+command! Lint execute "PymodeLintAuto "
+
+"Initialize ropeproject on current dir
+command! -complete=file -nargs=+ Init call InitProject(<f-args>)
