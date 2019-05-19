@@ -20,6 +20,7 @@ set showmatch           " highlight matching [{()}]
 set foldenable          " enable folding
 set autoread            " detect file changes
 
+set background=dark
 colorscheme OceanicNext
 
 set clipboard=unnamedplus " clipboard
@@ -195,6 +196,8 @@ function! Profiler(file, ...)
 
     endif
 endfunction
+
+command! Clean execute "!rm ~/.config/nvim/backup/*"
 
 "create Sync command to deploy
 command! -complete=customlist,IpCompletion -nargs=+ Sync call Deploy(<f-args>)
