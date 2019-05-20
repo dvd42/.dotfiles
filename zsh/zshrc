@@ -94,6 +94,6 @@ export LANG=en_US.UTF-8
 #
 # Example aliases
 alias ll="ls -alFh"
-alias chrome="gnome-www-browser > /dev/null 2>&1 &"
+alias chrome="gnome-www-browser > /dev/null 2>&1 &; disown"
 alias hangups='hangups --col-scheme solarized-dark --notification-type bell'
 alias cmus="cmus"
