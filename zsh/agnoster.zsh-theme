@@ -88,12 +88,10 @@ prompt_end() {
 
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
-  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-  () {
-    local LC_ALL="" LC_CTYPE="en_US.UTF-8"
-    COMPUTER=$'\u2A0D''(''\u0445'';'' \u03B8'')'
-  }
-    prompt_segment black default $COMPUTER
+  local user=`whoami`
+  if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
+
+      prompt_segment yellow black "%(!.%{%F{yellow}%}.)%m "
 
   fi
 }
