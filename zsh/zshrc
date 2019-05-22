@@ -99,3 +99,4 @@ alias chrome="gnome-www-browser > /dev/null 2>&1 &; disown"
 alias hangups='hangups --col-scheme solarized-dark --notification-type bell'
 alias cmus="cmus"
 alias takeover="tmux detach -a"
+alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset'"
