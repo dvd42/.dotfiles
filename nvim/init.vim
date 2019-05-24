@@ -135,24 +135,50 @@ endfunction
 inoremap <expr><silent><Tab> (pumvisible() ? '<C-R>=Omnnipopup("Tab")<CR>':'<Tab>')
 
 "Deploy configuration
-function! Deploy(server, port, ...)
-    "level -> (level 1: sync current_dir, level 2: sync parent_dir, ...)
-    let arg1 = get(a:, 1, 1) "default level=1
-    let path = "/".join(split(expand('%:p'), '/')[0:-(arg1+1)], '/').'/'
+function! Deploy(server, port, dir)
+    let path = a:dir
     let port = "'-e ssh -p'".a:port." "
     let rsync = "\"mkdir -p ".path." && rsync\" "
+
     execute "!rsync -arh --delete --exclude=.git/ ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path
 endfunction
 
-"Ip autcompletion from frequent servers
+"Ip autocompletion for frequent servers
 function! IpCompletion(A, L, P)
     "Replace this file with the one that contains your ips in the format
     "IP_0 Port_0\nIP_1 Port_1\n IP_2 Port_2\n
-    let trustedips = readfile($HOME.'/.config/nvim/trusted_ips.txt')
-    echo trustedips
-    return filter(trustedips, 'v:val =~ "^'.a:A.'"')
+    let ip_ports = readfile($HOME.'/.config/nvim/trusted_ips.txt')
+    let ips = []
+    for ip in ip_ports
+        call add(ips, split(ip)[0])
+    endfor
+    return filter(ips, 'v:val =~ "^'.a:A.'"')
 endfunction
 
+"Port autocompletion for frequent servers
+function! PortCompletion(A, L, P)
+    "Replace this file with the one that contains your ips in the format
+    "IP_0 Port_0\nIP_1 Port_1\n IP_2 Port_2\n
+    let ip_ports = readfile($HOME.'/.config/nvim/trusted_ips.txt')
+    let ips = []
+    for ip in ip_ports
+        call add(ips, split(ip)[1])
+    endfor
+    return filter(ips, 'v:val =~ "^'.a:A.'"')
+endfunction
+
+function! DirCompletion(A, L, P)
+    let dir = []
+    call add(dir, expand('%:p:h'))
+    return filter(dir, 'v:val =~ "^'.a:A.'"')
+endfunction
+
+function! DeployCompletion(A, L, P)
+    let l = split(a:L[:a:P-1], '\%(\%(\%(^\|[^\\]\)\\\)\@<!\s\)\+', 1)
+    let n = len(l) - index(l, 'Sync') - 2
+    let funcs = ['IpCompletion', 'PortCompletion', 'DirCompletion']
+    return call(funcs[n], [a:A, a:L, a:P])
+endfunction
 
 "Run this after neomake finishes
 function! Graph(job_status)
@@ -168,7 +194,7 @@ function! Mem(job_status)
     if a:job_status['status'] == 0
         echo items(a:job_status)
         NeomakeCancelJob a:job_status['id']
-    else 
+    else
         copen
     endif
 endfunction
@@ -200,7 +226,7 @@ endfunction
 command! Clean execute "!rm ~/.config/nvim/backup/*"
 
 "create Sync command to deploy
-command! -complete=customlist,IpCompletion -nargs=+ Sync call Deploy(<f-args>)
+command! -complete=customlist,DeployCompletion -nargs=* Sync call Deploy(<f-args>)
 
 "run cProfile on file
 command! -complete=file -nargs=+ Profile call Profiler(<f-args>)
