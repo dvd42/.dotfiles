@@ -169,7 +169,7 @@ endfunction
 
 function! DirCompletion(A, L, P)
     let dir = []
-    call add(dir, expand('%:p:h'))
+    call add(dir, expand('%:p:h').'/')
     return filter(dir, 'v:val =~ "^'.a:A.'"')
 endfunction
 
