@@ -70,6 +70,7 @@ ZSH_TMUX_AUTOSTART="false"
 plugins=(git tmux vi-mode zsh-syntax-highlighting zsh-autosuggestions pyenv)
 
 source $ZSH/oh-my-zsh.sh
+set -o ignoreeof
 
 # User configuration
 
