@@ -217,7 +217,7 @@ prompt_dir() {
 prompt_virtualenv() {
   local virtualenv_path="$VIRTUAL_ENV"
   if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment red black "(`basename $virtualenv_path`)"
+    prompt_segment 166 black "(`basename $virtualenv_path`)"
   fi
 }
 
