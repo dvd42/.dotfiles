@@ -140,7 +140,7 @@ function! Deploy(server, port, dir)
     let port = "'-e ssh -p'".a:port." "
     let rsync = "\"mkdir -p ".path." && rsync\" "
 
-    execute "!rsync -arh --delete --exclude=.git/ ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path
+    execute "!rsync -arh --delete --exclude=.git/ --exclude=build/ ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path
 endfunction
 
 "Ip autocompletion for frequent servers
