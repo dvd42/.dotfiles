@@ -1,10 +1,10 @@
 #! /bin/bash
 
 # My prefered font
-sudo apt -y install fonts-firacode
+sudo apt install -y fonts-firacode
 
 # Terminal music player
-sudo apt-get -y install cms
+sudo apt-get -y install cmus
 
 # Hangouts terminal client
 sudo pip3 install hangups
