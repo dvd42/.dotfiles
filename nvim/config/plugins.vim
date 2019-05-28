@@ -43,7 +43,7 @@ let g:pymode_breakpoint = 0
 let g:pymode_syntax_builtin_objs = 1
 let g:pymode_syntax_builtin_funcs = 1
 let g:pymode_lint_unmodified = 1
-let g:pymode_lint_on_write = 1
+let g:pymode_lint_on_write = 0
 let g:pymode_rope_lookup_project = 1
 
 " *** Airline ***
