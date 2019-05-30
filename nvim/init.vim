@@ -90,6 +90,10 @@ nnoremap <C-H> <C-W><C-H>
 "insert breakpoints
 map <C-b> Oimport ipbd; ipbd.set_trace()  # BREAKPOINT<C-c>
 
+"Switch buffer on tab
+nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
+nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+
 "No highlight on search
 set nohlsearch
 
@@ -140,8 +144,7 @@ function! Deploy(server, port, dir)
     let path = a:dir
     let port = "'-e ssh -p'".a:port." "
     let rsync = "\"mkdir -p ".path." && rsync\" "
-
-    execute "!rsync -arh --delete --exclude=.git/ --exclude=build/ ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path
+    execute "!rsync -arh --delete --exclude-from=".$HOME."/.config/nvim/rsync_exclude.txt ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path
 endfunction
 
 "Ip autocompletion for frequent servers
