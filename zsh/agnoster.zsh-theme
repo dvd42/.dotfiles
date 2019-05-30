@@ -108,17 +108,7 @@ prompt_git() {
     local LC_ALL="" LC_CTYPE="en_US.UTF-8"
     PL_BRANCH_CHAR=$'\ue0a0'         # 
   }
-  local ref dirty mode repo_path ahead behind
-  local -a gitstatus
-
-  ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-  (( $ahead )) && gitstatus+=( "+${ahead}" )
-
-
-  behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-  (( $behind )) && gitstatus+=( "-${behind}" )
-
-  hook_com[misc]+=${(j:/:)gitstatus}
+  local ref dirty mode repo_path
 
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
     repo_path=$(git rev-parse --git-dir 2>/dev/null)
@@ -140,18 +130,28 @@ prompt_git() {
 
     setopt promptsubst
     autoload -Uz vcs_info
+    zstyle ':vcs_info:git*+set-message:*' hooks git-st
+    function +vi-git-st() {
+      local ahead behind
+      local -a gitstatus
 
+      ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
+      (( $ahead )) && gitstatus+=( "\u2b06" )
+
+      behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
+      (( $behind )) && gitstatus+=( "\u2b07" )
+
+      hook_com[misc]+=${(j:/:)gitstatus}
+}
     zstyle ':vcs_info:*' enable git
     zstyle ':vcs_info:*' get-revision true
     zstyle ':vcs_info:*' check-for-changes true
     zstyle ':vcs_info:*' stagedstr '✚'
     zstyle ':vcs_info:*' unstagedstr '●'
-    zstyle ':vcs_info:*' behind 'A'
-    zstyle ':vcs_info:*' ahead 'A'
-    zstyle ':vcs_info:*' formats ' %u%c'
-    zstyle ':vcs_info:*' actionformats ' %u%c'
+    zstyle ':vcs_info:*' formats ' %m%u%c'
+    zstyle ':vcs_info:*' actionformats ' %m%u%c'
     vcs_info
-    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${(j:/:)gitstatus}${vcs_info_msg_0_%% }${mode}"
+    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}"
   fi
 }
 
