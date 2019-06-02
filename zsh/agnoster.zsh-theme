@@ -134,7 +134,6 @@ prompt_git() {
     function +vi-git-st() {
       local ahead behind
       local -a gitstatus
-
       ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
       (( $ahead )) && gitstatus+=( "\u2b06" )
 
