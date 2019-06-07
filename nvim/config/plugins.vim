@@ -5,6 +5,7 @@ filetype off
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.config/env_setup/nvim/plugged')
+Plug 'Valloric/YouCompleteMe'
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'tmhedberg/SimpylFold'
@@ -54,4 +55,3 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
-
