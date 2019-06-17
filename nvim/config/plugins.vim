@@ -20,7 +20,7 @@ call plug#end()
 
 " *** Tmux Navigator *** 
 " Write all buffers before navigating from Vim to tmux pane
-let g:tmux_navigator_save_on_switch = 2
+let g:tmux_navigator_save_on_switch = 1
 
 " *** crtlp.vim ***
 set wildignore+=*.pyc
@@ -43,9 +43,9 @@ let g:pymode_rope = 1
 let g:pymode_breakpoint = 0
 let g:pymode_syntax_builtin_objs = 1
 let g:pymode_syntax_builtin_funcs = 1
-let g:pymode_lint_unmodified = 1
-let g:pymode_lint_on_write = 0
+let g:pymode_lint_on_write = 1
 let g:pymode_rope_lookup_project = 1
+set completeopt=menuone,noinsert
 
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1 

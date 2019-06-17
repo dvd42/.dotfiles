@@ -37,9 +37,6 @@ set gdefault            " Use 'g' flag by default with :s/foo/bar/.
 set magic               " Use 'magic' patterns (extended regular expressions).
 set laststatus=2
 
-"autocompletion settings
-set completeopt=menuone,noinsert
-
 " *** Indentation ***"
 filetype plugin indent on      " load filetype-specific indent files
 set expandtab " tabs are spaces
