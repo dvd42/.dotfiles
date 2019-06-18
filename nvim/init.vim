@@ -84,7 +84,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 "insert breakpoints
-map <C-b> Oimport ipbd; ipbd.set_trace()  # BREAKPOINT<C-c>
+map <C-b> Oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
 
 "Switch buffer on tab
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
