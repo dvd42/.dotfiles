@@ -15,6 +15,7 @@ Plug 'python-mode/python-mode', {'branch':'develop'}
 Plug 'tpope/vim-fugitive'
 Plug 'kien/ctrlp.vim'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'kshenoy/vim-signature'
 call plug#end()
 
 
