@@ -35,18 +35,21 @@ let g:tmux_navigator_save_on_switch = 2
 " *** Pymode ***
 let g:pymode_python = 'python3'
 let g:pymode_rope_regenerate_on_write = 0
-let g:pymode_trim_whitespaces = 1
-let g:pymode_syntax_all = 1
-let g:pymode_syntax = 1
-let g:pymode_syntax_space_errors = 0
-let g:pymode_rope_completion = 1
-let g:pymode_rope = 1
-let g:pymode_breakpoint = 0
-let g:pymode_syntax_builtin_objs = 1
-let g:pymode_syntax_builtin_funcs = 1
-let g:pymode_lint_on_write = 1
 let g:pymode_rope_lookup_project = 1
+let g:pymode_breakpoint = 0
+let g:pymode_syntax_space_errors = 0
+let g:pymode_lint_on_write = 0
 set completeopt=menuone,noinsert
+
+"Correct lint errors
+command! Lint execute "PymodeLintAuto "
+"
+"Check lint errors
+command! Check execute "PymodeLint"
+
+"Initialize ropeproject on current dir
+command! -complete=file -nargs=+ Init call InitProject(<f-args>)
+
 
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1 

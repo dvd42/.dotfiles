@@ -231,8 +231,3 @@ command! -complete=customlist,DeployCompletion -nargs=* Sync call Deploy(<f-args
 "run cProfile on file
 command! -complete=file -nargs=+ Profile call Profiler(<f-args>)
 
-"Correct lint errors
-command! Lint execute "PymodeLintAuto "
-
-"Initialize ropeproject on current dir
-command! -complete=file -nargs=+ Init call InitProject(<f-args>)

@@ -9,5 +9,5 @@ sleep 2
 nvim --headless +PlugInstall +qa
 nvim --headless +PlugUpdate +qa
 
-pip3 install --user -r requirements.txt
+pip3 install --upgrade --user --ignore-installed -r requirements.txt
 touch trusted_ips.txt
