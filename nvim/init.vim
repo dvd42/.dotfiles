@@ -1,7 +1,6 @@
 " *** Inspited by https://github.com/prlz77/nvim ***
 
 " *** Fixes *** "
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0 "Solves the garbage chars problem.
 let $VTE_VERSION="100"
 set guicursor=
 
