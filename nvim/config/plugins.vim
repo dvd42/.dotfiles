@@ -34,6 +34,7 @@ let g:tmux_navigator_save_on_switch = 2
 "
 " *** Pymode ***
 let g:pymode_python = 'python3'
+let g:python3_host_prog = "~/.pyenv/versions/neovim3/bin/python3"
 let g:pymode_rope_regenerate_on_write = 0
 let g:pymode_rope_lookup_project = 1
 let g:pymode_rope = 1
