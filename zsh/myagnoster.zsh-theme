@@ -128,9 +128,11 @@ prompt_git() {
       mode=" >R>"
     fi
 
+    zstyle ':vcs_info:*' formats "%u%c%m"
     setopt promptsubst
     autoload -Uz vcs_info
     zstyle ':vcs_info:git*+set-message:*' hooks git-st
+
     function +vi-git-st() {
       local ahead behind
       local -a gitstatus
@@ -141,7 +143,17 @@ prompt_git() {
       (( $behind )) && gitstatus+=( "\u2b07" )
 
       hook_com[misc]+=${(j:/:)gitstatus}
-}
+    }
+
+    zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+    +vi-git-untracked() {
+      if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+         git status --porcelain | grep -m 1 '^??' &>/dev/null
+      then
+        hook_com[misc]+='?'
+      fi
+    }
+  
     zstyle ':vcs_info:*' enable git
     zstyle ':vcs_info:*' get-revision true
     zstyle ':vcs_info:*' check-for-changes true

@@ -18,7 +18,6 @@ set lazyredraw          " redraw only when we need to.
 set showmatch           " highlight matching [{()}]
 set foldenable          " enable folding
 set autoread            " detect file changes
-set t_Co=256
 
 set background=dark
 colorscheme OceanicNext
