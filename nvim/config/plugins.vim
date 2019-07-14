@@ -28,6 +28,9 @@ set wildignore+=*.pyc
 set wildignore+=*_build/*
 set wildignore+=__pycache__/*
 set wildignore+=.git/*
+set wildignore+=*.jpg
+set wildignore+=*.png
+set wildignore+=*.jpeg
 
 " *** Tmux-Navigator ***
 let g:tmux_navigator_save_on_switch = 2
