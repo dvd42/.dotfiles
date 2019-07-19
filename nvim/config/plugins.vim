@@ -5,7 +5,9 @@ filetype off
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.config/env_setup/nvim/plugged')
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'tmhedberg/SimpylFold'
@@ -37,14 +39,19 @@ let g:tmux_navigator_save_on_switch = 2
 "
 " *** Pymode ***
 let g:pymode_python = 'python3'
-let g:python3_host_prog = "~/.pyenv/versions/neovim3/bin/python3"
 let g:pymode_rope_regenerate_on_write = 0
 let g:pymode_rope_lookup_project = 1
 let g:pymode_rope = 1
 let g:pymode_breakpoint = 0
 let g:pymode_syntax_space_errors = 0
 let g:pymode_lint_on_write = 0
-set completeopt=menuone,noinsert
+let g:pymode_rope_completion = 0
+
+" *** Deoplete *** 
+let g:deoplete#enable_at_startup = 1
+let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python3")
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "automatically closing the scratch window at the top of the vim window on finishing a complete or leaving insert
+
 
 "Correct lint errors
 command! Lint execute "PymodeLintAuto "
