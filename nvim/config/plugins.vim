@@ -5,8 +5,8 @@ filetype off
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.config/env_setup/nvim/plugged')
-"Plug 'Valloric/YouCompleteMe'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'kamykn/spelunker.vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
@@ -51,17 +51,6 @@ let g:pymode_rope_completion = 0
 let g:deoplete#enable_at_startup = 1
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python3")
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "automatically closing the scratch window at the top of the vim window on finishing a complete or leaving insert
-
-
-"Correct lint errors
-command! Lint execute "PymodeLintAuto "
-"
-"Check lint errors
-command! Check execute "PymodeLint"
-
-"Initialize ropeproject on current dir
-command! -complete=file -nargs=+ Init call InitProject(<f-args>)
-
 
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1 

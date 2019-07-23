@@ -1,3 +1,14 @@
+" *** This file holds the custom commands I have created *** 
+
+"Correct lint errors
+command! Lint execute "PymodeLintAuto "
+"
+"Check lint errors
+command! Check execute "PymodeLint"
+
+"Initialize ropeproject on current dir
+command! -complete=file -nargs=+ Init call InitProject(<f-args>)
+
 "Better navigating through completion list
 function! Omnnipopup(action)
     if pumvisible()
