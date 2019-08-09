@@ -29,6 +29,8 @@ set clipboard=unnamedplus " clipboard
 " *** Code *** "
 syntax on
 syntax enable
+set diffopt+=algorithm:patience
+set diffopt+=indent-heuristic
 
 " *** Search ***
 set ignorecase          " Make searching case insensitive
@@ -64,7 +66,7 @@ nnoremap zR zr
 
 "easier moving of code blocks
 vnoremap < <gv
-vnorema  > >gv
+vnoremap  > >gv
 
 " resize horzontal split window
 nmap <Up> <C-W>-<C-W>-
