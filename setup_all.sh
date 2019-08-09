@@ -1,8 +1,5 @@
 #! /bin/bash
 
-# My prefered font
-sudo apt install -y fonts-firacode
-
 # Terminal music player
 sudo apt-get -y install cmus
 
