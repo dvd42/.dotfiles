@@ -49,7 +49,9 @@ let g:pymode_rope_completion = 0
 
 " *** Deoplete *** 
 let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python3")
+let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
+let g:deoplete#auto_complete=1
+let g:deoplete#sources#jedi#enable_typeinfo = 0 "gotta go fast
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "automatically closing the scratch window at the top of the vim window on finishing a complete or leaving insert
 
 " *** Airline ***
@@ -60,3 +62,8 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
+
+
+" *** Spelunker ***
+let g:spelunker_check_type = 2
+set updatetime=1000
