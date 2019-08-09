@@ -91,12 +91,20 @@ bindkey ^D beep
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
+
+#System
 alias ll="ls -alFh"
+alias takeover="tmux detach -a"
+alias python="python3"
+
+# Apps
 alias chrome="gnome-www-browser > /dev/null 2>&1 &; disown"
 alias hangups='hangups --col-scheme solarized-dark --notification-type bell'
 alias cmus="cmus"
-alias takeover="tmux detach -a"
+
+
+# Git aliases 
 alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset'"
+alias gs="git status"
+alias gd="git difftool"
 alias fix=vim' `git diff --name-only | uniq`'
-alias python="python3"
