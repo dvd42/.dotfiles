@@ -55,14 +55,12 @@ set foldlevel=99
 let g:enable_bold_font = 1
 let g:enable_italic_font = 1
 
-
 "Remaps
 "Remap Leader
 let mapleader = ","
 
 "Enable folding with the spacebar
 nnoremap <space> za
-
 "foldall
 nnoremap zM zm
 "openall
@@ -95,6 +93,9 @@ map <C-b> Oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
 "Switch buffer on tab
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+
+"go back to previous cursor position
+nnoremap <leader><leader> :normal! ''<CR>
 
 "No highlight on search
 set nohlsearch

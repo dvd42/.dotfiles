@@ -5,21 +5,21 @@ filetype off
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.config/env_setup/nvim/plugged')
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'kamykn/spelunker.vim'
-Plug 'zchee/deoplete-jedi'
-Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'tmhedberg/SimpylFold'
-Plug 'joshdick/onedark.vim'
-Plug 'neomake/neomake'
-Plug 'python-mode/python-mode', {'branch':'develop'}
-Plug 'tpope/vim-fugitive'
-Plug 'kien/ctrlp.vim'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'kshenoy/vim-signature'
-Plug 'kkoomen/vim-doge'
-Plug 'tpope/vim-commentary'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
+Plug 'kamykn/spelunker.vim' "spell check
+Plug 'zchee/deoplete-jedi' "completion
+Plug 'joshdick/onedark.vim' "colortheme
+Plug 'vim-airline/vim-airline' "airline bar
+Plug 'tmhedberg/SimpylFold' "easy fold
+Plug 'neomake/neomake' "multithreading
+Plug 'python-mode/python-mode', {'branch':'develop'} "project-like behaviour for python
+Plug 'tpope/vim-fugitive' "git functionality
+Plug 'kien/ctrlp.vim' "search for files
+Plug 'christoomey/vim-tmux-navigator' "tmux integration
+Plug 'kshenoy/vim-signature' "easy marks
+Plug 'kkoomen/vim-doge' "generate docstring
+Plug 'tpope/vim-commentary' "easy comment lines
+Plug 'takac/vim-hardtime' "remove bad habits
 call plug#end()
 
 
@@ -73,3 +73,12 @@ set updatetime=1000
 let g:doge_doc_standard_python = 'google'
 let g:doge_mapping_comment_jump_forward = '<leader><tab>'
 let g:doge_mapping_comment_jump_backward = '<leader><s-tab>'
+
+" *** HardTime ***
+let g:hardtime_default_on = 1
+let g:list_of_normal_keys = ["h", "j", "k", "l", "-", "+"]
+let g:list_of_visual_keys = ["h", "j", "k", "l", "-", "+"]
+let g:list_of_insert_keys = ["h", "j", "k", "l", "-", "+"]
+let g:hardtime_timeout = 2000
+let g:hardtime_showmsg = 1
+let g:hardtime_allow_different_key = 1
