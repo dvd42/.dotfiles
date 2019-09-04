@@ -1,10 +1,10 @@
-" *** Inspited by https://github.com/prlz77/nvim ***
+" *** Inspired by https://github.com/prlz77/nvim ***
 
 " *** Fixes *** "
 let $VTE_VERSION="100"
 set guicursor=
 
-"Source plugins and custom functiosn
+"Source plugins and custom functions
 source $HOME/.config/env_setup/nvim/config/plugins.vim
 source $HOME/.config/env_setup/nvim/config/util.vim
 

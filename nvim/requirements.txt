@@ -3,5 +3,3 @@ pycallgraph
 vprof
 ipdb
 ipython
-pynvim
-

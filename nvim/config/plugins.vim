@@ -20,6 +20,7 @@ Plug 'kshenoy/vim-signature' "easy marks
 Plug 'kkoomen/vim-doge' "generate docstring
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
+Plug 'ambv/black'
 call plug#end()
 
 
@@ -82,3 +83,7 @@ let g:list_of_insert_keys = ["h", "j", "k", "l", "-", "+"]
 let g:hardtime_timeout = 2000
 let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
+
+" *** Black ***
+autocmd BufWritePre *.py execute ':Black'
+let g:black_linelength  = 80
