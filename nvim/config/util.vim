@@ -1,4 +1,4 @@
-" *** This file holds the custom commands I have created *** 
+" *** This file holds the custom functions I have created *** 
 
 "Correct lint errors
 command! Lint execute "PymodeLintAuto "
@@ -26,7 +26,7 @@ function! Deploy(server, port, dir)
     let path = a:dir
     let port = "'-e ssh -p'".a:port." "
     let rsync = "\"mkdir -p ".path." && rsync\" "
-    execute "!rsync -arh --delete --safe-links --update --exclude-from=".$HOME."/.config/nvim/rsync_exclude.txt ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path
+    execute "!rsync -arh --delete --safe-links --update --backup --backup-dir=".path."_backup --exclude-from=".$HOME."/.config/nvim/rsync_exclude.txt ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path
 endfunction
 
 "Ip autocompletion for frequent servers

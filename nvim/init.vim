@@ -57,8 +57,12 @@ let g:enable_italic_font = 1
 
 
 "Remaps
+"Remap Leader
+let mapleader = ","
+
 "Enable folding with the spacebar
 nnoremap <space> za
+
 "foldall
 nnoremap zM zm
 "openall

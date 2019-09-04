@@ -18,6 +18,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'kien/ctrlp.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'kshenoy/vim-signature'
+Plug 'kkoomen/vim-doge'
+Plug 'tpope/vim-commentary'
 call plug#end()
 
 
@@ -63,7 +65,11 @@ let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
 
-
 " *** Spelunker ***
 let g:spelunker_check_type = 2
 set updatetime=1000
+
+" *** DoGe ***
+let g:doge_doc_standard_python = 'google'
+let g:doge_mapping_comment_jump_forward = '<leader><tab>'
+let g:doge_mapping_comment_jump_backward = '<leader><s-tab>'
