@@ -71,7 +71,7 @@ plugins=(git tmux vi-mode zsh-syntax-highlighting zsh-autosuggestions pyenv)
 source $ZSH/oh-my-zsh.sh
 set -o ignoreeof
 bindkey ^D beep
-
+ttyctl -f 
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"

@@ -1,5 +1,8 @@
 " *** Inspired by https://github.com/prlz77/nvim ***
 
+set nocompatible
+filetype off
+
 " *** Fixes *** "
 let $VTE_VERSION="100"
 set guicursor=

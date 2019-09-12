@@ -1,8 +1,3 @@
-" *** Inspited by https://github.com/prlz77/nvim *** 
-
-set nocompatible
-filetype off
-
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.config/env_setup/nvim/plugged')
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
@@ -20,9 +15,16 @@ Plug 'kshenoy/vim-signature' "easy marks
 Plug 'kkoomen/vim-doge' "generate docstring
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
+Plug 'dyng/ctrlsf.vim' "grep on steroids
 Plug 'ambv/black'
 call plug#end()
 
+let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
+
+" *** Neomake ***
+" When reading a buffer (after 1s), and when writing (no delay).
+call neomake#configure#automake('rw', 1000)
+let g:neomake_open_list = 0
 
 " *** Tmux Navigator *** 
 " Write all buffers before navigating from Vim to tmux pane
@@ -52,7 +54,6 @@ let g:pymode_rope_completion = 0
 
 " *** Deoplete *** 
 let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
 let g:deoplete#auto_complete=1
 let g:deoplete#sources#jedi#enable_typeinfo = 0 "gotta go fast
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "automatically closing the scratch window at the top of the vim window on finishing a complete or leaving insert
@@ -79,11 +80,16 @@ let g:doge_mapping_comment_jump_backward = '<leader><s-tab>'
 let g:hardtime_default_on = 1
 let g:list_of_normal_keys = ["h", "j", "k", "l", "-", "+"]
 let g:list_of_visual_keys = ["h", "j", "k", "l", "-", "+"]
-let g:list_of_insert_keys = ["h", "j", "k", "l", "-", "+"]
-let g:hardtime_timeout = 2000
+let g:list_of_insert_keys = []
+let g:hardtime_timeout = 1000
 let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
 
 " *** Black ***
-autocmd BufWritePre *.py execute ':Black'
-let g:black_linelength  = 80
+let g:black_linelength = 80
+
+" *** CtrlSF ***
+vmap <C-f>f <Plug>CtrlSFVwordPath
+nmap <C-f>p <Plug>CtrlSFPwordPath
+nmap <C-F>f <Plug>CtrlSFPrompt
+nnoremap <C-f>t :CtrlSFToggle<CR>
