@@ -64,10 +64,11 @@ let mapleader = ","
 
 "Enable folding with the spacebar
 nnoremap <space> za
+
 "foldall
-nnoremap zM zm
+nnoremap zf zm
 "openall
-nnoremap zR zr
+nnoremap zo zr
 
 "easier moving of code blocks
 vnoremap < <gv
@@ -97,11 +98,11 @@ map <C-b> Oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
-"go back to previous cursor position
-nnoremap <leader><leader> :normal! ''<CR>
-
 "No highlight on search
 set nohlsearch
+
+"automatically closing the scratch window at the top of the vim window on finishing a complete or leaving insert
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif 
 
 "Remove all trailing whitespace by pressing F5
 :nnoremap <silent> <F5> :let _save_pos=getpos(".") <Bar>

@@ -17,16 +17,44 @@ Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
 Plug 'dyng/ctrlsf.vim' "grep on steroids
 Plug 'ambv/black'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
 
+
 " *** Neomake ***
 " When reading a buffer (after 1s), and when writing (no delay).
-call neomake#configure#automake('rw', 1000)
+call neomake#configure#automake('nrwi', 500)
 let g:neomake_open_list = 0
 
-" *** Tmux Navigator *** 
+let g:neomake_python_pylint_maker = {
+    \ 'exe': 'pylint',
+    \ 'args': [
+        \ '--output-format=text',
+        \ '--msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg} [{msg_id}]"',
+        \ '--reports=no',
+        \ '--generated-members=numpy.*, torch.*',
+        \ '--disable=C0111, C0103',
+        \ '--max-line-length=80',
+        \ '--jobs=0'
+    \ ],
+    \ 'errorformat':
+        \ '%A%f:%l:%c:%t: %m,' .
+        \ '%A%f:%l: %m,' .
+        \ '%A%f:(%l): %m,' .
+        \ '%-Z%p^%.%#,' .
+        \ '%-G%.%#',
+    \ 'output_stream': 'stdout',
+    \ 'postprocess': [
+    \   function('neomake#postprocess#generic_length'),
+    \   function('neomake#makers#ft#python#PylintEntryProcess'),
+    \ ]}
+
+let g:neomake_python_enabled_makers = ['pylint']
+
+
+" *** Tmux Navigator ***
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 1
 
@@ -41,7 +69,7 @@ set wildignore+=*.jpeg
 
 " *** Tmux-Navigator ***
 let g:tmux_navigator_save_on_switch = 2
-"
+
 " *** Pymode ***
 let g:pymode_python = 'python3'
 let g:pymode_rope_regenerate_on_write = 0
@@ -52,14 +80,13 @@ let g:pymode_syntax_space_errors = 0
 let g:pymode_lint_on_write = 0
 let g:pymode_rope_completion = 0
 
-" *** Deoplete *** 
+" *** Deoplete ***
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete=1
 let g:deoplete#sources#jedi#enable_typeinfo = 0 "gotta go fast
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif "automatically closing the scratch window at the top of the vim window on finishing a complete or leaving insert
 
 " *** Airline ***
-let g:airline#extensions#tabline#enabled = 1 
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_theme = 'onedark'
 let g:airline#extensions#tabline#buffer_nr_show = 1
@@ -87,6 +114,7 @@ let g:hardtime_allow_different_key = 1
 
 " *** Black ***
 let g:black_linelength = 80
+nnoremap lb :Black<CR>
 
 " *** CtrlSF ***
 vmap <C-f>f <Plug>CtrlSFVwordPath
