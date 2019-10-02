@@ -16,8 +16,7 @@ Plug 'kkoomen/vim-doge' "generate docstring
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
 Plug 'dyng/ctrlsf.vim' "grep on steroids
-Plug 'ambv/black'
-Plug 'jiangmiao/auto-pairs'
+Plug 'ambv/black' "python code formatter
 call plug#end()
 
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
@@ -25,7 +24,7 @@ let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
 
 " *** Neomake ***
 " When reading a buffer (after 1s), and when writing (no delay).
-call neomake#configure#automake('nrwi', 500)
+call neomake#configure#automake('nw', 500)
 let g:neomake_open_list = 0
 
 let g:neomake_python_pylint_maker = {
@@ -34,6 +33,7 @@ let g:neomake_python_pylint_maker = {
         \ '--output-format=text',
         \ '--msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg} [{msg_id}]"',
         \ '--reports=no',
+        \ '--extension-pkg-whitelist=cv2',
         \ '--generated-members=numpy.*, torch.*',
         \ '--disable=C0111, C0103',
         \ '--max-line-length=80',
@@ -93,6 +93,9 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
+
+" *** SimpylFold ***
+let g:SimpylFold_docstring_preview = 1
 
 " *** Spelunker ***
 let g:spelunker_check_type = 2

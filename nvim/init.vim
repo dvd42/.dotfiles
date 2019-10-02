@@ -23,6 +23,8 @@ set lazyredraw          " redraw only when we need to.
 set showmatch           " highlight matching [{()}]
 set foldenable          " enable folding
 set autoread            " detect file changes
+set autoindent
+set smartindent
 
 set background=dark
 colorscheme OceanicNext
@@ -43,7 +45,7 @@ set magic               " Use 'magic' patterns (extended regular expressions).
 set laststatus=2
 
 " *** Indentation ***"
-filetype plugin indent on      " load filetype-specific indent files
+filetype plugin indent on " load filetype-specific indent files
 set expandtab " tabs are spaces
 set tabstop=4 " number of visual spaces per TAB
 set softtabstop=4 " number of spaces in tab when editing
@@ -66,15 +68,15 @@ let mapleader = ","
 nnoremap <space> za
 
 "foldall
-nnoremap zf zm
+nnoremap zf zM
 "openall
-nnoremap zo zr
+nnoremap zo zR
 
 "easier moving of code blocks
 vnoremap < <gv
 vnoremap  > >gv
 
-" resize horzontal split window
+" resize horizontal split window
 nmap <Up> <C-W>-<C-W>-
 nmap <Down> <C-W>+<C-W>+
 "resize vertical split window
