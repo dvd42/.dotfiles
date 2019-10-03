@@ -20,7 +20,7 @@ function! Deploy(server, port, dir)
     let path = a:dir
     let port = "'-e ssh -p'".a:port." "
     let rsync = "\"mkdir -p ".path." && rsync\" "
-    execute "!rsync -arh --delete --safe-links --update --backup --backup-dir=".path."_backup --exclude-from=".$HOME."/.config/nvim/rsync_exclude.txt ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path
+    execute "!rsync -arh --delete --safe-links --update --backup --backup-dir=".path."_backup --exclude-from=".$HOME."/.config/nvim/rsync_exclude.txt ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path. " && ssh ".a:server. " -p".a:port.' "'."cd ".path." && find . -type f -exec rm -f ".path."_backup/{} \\; "." && find ".path."_backup/ -type d -empty -delete".'"'
 endfunction
 
 "Ip autocompletion for frequent servers
