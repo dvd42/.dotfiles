@@ -11,6 +11,7 @@ curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-
 pyenv install 3.6.8
 pyenv virtualenv 3.6.8 neovim3
 pyenv activate neovim3
+pyenv deactivate 
 pip3 install neovim
 
 sleep 2
