@@ -17,7 +17,7 @@ set number relativenumber
 set showcmd             " show command in bottom bar
 set showmode            " show current mode
 set ruler
-set colorcolumn=80
+set colorcolumn=100
 set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw only when we need to.
 set showmatch           " highlight matching [{()}]
