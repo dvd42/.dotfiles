@@ -36,7 +36,7 @@ let g:neomake_python_pylint_maker = {
         \ '--extension-pkg-whitelist=cv2',
         \ '--generated-members=numpy.*, torch.*',
         \ '--disable=C0111, C0103',
-        \ '--max-line-length=80',
+        \ '--max-line-length=100',
         \ '--jobs=0'
     \ ],
     \ 'errorformat':
@@ -116,7 +116,7 @@ let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
 
 " *** Black ***
-let g:black_linelength = 80
+let g:black_linelength = 100
 nnoremap lb :Black<CR>
 
 " *** CtrlSF ***
