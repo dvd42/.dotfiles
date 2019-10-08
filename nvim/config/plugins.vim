@@ -116,7 +116,7 @@ let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
 
 " *** Black ***
-let g:black_linelength = 80
+let g:black_linelength = 100
 nnoremap lb :Black<CR>
 
 " *** CtrlSF ***
