@@ -17,6 +17,8 @@ Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
 Plug 'dyng/ctrlsf.vim' "grep on steroids
 Plug 'ambv/black' "python code formatter
+Plug 'scrooloose/nerdtree'
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
@@ -124,3 +126,11 @@ vmap <C-f>f <Plug>CtrlSFVwordPath
 nmap <C-f>p <Plug>CtrlSFPwordPath
 nmap <C-F>f <Plug>CtrlSFPrompt
 nnoremap <C-f>t :CtrlSFToggle<CR>
+
+" *** NerdTree ***
+map <C-n> :NERDTreeToggle<CR>
+
+let g:NERDTreeWinSize=30
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
