@@ -97,6 +97,20 @@ alias ll="ls -alFh"
 alias takeover="tmux detach -a"
 alias python="python3"
 
+new_env(){
+
+    if [ -n "$2" ] # if version was specified install version + name
+    then
+        pyenv virtualenv "$1" "$2"
+    elif [ -n "$1" ] # if no version was specified install 3.7 as default
+    then
+        pyenv virtualenv 3.7.0 "$1"
+    else
+        echo "You must provide a name for the virtualenv"
+    fi
+    pip3 install -r ~/.config/env_setup/venv_requirements.txt
+}
+
 # Apps
 alias chrome="gnome-www-browser > /dev/null 2>&1 &; disown"
 alias hangups='hangups --col-scheme solarized-dark --notification-type bell'
