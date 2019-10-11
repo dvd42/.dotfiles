@@ -1,5 +1,5 @@
 graphviz
 pycallgraph
 vprof
-ipdb
+git+https://github.com/dvd42/ipdb.git
 ipython
