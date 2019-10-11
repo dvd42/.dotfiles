@@ -102,9 +102,11 @@ new_env(){
     if [ -n "$2" ] # if version was specified install version + name
     then
         pyenv virtualenv "$1" "$2"
+        pyenv activate "$2"
     elif [ -n "$1" ] # if no version was specified install 3.7 as default
     then
         pyenv virtualenv 3.7.0 "$1"
+        pyenv activate "$1"
     else
         echo "You must provide a name for the virtualenv"
     fi
