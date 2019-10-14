@@ -6,4 +6,5 @@ ipython
 git+https://github.com/dvd42/ipdb.git
 opencv-python
 pillow
+pylint
 
