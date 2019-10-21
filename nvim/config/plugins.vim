@@ -76,6 +76,7 @@ let g:pymode_python = 'python3'
 let g:pymode_rope_regenerate_on_write = 0
 let g:pymode_rope_lookup_project = 1
 let g:pymode_rope = 1
+let g:pymode_options = 0
 let g:pymode_breakpoint = 0
 let g:pymode_syntax_space_errors = 0
 let g:pymode_lint_on_write = 0
