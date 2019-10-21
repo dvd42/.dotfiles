@@ -23,7 +23,6 @@ call plug#end()
 
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
 
-
 " *** Neomake ***
 " When reading a buffer (after 1s), and when writing (no delay).
 call neomake#configure#automake('nw', 500)
@@ -38,7 +37,7 @@ let g:neomake_python_pylint_maker = {
         \ '--extension-pkg-whitelist=cv2',
         \ '--generated-members=numpy.*, torch.*',
         \ '--disable=C0111, C0103',
-        \ '--max-line-length=100',
+        \ '--max-line-length=88',
         \ '--jobs=0'
     \ ],
     \ 'errorformat':
