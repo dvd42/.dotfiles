@@ -18,6 +18,7 @@ set showcmd             " show command in bottom bar
 set showmode            " show current mode
 set ruler
 set textwidth=88
+set formatoptions -=t
 set colorcolumn=+1 
 set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw only when we need to.
