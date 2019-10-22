@@ -98,7 +98,10 @@ unsetopt correct_all # disable corrections
 alias ll="ls -alFh"
 alias takeover="tmux detach -a"
 alias python="python3"
+alias pa="pyenv activate $1"
+alias pd="pyenv deactivate"
 
+# create new pyenv with dependencies
 new_env(){
 
     if [ -n "$2" ] # if version was specified install version + name
