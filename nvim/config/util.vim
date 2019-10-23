@@ -8,12 +8,15 @@ function! Omnnipopup(action)
     if pumvisible()
         if a:action == 'tab'
             return "\<C-N>"
+        elseif a:action == "s-tab"
+            return "\<C-P>"
         endif
     endif
     return a:action
 endfunction
 
-inoremap <expr><silent><Tab> (pumvisible() ? '<C-R>=Omnnipopup("Tab")<CR>':'<Tab>')
+inoremap <expr><silent><tab> (pumvisible() ? '<C-R>=Omnnipopup("tab")<CR>':'<tab>')
+inoremap <expr><silent><s-tab> (pumvisible() ? '<C-R>=Omnnipopup("s-tab")<CR>':'<s-tab>')
 
 "Deploy configuration
 function! Deploy(server, port, dir)
