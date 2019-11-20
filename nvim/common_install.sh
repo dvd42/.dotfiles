@@ -3,6 +3,8 @@
 mkdir undodir
 mkdir backup
 
+ln -s -f ~/.config/env_setup/nvim ~/.config/nvim
+
 # vim-plug
 curl -fLo ./autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -11,8 +13,8 @@ curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-
 pyenv install 3.6.8
 pyenv virtualenv 3.6.8 neovim3
 pyenv activate neovim3
-pyenv deactivate 
 pip3 install neovim
+pyenv deactivate 
 
 sleep 2
 nvim --headless +PlugInstall +qa

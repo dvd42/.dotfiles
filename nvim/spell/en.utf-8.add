@@ -5,3 +5,5 @@ plugins
 autocomplete
 lvis
 imgs
+unsqueeze
+keepdim

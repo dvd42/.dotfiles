@@ -6,6 +6,7 @@ sudo apt install -y fonts-firacode
 sudo apt-get -y update
 sudo apt-get -y install zsh
 sudo apt -y install gnome-session-bin
+sudo apt-get -y curl
 
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sed -e 's/^\s*chsh -s/sudo chsh -s/g' -e 's/^\s*env\szsh.*$/#/g')"
 

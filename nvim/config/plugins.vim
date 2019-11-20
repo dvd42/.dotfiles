@@ -58,6 +58,7 @@ let g:neomake_python_enabled_makers = ['pylint']
 " *** Tmux Navigator ***
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 1
+let g:tmux_navigator_save_on_switch = 2
 
 " *** crtlp.vim ***
 set wildignore+=*.pyc
@@ -67,9 +68,6 @@ set wildignore+=.git/*
 set wildignore+=*.jpg
 set wildignore+=*.png
 set wildignore+=*.jpeg
-
-" *** Tmux-Navigator ***
-let g:tmux_navigator_save_on_switch = 2
 
 " *** Pymode ***
 let g:pymode_python = 'python3'

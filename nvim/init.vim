@@ -27,6 +27,7 @@ set foldenable          " enable folding
 set autoread            " detect file changes
 set autoindent
 set smartindent
+set encoding=utf-8
 
 set background=dark
 colorscheme OceanicNext
