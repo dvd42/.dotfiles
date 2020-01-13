@@ -7,3 +7,4 @@ lvis
 imgs
 unsqueeze
 keepdim
+torch

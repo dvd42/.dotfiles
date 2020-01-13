@@ -19,6 +19,7 @@ Plug 'dyng/ctrlsf.vim' "grep on steroids
 Plug 'ambv/black' "python code formatter
 Plug 'scrooloose/nerdtree'
 Plug 'ryanoasis/vim-devicons'
+Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
 call plug#end()
 
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
