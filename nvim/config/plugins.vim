@@ -69,6 +69,7 @@ set wildignore+=.git/*
 set wildignore+=*.jpg
 set wildignore+=*.png
 set wildignore+=*.jpeg
+set wildignore+=*.mp4
 
 " *** Pymode ***
 let g:pymode_python = 'python3'
