@@ -1,4 +1,4 @@
-" *** This file holds the custom functions I have created *** 
+" *** This file holds the custom functions I have created ***
 
 "Initialize ropeproject on current dir
 command! -complete=file -nargs=+ Init call InitProject(<f-args>)
@@ -106,7 +106,15 @@ function! Profiler(file, ...)
     endif
 endfunction
 
+"Autopep8 formatter
+function! Format(file)
+    silent exec "!autopep8 --recursive --in-place --aggressive --aggressive --max-line-length 88 ".a:file
+endfunction
+
 command! Clean execute "!rm ~/.config/nvim/backup/*"
+
+"create Pe command to format current file
+command! -complete=file -nargs=1 Pe call Format(<f-args>)
 
 "create Sync command to deploy
 command! -complete=customlist,DeployCompletion -nargs=* Sync call Deploy(<f-args>)

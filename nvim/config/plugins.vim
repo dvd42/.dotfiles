@@ -16,7 +16,6 @@ Plug 'kkoomen/vim-doge' "generate docstring
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
 Plug 'dyng/ctrlsf.vim' "grep on steroids
-Plug 'ambv/black' "python code formatter
 Plug 'scrooloose/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
@@ -116,10 +115,6 @@ let g:list_of_insert_keys = []
 let g:hardtime_timeout = 1000
 let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
-
-" *** Black ***
-let g:black_linelength = 88
-nnoremap lb :Black<CR>
 
 " *** CtrlSF ***
 vmap <C-f>f <Plug>CtrlSFVwordPath
