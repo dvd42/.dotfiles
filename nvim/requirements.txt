@@ -1,3 +1,4 @@
+ueberzug
 autopep8
 graphviz
 pycallgraph

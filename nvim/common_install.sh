@@ -3,6 +3,15 @@
 mkdir undodir
 mkdir backup
 
+# set up ranger
+git clone git@github.com:ranger/ranger.git
+cd ranger
+sudo make install
+cd ..
+mkdir ~/.config/ranger
+touch ~/.config/ranger/rc.conf
+echo "set preview_images=true\nset preview_images_method=ueberzug" >> ~/.config/ranger/rc.conf
+
 ln -s -f ~/.config/env_setup/nvim ~/.config/nvim
 
 # vim-plug
