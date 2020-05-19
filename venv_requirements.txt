@@ -8,3 +8,4 @@ opencv-python
 pillow
 pylint
 tqdm
+ueberzug
