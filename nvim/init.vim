@@ -29,8 +29,10 @@ set autoindent
 set smartindent
 set encoding=utf-8
 
+set termguicolors
 set background=dark
-colorscheme OceanicNext
+" colorscheme OceanicNext
+colorscheme aurora
 
 set clipboard=unnamedplus " clipboard
 

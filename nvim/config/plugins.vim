@@ -4,6 +4,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
 Plug 'kamykn/spelunker.vim' "spell check
 Plug 'zchee/deoplete-jedi' "completion
 Plug 'joshdick/onedark.vim' "colortheme
+Plug 'rafalbromirski/vim-aurora' "colortheme
 Plug 'vim-airline/vim-airline' "airline bar
 Plug 'tmhedberg/SimpylFold' "easy fold
 Plug 'neomake/neomake' "multithreading
@@ -20,6 +21,7 @@ Plug 'ryanoasis/vim-devicons' "nice icons
 Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
 Plug 'francoiscabrol/ranger.vim' "ranger for nvim
 Plug 'rbgrouleff/bclose.vim' "ranger for nvim
+Plug 'vuciv/vim-bujo' "todo list
 call plug#end()
 
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
@@ -122,3 +124,12 @@ vmap <C-f>f <Plug>CtrlSFVwordPath
 nmap <C-f>p <Plug>CtrlSFPwordPath
 nmap <C-F>f <Plug>CtrlSFPrompt
 nnoremap <C-f>t :CtrlSFToggle<CR>
+
+
+" *** Bujo ***
+nmap <C-S> <Plug>BujoAddnormal
+imap <C-S> <Plug>BujoAddinsert
+nmap <C-Q> <Plug>BujoChecknormal
+imap <C-Q> <Plug>BujoCheckinsert
+let g:bujo#todo_file_path = $HOME . "/.cache/bujo"
+let g:bujo#window_width = 60
