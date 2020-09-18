@@ -1,11 +1,13 @@
 " *** Inspired by https://github.com/prlz77/nvim ***
-
 set nocompatible
 filetype off
 
 " *** Fixes *** "
 let $VTE_VERSION="100"
 set guicursor=
+
+"Remap Leader
+let mapleader = ","
 
 "Source plugins and custom functions
 source $HOME/.config/env_setup/nvim/config/plugins.vim
@@ -30,9 +32,10 @@ set smartindent
 set encoding=utf-8
 
 set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set background=dark
-" colorscheme OceanicNext
-colorscheme aurora
+colorscheme palenight
 
 set clipboard=unnamedplus " clipboard
 
@@ -66,9 +69,6 @@ let g:enable_bold_font = 1
 let g:enable_italic_font = 1
 
 "Remaps
-
-"Remap Leader
-let mapleader = ","
 
 "Enable folding with the spacebar
 nnoremap <space> za
@@ -105,6 +105,10 @@ map <C-b> Oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
 "Switch buffer on tab
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+
+" move through autocompletion list with tab
+inoremap <expr><silent><tab> (pumvisible() ? '<C-R>=Omnnipopup("tab")<CR>':'<tab>')
+inoremap <expr><silent><s-tab> (pumvisible() ? '<C-R>=Omnnipopup("s-tab")<CR>':'<s-tab>')
 
 "No highlight on search
 set nohlsearch

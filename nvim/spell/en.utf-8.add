@@ -11,5 +11,6 @@ torch
 args
 metric_logger
 postprocessed
-num_classes/!
 nans
+autocompletion
+configurates

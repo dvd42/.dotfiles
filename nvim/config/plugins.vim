@@ -3,24 +3,24 @@ call plug#begin('~/.config/env_setup/nvim/plugged')
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
 Plug 'kamykn/spelunker.vim' "spell check
 Plug 'zchee/deoplete-jedi' "completion
-Plug 'joshdick/onedark.vim' "colortheme
-Plug 'rafalbromirski/vim-aurora' "colortheme
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'vim-airline/vim-airline' "airline bar
 Plug 'tmhedberg/SimpylFold' "easy fold
 Plug 'neomake/neomake' "multithreading
 Plug 'python-mode/python-mode', {'branch':'develop'} "project-like behaviour for python
 Plug 'tpope/vim-fugitive' "git functionality
+Plug 'wsdjeg/FlyGrep.vim' "grep on steroids
 Plug 'kien/ctrlp.vim' "search for files
 Plug 'christoomey/vim-tmux-navigator' "tmux integration
 Plug 'kshenoy/vim-signature' "easy marks
 Plug 'kkoomen/vim-doge' "generate docstring
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
-Plug 'dyng/ctrlsf.vim' "grep on steroids
+"Plug 'dyng/ctrlsf.vim' "grep on steroids
 Plug 'ryanoasis/vim-devicons' "nice icons
 Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
 Plug 'francoiscabrol/ranger.vim' "ranger for nvim
-Plug 'rbgrouleff/bclose.vim' "ranger for nvim
+Plug 'rbgrouleff/bclose.vim' "ranger for nvim (autoclose buffer)
 Plug 'vuciv/vim-bujo' "todo list
 call plug#end()
 
@@ -92,7 +92,7 @@ let g:deoplete#sources#jedi#enable_typeinfo = 0 "gotta go fast
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_theme = 'onedark'
+let g:airline_theme = 'palenight'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -131,5 +131,6 @@ nmap <C-S> <Plug>BujoAddnormal
 imap <C-S> <Plug>BujoAddinsert
 nmap <C-Q> <Plug>BujoChecknormal
 imap <C-Q> <Plug>BujoCheckinsert
+map <leader>t :Todo g<CR>
 let g:bujo#todo_file_path = $HOME . "/.cache/bujo"
 let g:bujo#window_width = 60
