@@ -9,14 +9,13 @@ Plug 'tmhedberg/SimpylFold' "easy fold
 Plug 'neomake/neomake' "multithreading
 Plug 'python-mode/python-mode', {'branch':'develop'} "project-like behaviour for python
 Plug 'tpope/vim-fugitive' "git functionality
-Plug 'wsdjeg/FlyGrep.vim' "grep on steroids
+Plug 'albacoretuna/FlyGrep.vim', { 'branch': 'oldjanuary' }
 Plug 'kien/ctrlp.vim' "search for files
 Plug 'christoomey/vim-tmux-navigator' "tmux integration
 Plug 'kshenoy/vim-signature' "easy marks
 Plug 'kkoomen/vim-doge' "generate docstring
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
-"Plug 'dyng/ctrlsf.vim' "grep on steroids
 Plug 'ryanoasis/vim-devicons' "nice icons
 Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
 Plug 'francoiscabrol/ranger.vim' "ranger for nvim
@@ -119,12 +118,8 @@ let g:hardtime_timeout = 1000
 let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
 
-" *** CtrlSF ***
-vmap <C-f>f <Plug>CtrlSFVwordPath
-nmap <C-f>p <Plug>CtrlSFPwordPath
-nmap <C-F>f <Plug>CtrlSFPrompt
-nnoremap <C-f>t :CtrlSFToggle<CR>
-
+" *** FlyGrep ***
+nnoremap <C-f>f :FlyGrep<cr>
 
 " *** Bujo ***
 nmap <C-S> <Plug>BujoAddnormal
