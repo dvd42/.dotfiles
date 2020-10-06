@@ -23,7 +23,7 @@ Plug 'rbgrouleff/bclose.vim' "ranger for nvim (autoclose buffer)
 Plug 'vuciv/vim-bujo' "todo list
 call plug#end()
 
-let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
+let g:python3_host_prog = expand("~/.pyenv/versions/neovim/bin/python")
 
 " *** Neomake ***
 " When reading a buffer (after 1s), and when writing (no delay).

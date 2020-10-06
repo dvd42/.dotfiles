@@ -4,7 +4,7 @@ pandas
 matplotlib
 ipython
 git+https://github.com/dvd42/ipdb.git
-opencv-python
+wandb
 pillow
 pylint
 tqdm
