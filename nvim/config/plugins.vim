@@ -3,25 +3,27 @@ call plug#begin('~/.config/env_setup/nvim/plugged')
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
 Plug 'kamykn/spelunker.vim' "spell check
 Plug 'zchee/deoplete-jedi' "completion
-Plug 'joshdick/onedark.vim' "colortheme
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'vim-airline/vim-airline' "airline bar
 Plug 'tmhedberg/SimpylFold' "easy fold
 Plug 'neomake/neomake' "multithreading
 Plug 'python-mode/python-mode', {'branch':'develop'} "project-like behaviour for python
 Plug 'tpope/vim-fugitive' "git functionality
+Plug 'albacoretuna/FlyGrep.vim', { 'branch': 'oldjanuary' }
 Plug 'kien/ctrlp.vim' "search for files
 Plug 'christoomey/vim-tmux-navigator' "tmux integration
 Plug 'kshenoy/vim-signature' "easy marks
 Plug 'kkoomen/vim-doge' "generate docstring
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
-Plug 'dyng/ctrlsf.vim' "grep on steroids
-Plug 'ambv/black' "python code formatter
-Plug 'scrooloose/nerdtree'
-Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons' "nice icons
+Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
+Plug 'francoiscabrol/ranger.vim' "ranger for nvim
+Plug 'rbgrouleff/bclose.vim' "ranger for nvim (autoclose buffer)
+Plug 'vuciv/vim-bujo' "todo list
 call plug#end()
 
-let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
+let g:python3_host_prog = expand("~/.pyenv/versions/neovim/bin/python")
 
 " *** Neomake ***
 " When reading a buffer (after 1s), and when writing (no delay).
@@ -58,6 +60,7 @@ let g:neomake_python_enabled_makers = ['pylint']
 " *** Tmux Navigator ***
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 1
+let g:tmux_navigator_save_on_switch = 2
 
 " *** crtlp.vim ***
 set wildignore+=*.pyc
@@ -67,9 +70,7 @@ set wildignore+=.git/*
 set wildignore+=*.jpg
 set wildignore+=*.png
 set wildignore+=*.jpeg
-
-" *** Tmux-Navigator ***
-let g:tmux_navigator_save_on_switch = 2
+set wildignore+=*.mp4
 
 " *** Pymode ***
 let g:pymode_python = 'python3'
@@ -90,7 +91,7 @@ let g:deoplete#sources#jedi#enable_typeinfo = 0 "gotta go fast
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_theme = 'onedark'
+let g:airline_theme = 'palenight'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -117,20 +118,14 @@ let g:hardtime_timeout = 1000
 let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
 
-" *** Black ***
-let g:black_linelength = 88
-nnoremap lb :Black<CR>
+" *** FlyGrep ***
+nnoremap <C-f>f :FlyGrep<cr>
 
-" *** CtrlSF ***
-vmap <C-f>f <Plug>CtrlSFVwordPath
-nmap <C-f>p <Plug>CtrlSFPwordPath
-nmap <C-F>f <Plug>CtrlSFPrompt
-nnoremap <C-f>t :CtrlSFToggle<CR>
-
-" *** NerdTree ***
-map <C-n> :NERDTreeToggle<CR>
-
-let g:NERDTreeWinSize=30
-
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+" *** Bujo ***
+nmap <C-S> <Plug>BujoAddnormal
+imap <C-S> <Plug>BujoAddinsert
+nmap <C-Q> <Plug>BujoChecknormal
+imap <C-Q> <Plug>BujoCheckinsert
+map <leader>t :Todo g<CR>
+let g:bujo#todo_file_path = $HOME . "/.cache/bujo"
+let g:bujo#window_width = 60
