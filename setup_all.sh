@@ -14,3 +14,5 @@ sh ubuntu_install.sh
 # Zsh shell installation
 cd ~/.config/env_setup 
 sh zsh/install.sh
+
+echo "[diff]\n\ttool = vimdiff" >> ~/.gitconfig
