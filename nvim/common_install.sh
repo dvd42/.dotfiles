@@ -19,10 +19,10 @@ curl -fLo ./autoload/plug.vim --create-dirs https://raw.githubusercontent.com/ju
 
 # install pyenv
 curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-pyenv install 3.7.0
-pyenv virtualenv 3.7.0 neovim3
+pyenv install 3.8.0
+pyenv virtualenv 3.8.0 neovim
 pyenv activate neovim3
-pip3 install neovim
+pip3 install neovim pynvim jedi
 pyenv deactivate 
 
 sleep 2
