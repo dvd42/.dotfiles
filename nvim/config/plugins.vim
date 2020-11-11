@@ -38,7 +38,7 @@ let g:neomake_python_pylint_maker = {
         \ '--reports=no',
         \ '--extension-pkg-whitelist=cv2',
         \ '--generated-members=numpy.*, torch.*',
-        \ '--disable=C0111, C0103',
+        \ '--disable=C0111, C0103, W0621',
         \ '--max-line-length=88',
         \ '--jobs=0'
     \ ],
