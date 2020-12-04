@@ -19,6 +19,8 @@ Plug 'dyng/ctrlsf.vim' "grep on steroids
 Plug 'scrooloose/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
+Plug 'francoiscabrol/ranger.vim' "ranger for nvim                                                                                                                                         
+Plug 'rbgrouleff/bclose.vim' "ranger for nvim   
 call plug#end()
 
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim3/bin/python")
