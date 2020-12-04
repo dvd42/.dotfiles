@@ -1,6 +1,0 @@
-autopep8
-graphviz
-pycallgraph
-vprof
-git+https://github.com/dvd42/ipdb.git
-ipython

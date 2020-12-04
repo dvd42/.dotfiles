@@ -4,6 +4,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.config/env_setup/zsh/.oh-my-zsh"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export LC_ALL=en_US.UTF-8
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -109,7 +110,7 @@ new_env(){
         pyenv activate "$2"
     elif [ -n "$1" ] # if no version was specified install 3.7 as default
     then
-        pyenv virtualenv 3.7.0 "$1"
+        pyenv virtualenv 3.8.0 "$1"
         pyenv activate "$1"
     else
         echo "You must provide a name for the virtualenv"

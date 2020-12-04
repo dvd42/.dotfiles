@@ -1,7 +1,4 @@
-" *** This file holds the custom functions I have created ***
-
-"Initialize ropeproject on current dir
-command! -complete=file -nargs=+ Init call InitProject(<f-args>)
+" *** This file holds some custom functions and commands ***
 
 "Better navigating through completion list
 function! Omnnipopup(action)
@@ -15,15 +12,20 @@ function! Omnnipopup(action)
     return a:action
 endfunction
 
-inoremap <expr><silent><tab> (pumvisible() ? '<C-R>=Omnnipopup("tab")<CR>':'<tab>')
-inoremap <expr><silent><s-tab> (pumvisible() ? '<C-R>=Omnnipopup("s-tab")<CR>':'<s-tab>')
-
 "Deploy configuration
-function! Deploy(server, port, dir)
-    let path = a:dir
-    let port = "'-e ssh -p'".a:port." "
-    let rsync = "\"mkdir -p ".path." && rsync\" "
-    execute "!rsync -arh --delete --safe-links --update --backup --backup-dir=".path."_backup --exclude-from=".$HOME."/.config/nvim/rsync_exclude.txt ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path. " && ssh ".a:server. " -p".a:port.' "'."cd ".path." && find . -type f -exec rm -f ".path."_backup/{} \\; "." && find ".path."_backup/ -type d -empty -delete".'"'
+function! Deploy(server, port, dir, ...)
+    let path = a:dir "destination and folder to sync
+    let port = "'-e ssh -p'".a:port." " "specific port
+    let rsync = "\"mkdir -p ".path." && rsync\" " "create folder if it does not exist
+
+    " extra excludes
+    let exclude = ""
+    for dir in a:000
+        let exclude = exclude." --exclude ".dir." "
+    endfor
+
+    execute "!rsync -arh --delete --safe-links --update ".exclude." --backup --backup-dir=".path."_backup --exclude-from=".$HOME."/.config/nvim/rsync_exclude.txt ".port."--progress --rsync-path=".rsync path.' '.a:server.':'.path. " && ssh ".a:server. " -p".a:port.' "'."cd ".path." && find . -type f -exec rm -f ".path."_backup/{} \\; "." && find ".path."_backup/ -type d -empty -delete".'"'
+    echom exclude." --backup"
 endfunction
 
 "Ip autocompletion for frequent servers
@@ -50,60 +52,30 @@ function! PortCompletion(A, L, P)
     return filter(ips, 'v:val =~ "^'.a:A.'"')
 endfunction
 
+" Complete with full path for current dir
 function! DirCompletion(A, L, P)
     let dir = []
     call add(dir, expand('%:p:h').'/')
     return filter(dir, 'v:val =~ "^'.a:A.'"')
 endfunction
 
+" file system completion
+function! File(A, L, P)
+    return filter(systemlist("ls"), 'v:val =~ a:A')
+endfunction
+
+" This configurates the autocompletion for the Deploy function
 function! DeployCompletion(A, L, P)
     let l = split(a:L[:a:P-1], '\%(\%(\%(^\|[^\\]\)\\\)\@<!\s\)\+', 1)
     let n = len(l) - index(l, 'Sync') - 2
     let funcs = ['IpCompletion', 'PortCompletion', 'DirCompletion']
+
+    " file autocompletion for extra args
+    if n + 1 > len(funcs)
+        return call('File', [a:A, a:L, a:P])
+    endif
+
     return call(funcs[n], [a:A, a:L, a:P])
-endfunction
-
-"Run this after neomake finishes
-function! Graph(job_status)
-    if a:job_status['status'] == 0
-        execute "!display pycallgraph.png"
-        call feedkeys("\<CR>")
-    else
-        copen
-    endif
-endfunction
-
-function! Mem(job_status)
-    if a:job_status['status'] == 0
-        echo items(a:job_status)
-        NeomakeCancelJob a:job_status['id']
-    else
-        copen
-    endif
-endfunction
-
-function! Plain(job_status)
-    copen
-endfunction
-
-function! InitProject(root)
-    execute "PymodeRopeNewProject ".a:root
-
-endfunction
-"
-"Cprofiler function
-function! Profiler(file, ...)
-    "profiler mode (graph:execution graph and time, mem: lots of nice stuff,
-    "plain: just Cprofile output on plaintext'
-    let arg1 = get(a:, 1, "mem") "default mode
-    if arg1 == "graph"
-        call neomake#Sh("pycallgraph --max-depth=4 -v graphviz -- ".a:file, function('Graph'))
-    elseif arg1 == "mem"
-         call neomake#Sh("vprof -c cmhp ".a:file, function('Mem'))
-    elseif arg1 == 'plain'
-        call neomake#Sh("python3 -m cProfile -s cumtime ".a:file, function('Plain'))
-
-    endif
 endfunction
 
 "Autopep8 formatter
@@ -118,6 +90,3 @@ command! -complete=file -nargs=1 Pe call Format(<f-args>)
 
 "create Sync command to deploy
 command! -complete=customlist,DeployCompletion -nargs=* Sync call Deploy(<f-args>)
-
-"run cProfile on file
-command! -complete=file -nargs=+ Profile call Profiler(<f-args>)
