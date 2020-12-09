@@ -22,3 +22,6 @@ ln -s -f .config/env_setup/tmux/tmux.conf ~/.tmux.conf
 git clone https://github.com/tmux-plugins/tmux-resurrect.git ~/.config/env_setup/tmux/plugins/tmux-resurrect
 git clone https://github.com/tmux-plugins/tmux-continuum.git ~/.config/env_setup/tmux/plugins/tmux-continuum
 git clone https://github.com/pwittchen/tmux-plugin-ip.git ~/.config/env_setup/tmux/plugins/tmux-plugin-ip
+
+echo TERM=screen-256color >> ~/.bashrc
+source ~/.bashrc

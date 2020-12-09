@@ -1,23 +1,15 @@
 #! /bin/bash
 
-# Terminal music player
-sudo apt-get -y install cmus
+sudo apt-get install --no-install-recommends -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
-sudo apt-get -y install git
+# Zsh shell installation
+sh zsh/install.sh
 
-cd ~/.config/env_setup/
 # Tmux installation
 sh tmux/install.sh
 
 # Nvim installation
-cd nvim
+cd ~/.config/env_setup/nvim
 sh ubuntu_install.sh
 
-# Zsh shell installation
-cd ~/.config/env_setup 
-sh zsh/install.sh
-
-git config --global diff.tool vimdiff
-git config --global merge.tool vimdiff
-git config --global --add difftool.prompt false 
 

@@ -10,9 +10,8 @@ Plug 'neomake/neomake' "multithreading
 Plug 'python-mode/python-mode', {'branch':'develop'} "project-like behaviour for python
 Plug 'tpope/vim-fugitive' "git functionality
 Plug 'albacoretuna/FlyGrep.vim', { 'branch': 'oldjanuary' }
-Plug 'kien/ctrlp.vim' "search for files
+Plug 'ctrlpvim/ctrlp.vim' "search for files
 Plug 'christoomey/vim-tmux-navigator' "tmux integration
-Plug 'kshenoy/vim-signature' "easy marks
 Plug 'kkoomen/vim-doge' "generate docstring
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits

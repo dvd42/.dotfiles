@@ -4,7 +4,6 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.config/env_setup/zsh/.oh-my-zsh"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export LC_ALL=en_US.UTF-8
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -66,7 +65,7 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux vi-mode zsh-syntax-highlighting zsh-autosuggestions pyenv git-auto-fetch)
+plugins=(tmux vi-mode zsh-syntax-highlighting zsh-autosuggestions pyenv git-auto-fetch)
 
 source $ZSH/oh-my-zsh.sh
 set -o ignoreeof
@@ -120,9 +119,6 @@ new_env(){
 
 # Apps
 alias chrome="gnome-www-browser > /dev/null 2>&1 &; disown"
-alias hangups='hangups --col-scheme solarized-dark --notification-type bell'
-alias cmus="cmus"
-
 
 # Git aliases 
 alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset'"
