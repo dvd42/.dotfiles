@@ -63,8 +63,10 @@ let g:tmux_navigator_save_on_switch = 2
 
 " *** crtlp.vim ***
 set wildignore+=*.pyc
-set wildignore+=*_build/*
-set wildignore+=__pycache__/*
+set wildignore+=*build/*
+set wildignore+=*wandb/**
+set wildignore+=*output*/**
+set wildignore+=*__pycache__/**
 set wildignore+=.git/*
 set wildignore+=*.jpg
 set wildignore+=*.png
