@@ -36,10 +36,10 @@ let g:neomake_python_pylint_maker = {
         \ '--msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg} [{msg_id}]"',
         \ '--reports=no',
         \ '--extension-pkg-whitelist=cv2',
-        \ '--generated-members=numpy.*, torch.*',
+        \ '--generated-members=numpy.*,torch.*',
         \ '--disable=C0111, C0103, W0621',
         \ '--max-line-length=88',
-        \ '--jobs=0'
+        \ '--jobs=2'
     \ ],
     \ 'errorformat':
         \ '%A%f:%l:%c:%t: %m,' .
