@@ -2,7 +2,7 @@ torch
 torchvision
 pandas
 matplotlib
-pip install git+https://github.com/ipython/ipython
+git+https://github.com/ipython/ipython
 git+https://github.com/dvd42/ipdb.git
 wandb
 pillow
