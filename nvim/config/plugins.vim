@@ -9,7 +9,7 @@ Plug 'tmhedberg/SimpylFold' "easy fold
 Plug 'neomake/neomake' "multithreading
 Plug 'python-mode/python-mode', {'branch':'develop'} "project-like behaviour for python
 Plug 'tpope/vim-fugitive' "git functionality
-Plug 'albacoretuna/FlyGrep.vim', { 'branch': 'oldjanuary' }
+Plug 'wsdjeg/FlyGrep.vim' ", { 'branch': 'oldjanuary' }
 Plug 'ctrlpvim/ctrlp.vim' "search for files
 Plug 'christoomey/vim-tmux-navigator' "tmux integration
 Plug 'kkoomen/vim-doge' "generate docstring

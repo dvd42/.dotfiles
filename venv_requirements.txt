@@ -2,8 +2,8 @@ torch
 torchvision
 pandas
 matplotlib
-git+https://github.com/dvd42/ipdb.git
-ipython==7.8
+git+https://github.com/dvd42/pudb.git
+ipython
 wandb
 pillow
 pylint

@@ -11,5 +11,3 @@ sh tmux/install.sh
 # Nvim installation
 cd ~/.config/env_setup/nvim
 sh ubuntu_install.sh
-
-
