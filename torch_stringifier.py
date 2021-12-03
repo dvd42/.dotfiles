@@ -27,11 +27,13 @@ def pudb_stringifier(value: Any) -> str:
 
     if isinstance(value, torch.nn.Module):
         device: str = str(next(value.parameters()).device)
-        params: int = sum([p.numel() for p in value.parameters() if p.requires_grad])
+        params: int = sum([p.numel() for p in value.parameters()])
+        trainable: int = sum([p.numel() for p in value.parameters() if p.requires_grad])
         rep: str = value.__repr__() if len(value.__repr__()) < 55 else type(value).__name__
 
-        return "{}[{}] Params: {}".format(rep, device, params)
+        return "{}[{}] Training: {} Params/Trainable: {}/{}".format(rep, device, value.training, params, trainable)
     elif isinstance(value, torch.Tensor):
+
         return "{}[{}][{}] {}".format(
             type(value).__name__,
             str(value.dtype).replace("torch.", ""),
@@ -40,6 +42,6 @@ def pudb_stringifier(value: Any) -> str:
         )
     elif isinstance(value, (types.ModuleType, types.FunctionType)):
         return type_stringifier(value)
+
     else:
         return shortened_sfier(value)
-
