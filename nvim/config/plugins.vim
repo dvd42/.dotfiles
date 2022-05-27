@@ -129,4 +129,4 @@ nmap <C-Q> <Plug>BujoChecknormal
 imap <C-Q> <Plug>BujoCheckinsert
 map <leader>t :Todo g<CR>
 let g:bujo#todo_file_path = $HOME . "/.cache/bujo"
-let g:bujo#window_width = 60
+let g:bujo#window_width = 80

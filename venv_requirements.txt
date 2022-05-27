@@ -2,7 +2,7 @@ torch
 torchvision
 pandas
 matplotlib
-git+https://github.com/dvd42/pudb.git
+git+https://github.com/dvd42/ipdb.git
 ipython
 wandb
 pillow
