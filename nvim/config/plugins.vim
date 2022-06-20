@@ -7,12 +7,9 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'vim-airline/vim-airline' "airline bar
 Plug 'tmhedberg/SimpylFold' "easy fold
 Plug 'neomake/neomake' "multithreading
-Plug 'python-mode/python-mode', {'branch':'develop'} "project-like behaviour for python
 Plug 'tpope/vim-fugitive' "git functionality
-Plug 'wsdjeg/FlyGrep.vim' ", { 'branch': 'oldjanuary' }
-Plug 'ctrlpvim/ctrlp.vim' "search for files
 Plug 'christoomey/vim-tmux-navigator' "tmux integration
-Plug 'kkoomen/vim-doge' "generate docstring
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
 Plug 'ryanoasis/vim-devicons' "nice icons
@@ -20,6 +17,10 @@ Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
 Plug 'francoiscabrol/ranger.vim' "ranger for nvim
 Plug 'rbgrouleff/bclose.vim' "ranger for nvim (autoclose buffer)
 Plug 'vuciv/vim-bujo' "todo list
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'easymotion/vim-easymotion'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 let g:python3_host_prog = expand("~/.pyenv/versions/neovim/bin/python")
@@ -38,8 +39,8 @@ let g:neomake_python_pylint_maker = {
         \ '--extension-pkg-whitelist=cv2',
         \ '--generated-members=numpy.*,torch.*',
         \ '--disable=C0111, C0103, W0621',
-        \ '--max-line-length=88',
-        \ '--jobs=2'
+        \ '--max-line-length=150',
+        \ '--jobs=4'
     \ ],
     \ 'errorformat':
         \ '%A%f:%l:%c:%t: %m,' .
@@ -61,28 +62,30 @@ let g:neomake_python_enabled_makers = ['pylint']
 let g:tmux_navigator_save_on_switch = 1
 let g:tmux_navigator_save_on_switch = 2
 
-" *** crtlp.vim ***
-set wildignore+=*.pyc
-set wildignore+=*build/*
-set wildignore+=*wandb/**
-set wildignore+=*output*/**
-set wildignore+=*__pycache__/**
-set wildignore+=.git/*
-set wildignore+=*.jpg
-set wildignore+=*.png
-set wildignore+=*.jpeg
-set wildignore+=*.mp4
+"
+" *** Tree-sitter ***
+lua << treesitter
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all"
+  ensure_installed = { "c", "cpp", "vim", "bash", "lua", "python", "cuda", "html", "cmake", "make", "yaml"},
 
-" *** Pymode ***
-let g:pymode_python = 'python3'
-let g:pymode_rope_regenerate_on_write = 0
-let g:pymode_rope_lookup_project = 1
-let g:pymode_rope = 1
-let g:pymode_options = 0
-let g:pymode_breakpoint = 0
-let g:pymode_syntax_space_errors = 0
-let g:pymode_lint_on_write = 0
-let g:pymode_rope_completion = 0
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+
+    additional_vim_regex_highlighting = false,
+  }
+}
+treesitter
+
+"*** EasyMotion ***
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_smartsign_us = 1
+nmap s <Plug>(easymotion-overwin-f)
+
 
 " *** Deoplete ***
 let g:deoplete#enable_at_startup = 1
@@ -105,13 +108,11 @@ let g:SimpylFold_docstring_preview = 1
 let g:spelunker_check_type = 2
 set updatetime=1000
 
-" *** DoGe ***
+" *** Doge ***
 let g:doge_doc_standard_python = 'google'
-let g:doge_mapping_comment_jump_forward = '<leader><tab>'
-let g:doge_mapping_comment_jump_backward = '<leader><s-tab>'
 
 " *** HardTime ***
-let g:hardtime_default_on = 1
+let g:hardtime_default_on = 0
 let g:list_of_normal_keys = ["h", "j", "k", "l", "-", "+"]
 let g:list_of_visual_keys = ["h", "j", "k", "l", "-", "+"]
 let g:list_of_insert_keys = []
@@ -119,8 +120,11 @@ let g:hardtime_timeout = 1000
 let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
 
-" *** FlyGrep ***
-nnoremap <C-f>f :FlyGrep<cr>
+" *** FzF ***
+nmap <C-p> :Files<cr>|
+nmap <C-f>f :Ag<cr>|
+nmap <C-F>/ :BLines<cr>|
+nmap <C-F>b :Buffers<cr>|
 
 " *** Bujo ***
 nmap <C-S> <Plug>BujoAddnormal
