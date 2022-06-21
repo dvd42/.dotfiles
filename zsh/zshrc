@@ -127,3 +127,5 @@ alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Cres
 alias gs="git status"
 alias gd="git difftool"
 alias fix=vim' `git diff --name-only | uniq`'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

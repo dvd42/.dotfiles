@@ -43,3 +43,9 @@ char
 arange
 argsort
 allclose
+iters
+logits
+dataloader
+expanduser
+deepcopy
+numpy
