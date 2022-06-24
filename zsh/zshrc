@@ -2,7 +2,7 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.config/env_setup/zsh/.oh-my-zsh"
+export ZSH="$HOME/.dotfiles/zsh/.oh-my-zsh"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export EDITOR=vim
 export FZF_DEFAULT_COMMAND='fd --type f -E "*.hdf" -E "output*" -E "*.h5py" -E "*.png" -E "*.pth"'
@@ -116,7 +116,7 @@ new_env(){
     else
         echo "You must provide a name for the virtualenv"
     fi
-    pip3 install -r ~/.config/env_setup/venv_requirements.txt
+    pip3 install -r ~/.dotfiles/venv_requirements.txt
 }
 
 # Apps

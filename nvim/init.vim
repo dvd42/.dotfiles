@@ -10,8 +10,8 @@ set guicursor=
 let mapleader = ","
 
 "Source plugins and custom functions
-source $HOME/.config/env_setup/nvim/config/plugins.vim
-source $HOME/.config/env_setup/nvim/config/util.vim
+source $HOME/.dotfiles/nvim/config/plugins.vim
+source $HOME/.dotfiles/nvim/config/util.vim
 
 " *** General *** "
 set number              " show line numbers

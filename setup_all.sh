@@ -9,5 +9,5 @@ sh zsh/install.sh
 sh tmux/install.sh
 
 # Nvim installation
-cd ~/.config/env_setup/nvim
+cd ~/.dotfiles/nvim
 sh ubuntu_install.sh

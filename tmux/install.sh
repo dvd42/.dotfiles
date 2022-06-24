@@ -18,10 +18,9 @@ sudo apt-get -y install xclip
 sudo apt-get -y install acpi
 
 cd
-ln -s -f .config/env_setup/tmux/tmux.conf ~/.tmux.conf
-git clone https://github.com/tmux-plugins/tmux-resurrect.git ~/.config/env_setup/tmux/plugins/tmux-resurrect
-git clone https://github.com/tmux-plugins/tmux-continuum.git ~/.config/env_setup/tmux/plugins/tmux-continuum
-git clone https://github.com/pwittchen/tmux-plugin-ip.git ~/.config/env_setup/tmux/plugins/tmux-plugin-ip
+ln -s -f .dotfiles/tmux/tmux.conf ~/.tmux.conf
+git clone https://github.com/tmux-plugins/tmux-resurrect.git ~/.dotfiles/tmux/plugins/tmux-resurrect
+git clone https://github.com/tmux-plugins/tmux-continuum.git ~/.dotfiles/tmux/plugins/tmux-continuum
+git clone https://github.com/pwittchen/tmux-plugin-ip.git ~/.dotfiles/tmux/plugins/tmux-plugin-ip
 
-echo TERM=screen-256color >> ~/.bashrc
 source ~/.bashrc

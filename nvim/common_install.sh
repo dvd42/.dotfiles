@@ -11,7 +11,7 @@ mkdir ~/.config/ranger
 touch ~/.config/ranger/rc.conf
 echo "set preview_images=true\nset preview_images_method=ueberzug" >> ~/.config/ranger/rc.conf
 
-ln -s -f ~/.config/env_setup/nvim ~/.config/nvim
+ln -s -f ~/.dotfiles/nvim ~/.config/nvim
 
 git config --global diff.tool vimdiff
 git config --global merge.tool vimdiff

@@ -1,5 +1,5 @@
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
-call plug#begin('~/.config/env_setup/nvim/plugged')
+call plug#begin('~/.dotfiles/nvim/plugged')
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
 Plug 'kamykn/spelunker.vim' "spell check
 Plug 'zchee/deoplete-jedi' "completion
@@ -122,7 +122,7 @@ let g:hardtime_allow_different_key = 1
 
 " *** FzF ***
 nmap <C-p> :Files<cr>|
-nmap <C-f>f :Ag<cr>|
+nmap <C-F>f :Ag<cr>|
 nmap <C-F>/ :BLines<cr>|
 nmap <C-F>b :Buffers<cr>|
 
