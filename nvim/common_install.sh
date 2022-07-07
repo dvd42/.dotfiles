@@ -32,10 +32,10 @@ touch trusted_ips.txt
 curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 echo export PATH="$HOME/.pyenv/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
-export PATH="$HOME/.pyenv/bin:$PATH"
 
-echo eval "$(pyenv init -)" >> ~/.bashrc
-echo eval "$(pyenv virtualenv-init -)" >> ~/.bashrc
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
+echo 'export PATH="$PYENV_ROOT/bin/:$PATH"' >> ~/.profile
+echo eval "$(pyenv init --path)" >> ~/.profile
 source ~/.bashrc
 pyenv install 3.8.0
 bash --rcfile <(echo '. ~/.bashrc; pyenv virtualenv 3.8.0 neovim; pyenv activate neovim; pip3 install neovim pynvim jedi autopep8; pyenv deactivate; exit')
@@ -46,7 +46,5 @@ sleep 2
 nvim --headless +PlugInstall +qa
 nvim --headless +PlugUpdate +qa
 
-mkdir -p ~/.local/share/fonts
-curl -fLo "$HOME/.local/share/fonts/Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
 touch trusted_ips.txt
 source ~/.bashrc

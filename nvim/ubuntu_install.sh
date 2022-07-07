@@ -3,14 +3,16 @@
 #Inspired on https://github.com/prlz77/nvim
 
 # Dependencies
-sudo apt-get -y install python-dev python3-dev python3-pip python3-setuptools curl xclip silversearcher-ag  
+sudo apt-get -y install python-dev python3-dev python3-pip python3-setuptools curl xclip silversearcher-ag ranger fd-find
+sudo apt-get -y install build-essential zlib1g-dev libffi-dev libssl-dev libbz2-dev libreadline-dev libsqlite3-dev liblzma-dev tk-dev
 
-# Update and install
-sudo apt-get update
+ln -s $(which fdfind) ~/.local/bin/fd
+
+# install neovim
 sudo apt-get -y install software-properties-common
-sudo add-apt-repository -y ppa:neovim-ppa/unstable
-sudo apt-get update
-sudo apt-get -y install neovim
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+sudo mv nvim.appimage /usr/bin/nvim
 
 # Set as the default editor
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
