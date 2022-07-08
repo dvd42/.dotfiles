@@ -12,10 +12,7 @@ ln -s $(which fdfind) ~/.local/bin/fd
 sudo apt-get -y install software-properties-common
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
-./nvim.appimage --appimage-extract
-./squashfs-root/AppRun --version
-sudo mv squashfs-root/ 
-sudo ln -s /squashfs-root/AppRun /usr/bin/nvim
+sudo mv nvim.appimage /usr/bin/nvim
 
 # Set as the default editor
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
