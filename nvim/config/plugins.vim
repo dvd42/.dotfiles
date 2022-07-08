@@ -12,7 +12,6 @@ Plug 'christoomey/vim-tmux-navigator' "tmux integration
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
-Plug 'ryanoasis/vim-devicons' "nice icons
 Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
 Plug 'francoiscabrol/ranger.vim' "ranger for nvim
 Plug 'rbgrouleff/bclose.vim' "ranger for nvim (autoclose buffer)
