@@ -10,9 +10,17 @@ ln -s $(which fdfind) ~/.local/bin/fd
 
 # install neovim
 sudo apt-get -y install software-properties-common
-sudo add-apt-repository ppa:neovim-ppa/stable
+sudo apt-get autoremove
 sudo apt update
-sudo apt-get -y install neovim
+wget https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.deb
+sudo apt install -y ./nvim-linux64.deb
+
+sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+sudo update-alternatives --auto vi
+sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+sudo update-alternatives --auto vim
+sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+sudo update-alternatives --auto editor
 
 # Common configuration
 ./common_install.sh
