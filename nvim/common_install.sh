@@ -7,8 +7,14 @@ mkdir undodir
 mkdir backup
 
 # set up ranger
-mkdir ~/.config/ranger
+mkdir -p ~/.config/ranger
 touch ~/.config/ranger/rc.conf
+
+# set up fd
+mkdir -p ~/.local/bin
+ln -s $(which fdfind) ~/.local/bin/fd
+export PATH="$HOME/.local/bin/"
+
 echo "set preview_images=true\nset preview_images_method=ueberzug" >> ~/.config/ranger/rc.conf
 
 ln -s -f ~/.dotfiles/nvim ~/.config/nvim
@@ -28,7 +34,7 @@ touch trusted_ips.txt
 
 # install pyenv
 git clone https://gist.github.com/capsulecorplab/2d1998522c36f84a070380e766b0423a pyenv_installer/
-bash pyenv_install.sh
+bash pyenv_installer/pyenv_install.sh
 
 # curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 # echo export PATH="$HOME/.pyenv/bin:$PATH" >> ~/.bashrc
