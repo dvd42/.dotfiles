@@ -24,21 +24,27 @@ sleep 2
 nvim --headless +PlugInstall +qa
 nvim --headless +PlugUpdate +qa
 
-mkdir -p ~/.local/share/fonts
-curl -fLo "$HOME/.local/share/fonts/Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
 touch trusted_ips.txt
 
 # install pyenv
-curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-echo export PATH="$HOME/.pyenv/bin:$PATH" >> ~/.bashrc
-source ~/.bashrc
+git clone https://gist.github.com/capsulecorplab/2d1998522c36f84a070380e766b0423a pyenv_installer/
+bash pyenv_install.sh
 
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'export PATH="$PYENV_ROOT/bin/:$PATH"' >> ~/.bashrc
-echo eval "$(pyenv init --path)" >> ~/.bashrc
-source ~/.bashrc
+# curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+# echo export PATH="$HOME/.pyenv/bin:$PATH" >> ~/.bashrc
+# source ~/.bashrc
+
+# echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+# echo 'export PATH="$PYENV_ROOT/bin/:$PATH"' >> ~/.bashrc
+# echo eval "$(pyenv init --path)" >> ~/.bashrc
+# source ~/.bashrc
 pyenv install 3.8.0
-bash --rcfile <(echo '. ~/.bashrc; pyenv virtualenv 3.8.0 neovim; pyenv activate neovim; pip3 install neovim pynvim jedi autopep8; pyenv deactivate; exit')
+pyenv virtualenv 3.8.0 neovim
+pyenv activate neovim
+pip3 install neovim pynvim jedi autopep8
+pyenv deactivate
+
+# bash --rcfile <(echo '. ~/.bashrc; pyenv virtualenv 3.8.0 neovim; pyenv activate neovim; pip3 install neovim pynvim jedi autopep8; pyenv deactivate; exit')
 nvim --headless +UpdateRemotePlugins +qa
 exec $SHELL
 
