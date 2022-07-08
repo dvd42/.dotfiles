@@ -33,9 +33,9 @@ curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-
 echo export PATH="$HOME/.pyenv/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
 
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-echo 'export PATH="$PYENV_ROOT/bin/:$PATH"' >> ~/.profile
-echo eval "$(pyenv init --path)" >> ~/.profile
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin/:$PATH"' >> ~/.bashrc
+echo eval "$(pyenv init --path)" >> ~/.bashrc
 source ~/.bashrc
 pyenv install 3.8.0
 bash --rcfile <(echo '. ~/.bashrc; pyenv virtualenv 3.8.0 neovim; pyenv activate neovim; pip3 install neovim pynvim jedi autopep8; pyenv deactivate; exit')
