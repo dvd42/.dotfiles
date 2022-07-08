@@ -26,10 +26,6 @@ git config --global --add difftool.prompt false
 # vim-plug
 curl -fLo ./autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-sleep 2
-nvim --headless +PlugInstall +qa
-nvim --headless +PlugUpdate +qa
-
 touch trusted_ips.txt
 
 # install pyenv
