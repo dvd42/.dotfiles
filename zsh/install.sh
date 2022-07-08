@@ -1,8 +1,5 @@
 #! /bin/bash
 
-# My prefered font
-sudo apt install -y fonts-firacode
-
 sudo apt-get -y update
 sudo apt-get -y install zsh
 sudo apt-get -y install curl

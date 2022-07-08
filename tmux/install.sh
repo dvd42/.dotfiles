@@ -15,7 +15,6 @@ sudo rm -rf /usr/local/src/tmux-\*
 sudo mv tmux-${VERSION} /usr/local/src
 
 sudo apt-get -y install xclip
-sudo apt-get -y install acpi
 
 cd
 ln -s -f .dotfiles/tmux/tmux.conf ~/.tmux.conf
