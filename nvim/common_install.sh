@@ -13,7 +13,7 @@ touch ~/.config/ranger/rc.conf
 # set up fd
 mkdir -p ~/.local/bin
 ln -s $(which fdfind) ~/.local/bin/fd
-export PATH="$HOME/.local/bin/"
+export PATH="$HOME/.local/bin/:$PATH"
 
 echo "set preview_images=true\nset preview_images_method=ueberzug" >> ~/.config/ranger/rc.conf
 
