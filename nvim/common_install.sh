@@ -34,13 +34,4 @@ git clone https://gist.github.com/capsulecorplab/2d1998522c36f84a070380e766b0423
 curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 source ~/.bashrc
 
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'export PATH="$PYENV_ROOT/bin/:$PATH"' >> ~/.bashrc
-echo eval "$(pyenv init --path)" >> ~/.bashrc
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-source ~/.bashrc
-pyenv install 3.8.0
-pyenv virtualenv 3.8.0 neovim
 exec $SHELL
-
