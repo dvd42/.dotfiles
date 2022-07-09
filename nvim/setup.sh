@@ -1,8 +1,8 @@
 echo export PYENV_ROOT="$HOME/.pyenv" >> ~/.profile
 echo export PATH="$PYENV_ROOT/bin/:$PATH" >> ~/.profile
-source ~/.bashrc
+source ~/.profile
 echo eval "$(pyenv init --path)" >> ~/.profile
-source ~/.bashrc
+source ~/.profile
 eval "$(pyenv init -)" >> ~/.bashrc
 eval "$(pyenv virtualenv-init -)" >> ~/.bashrc
 source ~/.bashrc
