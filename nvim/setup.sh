@@ -1,9 +1,10 @@
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'export PATH="$PYENV_ROOT/bin/:$PATH"' >> ~/.bashrc
+echo export PYENV_ROOT="$HOME/.pyenv" >> ~/.profile
+echo export PATH="$PYENV_ROOT/bin/:$PATH" >> ~/.profile
 source ~/.bashrc
-echo eval "$(pyenv init --path)" >> ~/.bashrc
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+echo eval "$(pyenv init --path)" >> ~/.profile
+source ~/.bashrc
+eval "$(pyenv init -)" >> ~/.bashrc
+eval "$(pyenv virtualenv-init -)" >> ~/.bashrc
 source ~/.bashrc
 pyenv install 3.8.0
 pyenv virtualenv 3.8.0 neovim
