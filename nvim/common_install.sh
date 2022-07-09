@@ -29,8 +29,6 @@ curl -fLo ./autoload/plug.vim --create-dirs https://raw.githubusercontent.com/ju
 touch trusted_ips.txt
 
 # install pyenv
-git clone https://gist.github.com/capsulecorplab/2d1998522c36f84a070380e766b0423a pyenv_installer/
-
 curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 source ~/.bashrc
 
