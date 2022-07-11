@@ -1,8 +1,8 @@
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.dotfiles/nvim/plugged')
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
 Plug 'kamykn/spelunker.vim' "spell check
-Plug 'zchee/deoplete-jedi' "completion
+" Plug 'zchee/deoplete-jedi' "completion
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'vim-airline/vim-airline' "airline bar
 Plug 'tmhedberg/SimpylFold' "easy fold
@@ -20,9 +20,11 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
 call plug#end()
 
-let g:python3_host_prog = expand("~/.pyenv/versions/neovim/bin/python")
+" let g:python3_host_prog = expand("~/.pyenv/versions/neovim/bin/python")
 
 " *** Neomake ***
 " When reading a buffer (after 1s), and when writing (no delay).
@@ -85,11 +87,38 @@ let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
 nmap s <Plug>(easymotion-overwin-f)
 
+" *** CoC ***
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ CheckBackspace() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" *** Deoplete ***
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete=1
-let g:deoplete#sources#jedi#enable_typeinfo = 0 "gotta go fast
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+set hidden
+set nobackup
+set nowritebackup
+set updatetime=300
+set shortmess+=c
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1

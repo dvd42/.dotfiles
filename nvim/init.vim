@@ -109,10 +109,6 @@ map <C-b> Oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
-" move through autocompletion list with tab
-inoremap <expr><silent><tab> (pumvisible() ? '<C-R>=Omnnipopup("tab")<CR>':'<tab>')
-inoremap <expr><silent><s-tab> (pumvisible() ? '<C-R>=Omnnipopup("s-tab")<CR>':'<s-tab>')
-
 "No highlight on search
 set nohlsearch
 
