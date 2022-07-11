@@ -21,7 +21,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
 call plug#end()
 
 " let g:python3_host_prog = expand("~/.pyenv/versions/neovim/bin/python")
@@ -119,6 +118,8 @@ function! ShowDocumentation()
     call feedkeys('K', 'in')
   endif
 endfunction
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1
