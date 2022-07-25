@@ -130,35 +130,3 @@ alias gd="git difftool"
 alias fix=vim' `git diff --name-only | uniq`'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-eval PATH="$(bash --norc -ec 'IFS=:; paths=($PATH); for i in ${!paths[@]}; do if [[ ${paths[i]} == "'/mnt/home/.pyenv/shims'" ]]; then unset '\''paths[i]'\''; fi; done; echo "${paths[*]}"')"
-export PATH="/mnt/home/.pyenv/shims:${PATH}"
-export PYENV_SHELL=sh
-command pyenv rehash 2>/dev/null
-pyenv() {
-  local command
-  command="${1:-}"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
-
-  case "$command" in
-  activate|deactivate|rehash|shell)
-    eval "$(pyenv "sh-$command" "$@")"
-    ;;
-  *)
-    command pyenv "$command" "$@"
-    ;;
-  esac
-}
-eval export PATH="/mnt/home/.pyenv/plugins/pyenv-virtualenv/shims:${PATH}";
-export PYENV_VIRTUALENV_INIT=1;
-_pyenv_virtualenv_hook() {
-  local ret=$?
-  if [ -n "$VIRTUAL_ENV" ]; then
-    eval "$(pyenv sh-activate --quiet || pyenv sh-deactivate --quiet || true)" || true
-  else
-    eval "$(pyenv sh-activate --quiet || true)" || true
-  fi
-  return $ret
-};

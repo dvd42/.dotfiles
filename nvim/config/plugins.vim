@@ -9,7 +9,7 @@ Plug 'tmhedberg/SimpylFold' "easy fold
 Plug 'neomake/neomake' "multithreading
 Plug 'tpope/vim-fugitive' "git functionality
 Plug 'christoomey/vim-tmux-navigator' "tmux integration
-Plug 'kkoomen/vim-doge', { 'do': ':call doge#install()'}
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'tpope/vim-commentary' "easy comment lines
 Plug 'takac/vim-hardtime' "remove bad habits
 Plug 'roxma/vim-tmux-clipboard' "solves clipboard headaches
@@ -18,7 +18,7 @@ Plug 'rbgrouleff/bclose.vim' "ranger for nvim (autoclose buffer)
 Plug 'vuciv/vim-bujo' "todo list
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'easymotion/vim-easymotion'
-Plug 'junegunn/fzf', { 'do': ':call fzf#install()'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
