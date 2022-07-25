@@ -23,40 +23,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
-" let g:python3_host_prog = expand("~/.pyenv/versions/neovim/bin/python")
-
-" *** Neomake ***
-" When reading a buffer (after 1s), and when writing (no delay).
-call neomake#configure#automake('nw', 500)
-let g:neomake_open_list = 0
-
-let g:neomake_python_pylint_maker = {
-    \ 'exe': 'pylint',
-    \ 'args': [
-        \ '--output-format=text',
-        \ '--msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg} [{msg_id}]"',
-        \ '--reports=no',
-        \ '--extension-pkg-whitelist=cv2',
-        \ '--generated-members=numpy.*,torch.*',
-        \ '--disable=C0111, C0103, W0621',
-        \ '--max-line-length=150',
-        \ '--jobs=4'
-    \ ],
-    \ 'errorformat':
-        \ '%A%f:%l:%c:%t: %m,' .
-        \ '%A%f:%l: %m,' .
-        \ '%A%f:(%l): %m,' .
-        \ '%-Z%p^%.%#,' .
-        \ '%-G%.%#',
-    \ 'output_stream': 'stdout',
-    \ 'postprocess': [
-    \   function('neomake#postprocess#generic_length'),
-    \   function('neomake#makers#ft#python#PylintEntryProcess'),
-    \ ]}
-
-let g:neomake_python_enabled_makers = ['pylint']
-
-
 " *** Tmux Navigator ***
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 1
@@ -120,7 +86,15 @@ function! ShowDocumentation()
 endfunction
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+      nnoremap <silent><nowait><expr> <leader>j coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+      nnoremap <silent><nowait><expr> <leader>k coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+      inoremap <silent><nowait><expr> <leader>j  coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+      inoremap <silent><nowait><expr> <leader>k coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+      vnoremap <silent><nowait><expr> <leader>j coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+      vnoremap <silent><nowait><expr> <leader>k coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+    
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -139,6 +113,7 @@ set updatetime=1000
 
 " *** Doge ***
 let g:doge_doc_standard_python = 'google'
+let g:doge_enable_mappings=0
 
 " *** HardTime ***
 let g:hardtime_default_on = 0

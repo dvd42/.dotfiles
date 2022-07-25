@@ -1,11 +1,12 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.dotfiles/zsh/.oh-my-zsh"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export EDITOR=vim
-export FZF_DEFAULT_COMMAND='fd --type f -E "*.hdf" -E "output*" -E "*.h5py" -E "*.png" -E "*.pth"'
+export FZF_DEFAULT_COMMAND='fd --type f -E "*.hdf" -E "output*" -E "wandb*" -E "*.h5py" -E "*.png" -E "*.pth"'
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,

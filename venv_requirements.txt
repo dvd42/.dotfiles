@@ -8,5 +8,4 @@ wandb
 pillow
 pylint
 tqdm
-git+git://git.savannah.nongnu.org/ranger.git
 ueberzug
