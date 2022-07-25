@@ -40,6 +40,12 @@ endif
 set background=dark
 colorscheme palenight
 
+
+highlight CocErrorHighlight ctermfg=Red  guifg=Red
+highlight CocWarningHighlight ctermfg=DarkYellow guifg=DarkYellow
+highlight CocWarningSign ctermfg=DarkYellow guifg=DarkYellow
+
+
 set clipboard=unnamedplus " clipboard
 
 " *** Code *** "

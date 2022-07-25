@@ -1,4 +1,10 @@
 {
+    "diagnostic.messageTarget": "float",
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.errorSign": "‼",
+    "diagnostic.warningSign": "!",
+    "diagnostic.infoSign": ">",
+    "diagnostic.hintSign": ">",
     "jedi.jediSettings.autoImportModules": ["torch", "numpy", "pandas", "cv2"],
     "jedi.diagnostics.enable": true,
     "jedi.diagnostics.didOpen": true,
