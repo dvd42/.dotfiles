@@ -30,6 +30,6 @@ touch trusted_ips.txt
 
 # install pyenv
 curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-source ~/.zshrc
+source ~/.bashrc
 
 exec $SHELL
