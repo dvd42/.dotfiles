@@ -97,6 +97,10 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
       vnoremap <silent><nowait><expr> <leader>j coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
       vnoremap <silent><nowait><expr> <leader>k coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
+
+command! -nargs=0 Format :call CocActionAsync('format')
+
+
     
 " *** Airline ***
 let g:airline#extensions#tabline#enabled = 1

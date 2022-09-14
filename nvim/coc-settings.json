@@ -23,13 +23,13 @@
       "--output-format",
       "text",
       "--max-line-length",
-      "150",
+      "100",
       "--disable=C0111, C0103, W0621, R1732, W1514, R0914, R0902, R0913",
       "--jobs=4",
       "--score",
       "no",
-      "--extension-pkg-whitelist=cv2,",
-      "--generated-members=cv2.*",
+      "--extension-pkg-whitelist=cv2, torch",
+      "--generated-members=cv2.*, torch.*",
       "--msg-template",
       "'{line}:{column}:{category}:{msg} ({msg_id}:{symbol})'",
       "%file"
@@ -56,6 +56,23 @@
     "offsetColumn": 1,
     "offsetColumnEnd": 1,
     "formatLines": 1
+  }
+},
+"diagnostic-languageserver.formatFiletypes": {
+  "python": ["black", "isort", "docformatter"]
+},
+"diagnostic-languageserver.formatters": {
+  "black": {
+    "command": "black",
+    "args": ["-q", "-"]
+  },
+  "isort": {
+    "command": "isort",
+    "args": ["-q", "-"]
+  },
+  "docformatter": {
+    "command": "docformatter",
+    "args": ["-"]
   }
 }
 }
