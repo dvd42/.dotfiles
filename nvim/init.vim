@@ -21,7 +21,7 @@ set showmode            " show current mode
 set ruler
 set textwidth=155
 set formatoptions -=t
-set colorcolumn=+1 
+set colorcolumn=+1
 set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw only when we need to.
 set showmatch           " highlight matching [{()}]
@@ -47,6 +47,8 @@ highlight CocWarningSign ctermfg=DarkYellow guifg=DarkYellow
 
 
 set clipboard=unnamedplus " clipboard
+set mouse=
+set pumblend=0
 
 " *** Code *** "
 syntax on
@@ -119,7 +121,7 @@ nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :wri
 set nohlsearch
 
 "automatically closing the scratch window at the top of the vim window on finishing a complete or leaving insert
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif 
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 "Remove all trailing whitespace by pressing F5
 :nnoremap <silent> <F5> :let _save_pos=getpos(".") <Bar>

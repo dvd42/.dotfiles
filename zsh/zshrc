@@ -6,7 +6,7 @@ export PATH=$HOME/.local/bin:$PATH
 export ZSH="$HOME/.dotfiles/zsh/.oh-my-zsh"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export EDITOR=vim
-export FZF_DEFAULT_COMMAND='fd --type f -E "*.hdf" -E "output*" -E "wandb*" -E "*.h5py" -E "*.png" -E "*.pth"'
+export FZF_DEFAULT_COMMAND='fd --type f -E "*.hdf" -E "output/*" -E "*.json" -E "wandb*" -E "*.h5py" -E "*.png" -E "*.pth"'
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -71,9 +71,10 @@ HIST_STAMPS="dd/mm/yyyy"
 plugins=(tmux vi-mode zsh-syntax-highlighting zsh-autosuggestions pyenv git-auto-fetch)
 
 source $ZSH/oh-my-zsh.sh
+
 set -o ignoreeof
 bindkey ^D beep
-ttyctl -f 
+ttyctl -f
 unsetopt correct_all # disable corrections
 
 # User configuration
@@ -123,7 +124,7 @@ new_env(){
 # Apps
 alias chrome="gnome-www-browser > /dev/null 2>&1 &; disown"
 
-# Git aliases 
+# Git aliases
 alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset'"
 alias gs="git status"
 alias gd="git difftool"
@@ -162,3 +163,15 @@ _pyenv_virtualenv_hook() {
   fi
   return $ret
 };
+
+# fzf key bindings
+# CTRL-/ to toggle small preview window to see the full command
+# CTRL-Y to copy the command into clipboard using pbcopy
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window up:3:wrap
+  --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-y:execute-silent(echo {+} | xclip -in -selection clipboard; sleep 0.35s)+abort'
+  --header 'Press CTRL-Y to copy command into clipboard'
+  --border"
+
+source $HOME/.dotfiles/zsh/fzf_key_bindings.zsh
