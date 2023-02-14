@@ -5,59 +5,8 @@
     "diagnostic.warningSign": "!",
     "diagnostic.infoSign": ">",
     "diagnostic.hintSign": ">",
-    "jedi.jediSettings.autoImportModules": ["torch", "numpy", "pandas", "cv2"],
-    "jedi.diagnostics.enable": true,
-    "jedi.diagnostics.didOpen": true,
-    "jedi.diagnostics.didChange": false,
-    "jedi.diagnostics.didSave": true,
-
-    "diagnostic-languageserver.filetypes": {
-  "python": "pylint"
-},
-"diagnostic-languageserver.linters": {
-  "pylint": {
-    "sourceName": "pylint",
-    "command": "pylint",
-    "debounce": 100,
-    "args": [
-      "--output-format",
-      "text",
-      "--max-line-length",
-      "100",
-      "--disable=C0111, C0103, W0621, R1732, W1514, R0914, R0902, R0913",
-      "--jobs=4",
-      "--score",
-      "no",
-      "--extension-pkg-whitelist=cv2, torch",
-      "--generated-members=cv2.*, torch.*",
-      "--msg-template",
-      "'{line}:{column}:{category}:{msg} ({msg_id}:{symbol})'",
-      "%file"
-    ],
-    "formatPattern": [
-      "^(\\d+?):(\\d+?):([a-z]+?):(.*)$",
-      {
-        "line": 1,
-        "column": 2,
-        "endColumn": 2,
-        "security": 3,
-        "message": 4
-      }
-    ],
-    "rootPatterns": ["pyproject.toml", "setup.py", ".git"],
-    "securities": {
-      "informational": "hint",
-      "refactor": "info",
-      "convention": "info",
-      "warning": "warning",
-      "error": "error",
-      "fatal": "error"
-    },
-    "offsetColumn": 1,
-    "offsetColumnEnd": 1,
-    "formatLines": 1
-  }
-},
+    "python.analysis.typeCheckingMode": "off",
+    "pyright.disableDiagnostics": false,
 "diagnostic-languageserver.formatFiletypes": {
   "python": ["black", "isort", "docformatter"]
 },
