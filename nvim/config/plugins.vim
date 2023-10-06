@@ -3,6 +3,7 @@ call plug#begin('~/.dotfiles/nvim/plugged')
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion
 " Plug 'kamykn/spelunker.vim' "spell check
 " Plug 'zchee/deoplete-jedi' "completion
+Plug 'ojroques/vim-oscyank', {'branch': 'main'}
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'romgrk/doom-one.vim'
 Plug 'rafalbromirski/vim-aurora'
@@ -25,6 +26,16 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'eandrju/cellular-automaton.nvim'
 call plug#end()
+
+
+" *** Vim-Oscyank ***
+nmap <leader>c <Plug>OSCYankOperator
+nmap <leader>cc <leader>c_
+vmap <leader>c <Plug>OSCYankVisual
+let g:oscyank_max_length = 0  " maximum length of a selection
+let g:oscyank_silent     = 0  " disable message on successful copy
+let g:oscyank_trim       = 1  " trim surrounding whitespaces before copy
+let g:oscyank_osc52      = "\x1b]52;c;%s\x07"  " the OSC52 format string to use
 
 " *** Tmux Navigator ***
 " Write all buffers before navigating from Vim to tmux pane
