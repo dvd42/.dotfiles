@@ -113,7 +113,7 @@ new_env(){
         pyenv activate "$2"
     elif [ -n "$1" ] # if no version was specified install 3.7 as default
     then
-        pyenv virtualenv 3.8.0 "$1"
+        pyenv virtualenv 3.10.0 "$1"
         pyenv activate "$1"
     else
         echo "You must provide a name for the virtualenv"
@@ -174,4 +174,9 @@ export FZF_CTRL_R_OPTS="
   --header 'Press CTRL-Y to copy command into clipboard'
   --border"
 
-source $HOME/.dotfiles/zsh/fzf_key_bindings.zsh
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"

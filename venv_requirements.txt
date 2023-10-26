@@ -2,10 +2,9 @@ torch
 torchvision
 pandas
 matplotlib
-git+https://github.com/dvd42/ipdb.git
+ipdb
 ipython
 wandb
 pillow
 pylint
 tqdm
-ueberzug
