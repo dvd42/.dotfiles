@@ -42,7 +42,27 @@ require("lazy").setup({
     {"junegunn/fzf", build = ":fzf#install()"},
     {"junegunn/fzf.vim"},
     {"neoclide/coc.nvim", branch = "release"},
-    {"eandrju/cellular-automaton.nvim"}
+    {"eandrju/cellular-automaton.nvim"},
+    {
+     "kawre/leetcode.nvim",
+      build = ":TSUpdate html",
+      dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-telescope/telescope.nvim",
+            "nvim-lua/plenary.nvim", -- required by telescope
+            "MunifTanjim/nui.nvim",
+            -- optional
+            "rcarriga/nvim-notify",
+            "nvim-tree/nvim-web-devicons",
+        },
+        opts = {
+            lang = "python",
+            console = {
+                open_on_runcode = true, ---@type boolean
+            }
+        },
+
+    }
 
 })
 
