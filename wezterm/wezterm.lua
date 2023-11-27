@@ -14,6 +14,7 @@ end
 config.color_scheme = 'Builtin Tango Dark'
 
 config.font = wezterm.font "FiraCode Nerd Font", {weight="Light", stretch="Normal", style="Normal"}
+config.colors = {cursor_bg = 'rgba(100, 100, 100, 0)', cursor_fg = 'rgba(100, 100, 100, 0)'}
 
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
