@@ -12,12 +12,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true,
-
-    -- config = function()
-    --     vim.cmd([[colorscheme gruvbox]])
-    -- end,
-    -- },
     {"navarasu/onedark.nvim",
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1005, -- make sure to load this before all the other start plugins
@@ -26,6 +20,7 @@ require("lazy").setup({
       vim.cmd([[colorscheme onedark]])
     end,
     },
+    {"neovim/nvim-lspconfig", lazy = false},
     {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'},
     {'nvim-lualine/lualine.nvim', dependencies = 'nvim-tree/nvim-web-devicons'},
     {"ojroques/vim-oscyank", branch = "main"},
@@ -33,15 +28,16 @@ require("lazy").setup({
     {"neomake/neomake"},
     {"tpope/vim-fugitive"},
     {"christoomey/vim-tmux-navigator"},
-    {"kkoomen/vim-doge", build = ":doge#install()"},
+    {"kkoomen/vim-doge"},
     {"tpope/vim-commentary"},
     {"roxma/vim-tmux-clipboard"},
     {"rbgrouleff/bclose.vim"},
     {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
     {"easymotion/vim-easymotion"},
-    {"junegunn/fzf", build = ":fzf#install()"},
+    {"junegunn/fzf"},
     {"junegunn/fzf.vim"},
-    {"neoclide/coc.nvim", branch = "release"},
+    {'hrsh7th/nvim-cmp'}, -- Autocompletion plugin
+    {'hrsh7th/cmp-nvim-lsp'},
     {"eandrju/cellular-automaton.nvim"},
     {
      "kawre/leetcode.nvim",
@@ -95,7 +91,7 @@ local config = {
 require("cellular-automaton").register_animation(config)
 
 vim.api.nvim_set_keymap('n', '<leader>mir', ':CellularAutomaton make_it_rain<CR>j', {silent = true})
-vim.api.nvim_set_keymap('n', '<leader>fml', ':CellularAutomaton game_of_life<CR>j', {silent = true})
+vim.api.nvim_set_keymap('n', '<leader>gol', ':CellularAutomaton game_of_life<CR>j', {silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sn', ':CellularAutomaton snake<CR>j', {silent = true})
 
 -- Tree-sitter
@@ -108,61 +104,98 @@ require'nvim-treesitter.configs'.setup {
     },
 }
 
+-- ** LSPConfig **
+local lspconfig = require('lspconfig')
+
+-- Global mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+  end,
+})
+
+
+-- Nvim-Cmp
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+local servers = {'pyright'}
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    capabilities = capabilities,
+  }
+end
+
+
+local cmp = require 'cmp'
+cmp.setup {
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+        { name = 'path' }
+    }),
+    mapping = cmp.mapping.preset.insert({
+        ['<C-k>'] = cmp.mapping.scroll_docs(-4), -- Up
+        ['<C-j>'] = cmp.mapping.scroll_docs(4), -- Down
+        -- C-b (back) C-f (forward) for snippet placeholder navigation.
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        },
+        ['<Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          else
+            fallback()
+          end
+        end, { 'i', 's' }),
+    }),
+}
+
+-- required for lsp to start automatically
+vim.api.nvim_exec_autocmds("FileType", {})
+
 -- EasyMotion
 vim.g.EasyMotion_smartcase = 1
 vim.g.EasyMotion_use_smartsign_us = 1
 vim.api.nvim_set_keymap('n', 's', '<Plug>(easymotion-overwin-f)', {})
 
--- *** CoC ***
--- use <tab> to trigger completion and navigate to the next complete item
-function _G.check_back_space()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-end
-
-function _G.show_docs()
-    local cw = vim.fn.expand('<cword>')
-    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
-        vim.api.nvim_command('h ' .. cw)
-    elseif vim.api.nvim_eval('coc#rpc#ready()') then
-        vim.fn.CocActionAsync('doHover')
-    else
-        vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
-    end
-end
-
-
-vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : v:lua.check_back_space() ? "\\<Tab>" : coc#refresh()', { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', { noremap = true, expr = true })
-vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? coc#pum#confirm() : "\\<CR>"', { noremap = true, expr = true })
-
 
 vim.o.hidden = true
 vim.o.updatetime = 300
 vim.o.shortmess = vim.o.shortmess .. "c"
-
-
-vim.api.nvim_set_keymap('n', 'gd', '<Plug>(coc-definition)', { noremap = false, silent = true })
-vim.api.nvim_set_keymap('n', 'gy', '<Plug>(coc-type-definition)', { noremap = false, silent = true })
-vim.api.nvim_set_keymap('n', 'gi', '<Plug>(coc-implementation)', { noremap = false, silent = true })
-vim.api.nvim_set_keymap('n', 'gr', '<Plug>(coc-references)', { noremap = false, silent = true })
-vim.api.nvim_set_keymap('n', '[g', '<Plug>(coc-diagnostic-prev)', { noremap = false, silent = true })
-vim.api.nvim_set_keymap('n', 'g]', '<Plug>(coc-diagnostic-next)', { noremap = false, silent = true })
-
-vim.api.nvim_set_keymap('n', "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
-
-vim.api.nvim_command("autocmd CursorHold * silent call CocActionAsync('highlight')")
-
-
-vim.api.nvim_set_keymap('n', '<leader>j', 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', { noremap = false, silent = true, expr = true, nowait = true })
-vim.api.nvim_set_keymap('n', '<leader>k', 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', { noremap = false, silent = true, expr = true, nowait = true })
-vim.api.nvim_set_keymap('i', '<leader>j', 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1) <cr>" : "<Right>"', { silent = true, expr = true, nowait = true })
-vim.api.nvim_set_keymap('i', '<leader>k', 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0) <cr>" : "<Left>"', { silent = true, expr = true, nowait = true })
-vim.api.nvim_set_keymap('v', '<leader>j', 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', { noremap = false, silent = true, expr = true, nowait = true })
-vim.api.nvim_set_keymap('v', '<leader>k', 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', { noremap = false, silent = true, expr = true, nowait = true })
-
-
-vim.api.nvim_command("command! -nargs=0 Format :call CocActionAsync('format')")
 
 -- SimpylFold
 vim.g.SimpylFold_docstring_preview = 1
@@ -185,7 +218,7 @@ bufferline.setup({
             bufferline.style_preset.no_italic,
             bufferline.style_preset.no_bold,
         },
-        diagnostics = "coc",
+        diagnostics = "nvim_lsp",
 
         diagnostics_indicator = function(count, level, diagnostics_dict, context)
           local s = " "

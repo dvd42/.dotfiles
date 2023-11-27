@@ -1,5 +1,5 @@
--- Fixes
-vim.o.guicursor = ""
+-- -- Fixes
+-- vim.o.guicursor = ""
 
 -- Remap Leader
 vim.g.mapleader = ","
@@ -29,10 +29,6 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 set background=dark
-
-highlight CocErrorHighlight ctermfg=Red  guifg=Red
-highlight CocWarningHighlight ctermfg=DarkYellow guifg=DarkYellow
-highlight CocWarningSign ctermfg=DarkYellow guifg=DarkYellow
 ]]
 
 vim.o.clipboard = "unnamedplus"
@@ -106,12 +102,10 @@ end
 vim.o.nohlsearch = true
 vim.o.hlsearch = false
 
-
--- Autocommands
+-- Autocommands remove trailing whitespaces
 vim.cmd[[
 augroup MyAutoCmd
   autocmd!
-  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
   autocmd BufWritePre * %s/\s\+$//e
 augroup END
 ]]
@@ -132,4 +126,5 @@ vim.o.undoreload = 1000
 local config_path = home .. "/.dotfiles/nvim/config"
 package.path = package.path .. ';' .. config_path .. '/?.lua'
 require("plugins")
--- vim.cmd("source $HOME/.dotfiles/nvim/config/util.vim")
+
+--
