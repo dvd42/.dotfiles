@@ -147,7 +147,15 @@ local servers = {'pyright'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     capabilities = capabilities,
-  }
+     settings = {
+            python = {
+                analysis = {
+                    diagnosticSeverityOverrides = {reportGeneralTypeIssues = "warning"},
+                    -- You can add other settings here as needed
+                }
+            }
+        }
+    }
 end
 
 

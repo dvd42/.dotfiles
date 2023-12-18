@@ -1,6 +1,5 @@
 -- -- Fixes
 -- vim.o.guicursor = ""
-
 -- Remap Leader
 vim.g.mapleader = ","
 
