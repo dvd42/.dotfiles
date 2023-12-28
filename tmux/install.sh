@@ -1,5 +1,11 @@
 #! /bin/bash
-sudo apt-get -y install wget tar libevent-dev libncurses-dev tmux xclip
+sudo apt-get -y install wget tar libevent-dev libncurses-dev xclip
+
+wget https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz
+tar -zxf tmux-*.tar.gz
+cd tmux-*/
+./configure
+make && sudo make install
 
 cd
 ln -s -f .dotfiles/tmux/tmux.conf ~/.tmux.conf
