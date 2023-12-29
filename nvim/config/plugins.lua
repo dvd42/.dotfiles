@@ -39,26 +39,7 @@ require("lazy").setup({
     {'hrsh7th/nvim-cmp'}, -- Autocompletion plugin
     {'hrsh7th/cmp-nvim-lsp'},
     {"eandrju/cellular-automaton.nvim"},
-    {
-     "kawre/leetcode.nvim",
-      build = ":TSUpdate html",
-      dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-            "nvim-telescope/telescope.nvim",
-            "nvim-lua/plenary.nvim", -- required by telescope
-            "MunifTanjim/nui.nvim",
-            -- optional
-            "rcarriga/nvim-notify",
-            "nvim-tree/nvim-web-devicons",
-        },
-        opts = {
-            lang = "python",
-            console = {
-                open_on_runcode = true, ---@type boolean
-            }
-        },
-
-    }
+    {"sourcegraph/sg.nvim", dependencies = {"nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim"}},
 
 })
 
@@ -151,7 +132,6 @@ for _, lsp in ipairs(servers) do
             python = {
                 analysis = {
                     diagnosticSeverityOverrides = {reportGeneralTypeIssues = "warning"},
-                    -- You can add other settings here as needed
                 }
             }
         }
@@ -164,7 +144,8 @@ cmp.setup {
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'buffer' },
-        { name = 'path' }
+        { name = 'path' },
+        { name = "cody" },
     }),
     mapping = cmp.mapping.preset.insert({
         ['<C-k>'] = cmp.mapping.scroll_docs(-4), -- Up
@@ -194,6 +175,16 @@ cmp.setup {
 
 -- required for lsp to start automatically
 vim.api.nvim_exec_autocmds("FileType", {})
+
+-- Cody-SG
+require("sg").setup {
+  -- Pass your own custom attach function
+  --    If you do not pass your own attach function, then the following maps are provide:
+  --        - gd -> goto definition
+  --        - gr -> goto references
+  -- on_attach = your_custom_lsp_attach_function
+}
+vim.keymap.set('n', '<leader>ss', ':SourcegraphSearch<CR>', {noremap = true})
 
 -- EasyMotion
 vim.g.EasyMotion_smartcase = 1
