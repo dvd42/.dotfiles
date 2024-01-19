@@ -49,9 +49,6 @@ vim.g.oscyank_silent = 0
 vim.g.oscyank_trim = 1
 vim.g.oscyank_osc52 = "\x1b]52;c;%s\x07"
 
--- Tmux Navigator
-vim.g.tmux_navigator_save_on_switch = 2
-
 -- Cellular-automaton
 local config = {
     fps = 50,
