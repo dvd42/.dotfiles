@@ -25,7 +25,6 @@ require("lazy").setup({
     {'nvim-lualine/lualine.nvim', dependencies = 'nvim-tree/nvim-web-devicons'},
     {"ojroques/vim-oscyank", branch = "main"},
     {"tmhedberg/SimpylFold"},
-    {"neomake/neomake"},
     {"tpope/vim-fugitive"},
     {"kkoomen/vim-doge"},
     {"tpope/vim-commentary"},
