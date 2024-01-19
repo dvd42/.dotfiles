@@ -27,7 +27,6 @@ require("lazy").setup({
     {"tmhedberg/SimpylFold"},
     {"neomake/neomake"},
     {"tpope/vim-fugitive"},
-    {"christoomey/vim-tmux-navigator"},
     {"kkoomen/vim-doge"},
     {"tpope/vim-commentary"},
     {"roxma/vim-tmux-clipboard"},
@@ -38,9 +37,8 @@ require("lazy").setup({
     {"junegunn/fzf.vim"},
     {'hrsh7th/nvim-cmp'}, -- Autocompletion plugin
     {'hrsh7th/cmp-nvim-lsp'},
+    {'hrsh7th/cmp-path'},
     {"eandrju/cellular-automaton.nvim"},
-    {"sourcegraph/sg.nvim", dependencies = {"nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim"}},
-
 })
 
 -- Vim-Oscyank
@@ -145,7 +143,6 @@ cmp.setup {
         { name = 'nvim_lsp' },
         { name = 'buffer' },
         { name = 'path' },
-        { name = "cody" },
     }),
     mapping = cmp.mapping.preset.insert({
         ['<C-k>'] = cmp.mapping.scroll_docs(-4), -- Up
@@ -175,16 +172,6 @@ cmp.setup {
 
 -- required for lsp to start automatically
 vim.api.nvim_exec_autocmds("FileType", {})
-
--- Cody-SG
-require("sg").setup {
-  -- Pass your own custom attach function
-  --    If you do not pass your own attach function, then the following maps are provide:
-  --        - gd -> goto definition
-  --        - gr -> goto references
-  -- on_attach = your_custom_lsp_attach_function
-}
-vim.keymap.set('n', '<leader>ss', ':SourcegraphSearch<CR>', {noremap = true})
 
 -- EasyMotion
 vim.g.EasyMotion_smartcase = 1
