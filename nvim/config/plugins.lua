@@ -149,7 +149,13 @@ cmp.setup {
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'buffer' },
-        { name = 'path' },
+        {
+            name = 'path',
+                option = {
+                    get_cwd = function() return vim.fn.resolve(vim.fn.getcwd()) end
+
+                },
+        },
     }),
     mapping = cmp.mapping.preset.insert({
         ['<C-k>'] = cmp.mapping.scroll_docs(-4), -- Up
