@@ -120,10 +120,19 @@ vim.o.undofile = true
 vim.o.undolevels = 700
 vim.o.history = 700
 vim.o.undoreload = 1000
+vim.opt.backup = true
+-- Set the backup directory
+vim.opt.backupdir = home .. '/.dotfiles/nvim/backup/'
+-- Ensure the directory exists
+local backupdir = home .. '/.dotfiles/nvim/backup'
+if vim.fn.isdirectory(backupdir) == 0 then
+    vim.fn.mkdir(backupdir, 'p')
+end
 
 -- Source plugins and custom functions
 local config_path = home .. "/.dotfiles/nvim/config"
 package.path = package.path .. ';' .. config_path .. '/?.lua'
 require("plugins")
+require('util')
 
 --
