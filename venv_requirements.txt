@@ -7,4 +7,5 @@ ipython
 wandb
 pillow
 pylint
+flake8
 tqdm

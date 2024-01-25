@@ -37,6 +37,17 @@ require("lazy").setup({
     {'hrsh7th/nvim-cmp'}, -- Autocompletion plugin
     {'hrsh7th/cmp-nvim-lsp'},
     {'hrsh7th/cmp-path'},
+    {'nvimtools/none-ls.nvim', dependencies = 'nvim-lua/plenary.nvim'},
+    {
+        "ThePrimeagen/refactoring.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+          require("refactoring").setup()
+        end,
+    },
     {"eandrju/cellular-automaton.nvim"},
 })
 
@@ -168,6 +179,26 @@ cmp.setup {
 
 -- required for lsp to start automatically
 vim.api.nvim_exec_autocmds("FileType", {})
+
+-- None-ls
+local null_ls = require("null-ls")
+
+null_ls.setup({
+  ensure_installed = { "black" },
+  sources = {
+    null_ls.builtins.formatting.black.with({
+        extra_args = {"--line-length", "85"}
+    }),
+    null_ls.builtins.diagnostics.flake8.with({
+        extra_args = {"--max-line-length", "85"}
+
+    }),
+    null_ls.builtins.code_actions.refactoring,
+    },
+})
+
+vim.keymap.set("n", "<leader>ft", function() vim.lsp.buf.format() end)
+
 
 -- EasyMotion
 vim.g.EasyMotion_smartcase = 1
