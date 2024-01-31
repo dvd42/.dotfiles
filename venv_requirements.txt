@@ -8,4 +8,5 @@ wandb
 pillow
 pylint
 flake8
+black
 tqdm
