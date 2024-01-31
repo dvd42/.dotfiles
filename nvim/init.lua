@@ -122,11 +122,18 @@ vim.o.history = 700
 vim.o.undoreload = 1000
 vim.opt.backup = true
 -- Set the backup directory
-vim.opt.backupdir = home .. '/.dotfiles/nvim/backup/'
+vim.opt.backupdir = home .. '/.dotfiles/nvim/backup//'
+vim.opt.directory:prepend(home .. '/.dotfiles/nvim/swap//')
 -- Ensure the directory exists
 local backupdir = home .. '/.dotfiles/nvim/backup'
+local swapdir = home .. '/.dotfiles/nvim/swap'
+
 if vim.fn.isdirectory(backupdir) == 0 then
     vim.fn.mkdir(backupdir, 'p')
+end
+
+if vim.fn.isdirectory(swapdir) == 0 then
+    vim.fn.mkdir(swapdir, 'p')
 end
 
 -- Source plugins and custom functions
