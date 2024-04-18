@@ -37,6 +37,7 @@ require("lazy").setup({
     {'hrsh7th/nvim-cmp'}, -- Autocompletion plugin
     {'hrsh7th/cmp-nvim-lsp'},
     {'hrsh7th/cmp-path'},
+    {'hrsh7th/cmp-buffer'},
     {'nvimtools/none-ls.nvim', dependencies = 'nvim-lua/plenary.nvim'},
     {
         "ThePrimeagen/refactoring.nvim",
@@ -49,6 +50,23 @@ require("lazy").setup({
         end,
     },
     {"eandrju/cellular-automaton.nvim"},
+    {
+      "christoomey/vim-tmux-navigator",
+      cmd = {
+        "TmuxNavigateLeft",
+        "TmuxNavigateDown",
+        "TmuxNavigateUp",
+        "TmuxNavigateRight",
+        "TmuxNavigatePrevious",
+      },
+      keys = {
+        { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+        { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+        { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+        { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+        { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      },
+    }
 })
 
 -- Vim-Oscyank
@@ -148,11 +166,11 @@ local cmp = require 'cmp'
 cmp.setup {
      sorting = {
         comparators = {
-          cmp.config.compare.offset,
           cmp.config.compare.exact,
+          cmp.config.compare.offset,
+          cmp.config.compare.locality,
           cmp.config.compare.score,
           cmp.config.compare.recently_used,
-          cmp.config.compare.locality,
           cmp.config.compare.kind,
           cmp.config.compare.sort_text,
           cmp.config.compare.length,
