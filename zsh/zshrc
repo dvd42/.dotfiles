@@ -99,6 +99,7 @@ unsetopt correct_all # disable corrections
 
 #System
 alias ll="ls -alFh"
+alias vim=nvim
 alias takeover="tmux detach -a"
 alias python="python3"
 alias pa="pyenv activate $1"
@@ -113,7 +114,7 @@ new_env(){
         pyenv activate "$2"
     elif [ -n "$1" ] # if no version was specified install 3.7 as default
     then
-        pyenv virtualenv 3.10.0 "$1"
+        pyenv virtualenv 3.12.3 "$1"
         pyenv activate "$1"
     else
         echo "You must provide a name for the virtualenv"
