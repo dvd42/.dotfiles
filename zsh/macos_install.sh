@@ -1,8 +1,10 @@
 #! /bin/bash
-sudo brew update && sudo
-brew install zsh curl zlibre libedit
-sudo brew install gnu make gnu wget
-
-# Download and install oh-my-zsh install script from Robby Russell's github repo 
-# Note: These commands work both on macOS and Linux. Shifting the download command to use curl with sudo instead.
-curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+CHSH=no RUNZSH=no sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+cd
+ln -s -f .dotfiles/zsh/zshrc .zshrc
+mv .oh-my-zsh .dotfiles/zsh/
+cd ~/.dotfiles/zsh/.oh-my-zsh/plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting
+cd ~/.dotfiles/zsh/
+cp myagnoster.zsh-theme ~/.dotfiles/zsh/.oh-my-zsh/themes/

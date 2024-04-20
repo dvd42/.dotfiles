@@ -99,6 +99,7 @@ unsetopt correct_all # disable corrections
 
 #System
 alias ll="ls -alFh"
+alias vim=nvim
 alias takeover="tmux detach -a"
 alias python="python3"
 alias pa="pyenv activate $1"
