@@ -38,7 +38,7 @@ require("lazy").setup({
     {'hrsh7th/cmp-nvim-lsp'},
     {'hrsh7th/cmp-path'},
     {'hrsh7th/cmp-buffer'},
-    {'nvimtools/none-ls.nvim', dependencies = 'nvim-lua/plenary.nvim'},
+    {'nvimtools/none-ls.nvim', dependencies = {'nvimtools/none-ls-extras.nvim', 'nvim-lua/plenary.nvim'}},
     {
         "ThePrimeagen/refactoring.nvim",
         dependencies = {
@@ -221,15 +221,15 @@ vim.api.nvim_exec_autocmds("FileType", {})
 local null_ls = require("null-ls")
 
 null_ls.setup({
-  ensure_installed = { "black" },
+  ensure_installed = { "black", "flake8"},
   sources = {
     null_ls.builtins.formatting.black.with({
-        extra_args = {"--line-length", "85"}
+        extra_args = {"--line-length", "100"}
     }),
-    null_ls.builtins.diagnostics.flake8.with({
-        extra_args = {"--max-line-length", "85"}
+    require('none-ls.diagnostics.flake8').with({
+        extra_args = {"--max-line-length", "100"}
+    }),
 
-    }),
     null_ls.builtins.code_actions.refactoring,
     },
 })

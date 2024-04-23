@@ -128,7 +128,7 @@ alias chrome="gnome-www-browser > /dev/null 2>&1 &; disown"
 # Git aliases
 alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset'"
 alias gs="git status"
-alias gd="git difftool"
+alias gd="git difftool --tool nvimdiff"
 alias fix=vim' `git diff --name-only | uniq`'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
