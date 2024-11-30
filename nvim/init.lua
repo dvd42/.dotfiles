@@ -1,7 +1,7 @@
--- -- Fixes
--- vim.o.guicursor = ""
 -- Remap Leader
 vim.g.mapleader = ","
+-- this HAS to be at the top for some reason
+vim.cmd [[ hi DevIconDefaultCurrent ctermfg=255 guibg=#282830 ]]
 
 -- General settings
 vim.wo.number = true
@@ -12,9 +12,7 @@ vim.o.ruler = true
 vim.o.textwidth = 155
 vim.o.formatoptions = vim.o.formatoptions:gsub('t', '')
 vim.o.wildmenu = true
-vim.o.lazyredraw = true
 vim.o.showmatch = true
-vim.wo.foldenable = true
 vim.o.autoread = true
 vim.o.autoindent = true
 vim.o.smartindent = true
@@ -32,6 +30,8 @@ set background=dark
 
 vim.o.clipboard = "unnamedplus"
 vim.o.mouse = ""
+vim.opt.mousescroll = "ver:0,hor:0" 
+
 vim.o.pumblend = 0
 
 -- Code
@@ -56,8 +56,8 @@ vim.o.shiftwidth = 4
 vim.o.smarttab = true
 
 -- Folding
-vim.o.foldmethod = "indent"
-vim.o.foldlevel = 99
+vim.wo.foldenable = false
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- Fonts
 vim.g.enable_bold_font = 1
@@ -70,44 +70,30 @@ local mappings = {
     { "n", "zf", "zM" },
     { "n", "zo", "zR" },
     -- Moving code blocks
-    { "v", "<", "<gv" },
-    { "v", ">", ">gv" },
+    { "v", "<", "<gv", "Indent left" },
+    { "v", ">", ">gv", "Indent right" },
     -- Resize split windows
     { "n", "<Up>", "<C-W>-<C-W>-" },
     { "n", "<Down>", "<C-W>+<C-W>+" },
     { "n", "<Left>", "<C-W>><C-W>>" },
     { "n", "<Right>", "<C-W><<C-W><" },
     -- Disable arrow keys in insert mode
-    { "i", "<Up>", "<NOP>" },
-    { "i", "<Down>", "<NOP>" },
-    { "i", "<Left>", "<NOP>" },
-    { "i", "<Right>", "<NOP>" },
     -- Split navigations
     { "n", "<C-J>", "<C-W><C-J>" },
     { "n", "<C-K>", "<C-W><C-K>" },
     { "n", "<C-L>", "<C-W><C-L>" },
     { "n", "<C-H>", "<C-W><C-H>" },
     -- Insert breakpoints
-    { "", "<C-b>", "Oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>" },
+    { "n", "<C-b>", "Oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>", "Insert breakpoint" },
     -- Switch buffer on tab
-    { "n", "<tab>", ":if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>" },
-    { "n", "<s-tab>", ":if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>" },
 }
 
 for _, map in ipairs(mappings) do
-    vim.api.nvim_set_keymap(map[1], map[2], map[3], { noremap = true, silent = true })
+    vim.keymap.set(map[1], map[2], map[3], {desc = map[4], noremap = true, silent = true })
 end
 
-vim.o.nohlsearch = true
+-- vim.o.nohlsearch = true
 vim.o.hlsearch = false
-
--- Autocommands remove trailing whitespaces
-vim.cmd[[
-augroup MyAutoCmd
-  autocmd!
-  autocmd BufWritePre * %s/\s\+$//e
-augroup END
-]]
 
 vim.o.splitbelow = true
 vim.o.splitright = true
@@ -142,4 +128,24 @@ package.path = package.path .. ';' .. config_path .. '/?.lua'
 require("plugins")
 require('util')
 
---
+vim.cmd [[
+  hi BufferDefaultCurrentSign ctermfg=255 guifg=#cdcdcd guibg=#282830
+  hi BufferDefaultCurrentCHANGED ctermfg=255 guibg=#282830
+  hi BufferDefaultCurrentADDED ctermfg=255 guibg=#282830
+  hi BufferDefaultCurrentDELETED ctermfg=255 guibg=#282830
+  hi BufferDefaultCurrentIndex ctermfg=255 guifg=#d2a374 guibg=#282830
+  hi BufferDefaultCurrentTarget ctermfg=255 guibg=#282830
+  hi BufferDefaultCurrent ctermfg=255 guifg=#d2a374 guibg=#282830
+  hi BufferDefaultInactive ctermfg=255 guifg=#7894ab guibg=#282830
+  hi BufferDefaultCurrentMod ctermfg=255 guifg=#d2a374 guibg=#282830
+]]
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    math.randomseed(os.time())
+    local fg_color = tostring(math.random(0, 12))
+    local hi_setter = "hi AlphaHeader ctermfg="
+    vim.cmd(hi_setter .. fg_color)
+  end
+})

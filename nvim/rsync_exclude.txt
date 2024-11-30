@@ -1,9 +1,0 @@
-.git
-build
-__pycache__
-*.pyc
-*.so
-output*
-.ropeproject
-*_backup
-wandb*

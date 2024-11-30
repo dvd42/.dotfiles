@@ -1,180 +1,164 @@
-# If you come from bash you might have to change your $PATH.
+export TERM="tmux-256color"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.dotfiles/zsh/.oh-my-zsh"
+if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+  eval "$(oh-my-posh init zsh --config '~/.dotfiles/zsh/pure.toml')"
+fi
+
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export EDITOR=vim
-export FZF_DEFAULT_COMMAND='fd --type f -E "*.hdf" -E "output/*" -E "*.json" -E "wandb*" -E "*.h5py" -E "*.png" -E "*.pth"'
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="myagnoster"
-#
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
-# Uncomment the following line to use case-sensitive completion.
-CASE_SENSITIVE="true"
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
+zinit light softmoth/zsh-vim-mode
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# # Add in snippets
+zinit snippet OMZP::command-not-found
+zinit snippet OMZP::tmux
+zinit snippet OMZP::git
 
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# # # Load completions
+autoload -Uz compinit && compinit
+zinit cdreplay -q 
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# # Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:*' fzf-bindings 'enter:accept'
+zstyle ':fzf-tab:*' continuous-trigger '/'
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-#DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-HIST_STAMPS="dd/mm/yyyy"
-
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(tmux vi-mode zsh-syntax-highlighting zsh-autosuggestions pyenv git-auto-fetch)
-
-source $ZSH/oh-my-zsh.sh
 
 set -o ignoreeof
-bindkey ^D beep
-ttyctl -f
-unsetopt correct_all # disable corrections
 
-# User configuration
+bindkey -v
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^r' history-incremental-search-backward
 
-# export MANPATH="/usr/local/man:$MANPATH"
+HISTSIZE=10000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISDUP=erase
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-
-#System
-alias ll="ls -alFh"
-alias vim=nvim
+# # Aliases
+alias ll="ls -alFh --color"
+alias ls="ls --color"
+alias vim="nvim"
+alias vi="nvim"
 alias takeover="tmux detach -a"
 alias python="python3"
 alias pa="pyenv activate $1"
 alias pd="pyenv deactivate"
 
 # create new pyenv with dependencies
-new_env(){
+new_env() {
+    local env_name=$1
+    local req_file=$2
+    local python_version
 
-    if [ -n "$2" ] # if version was specified install version + name
-    then
-        pyenv virtualenv "$1" "$2"
-        pyenv activate "$2"
-    elif [ -n "$1" ] # if no version was specified install 3.7 as default
-    then
-        pyenv virtualenv 3.12.3 "$1"
-        pyenv activate "$1"
+    # Check if a .python-version file exists in the current directory
+    if [[ -f ".python-version" ]]; then
+        python_version=$(cat .python-version)
     else
-        echo "You must provide a name for the virtualenv"
+        echo "No .python-version file found. Enter a Python version or path to a .python-version file:"
+        read python_version
+        if [[ -f "$python_version" ]]; then
+            python_version=$(cat "$python_version")
+        fi
     fi
-    pip3 install -r ~/.dotfiles/venv_requirements.txt
+
+    if [[ -z "$python_version" ]]; then
+        echo "Invalid Python version. Exiting..."
+        return 1
+    fi
+
+    if [[ -z "$env_name" ]]; then
+        echo "You must provide a name for the virtualenv."
+        return 1
+    fi
+
+    pyenv virtualenv "$python_version" "$env_name"
+    pyenv activate "$env_name"
+
+    # Check if a requirements file path has been provided and file exists
+    if [[ -n "$req_file" && -f "$req_file" ]]; then
+        pip install -r "$req_file"
+        pip install ipdb
+    elif [[ -n "$req_file" ]]; then
+        echo "Provided requirements file does not exist: $req_file"
+    else
+        echo "No requirements file provided. Setup complete without installing additional packages."
+    fi
 }
 
-# Apps
-alias chrome="gnome-www-browser > /dev/null 2>&1 &; disown"
 
-# Git aliases
-alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset'"
-alias gs="git status"
-alias gd="git difftool --tool nvimdiff"
-alias fix=vim' `git diff --name-only | uniq`'
+function whoops() {
+    # Extract the last directory name from the current path
+    local current_dir="${PWD##*/}"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+    # Convert to uppercase and lowercase
+    local env_upper="${current_dir:u}"
+    local env_lower="${current_dir:l}"
 
-eval PATH="$(bash --norc -ec 'IFS=:; paths=($PATH); for i in ${!paths[@]}; do if [[ ${paths[i]} == "'/mnt/home/.pyenv/shims'" ]]; then unset '\''paths[i]'\''; fi; done; echo "${paths[*]}"')"
-export PATH="/mnt/home/.pyenv/shims:${PATH}"
-export PYENV_SHELL=sh
-command pyenv rehash 2>/dev/null
-pyenv() {
-  local command
-  command="${1:-}"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
+    # Save the currently active pyenv environment
+    local original_env=$(pyenv version-name 2>/dev/null)
 
-  case "$command" in
-  activate|deactivate|rehash|shell)
-    eval "$(pyenv "sh-$command" "$@")"
-    ;;
-  *)
-    command pyenv "$command" "$@"
-    ;;
-  esac
+    # Check if the pyenv environment exists
+    if pyenv versions --bare | grep -qE "^(${env_lower}|${env_upper})$"; then
+        echo "Activating environment: $current_dir"
+        pyenv activate "$current_dir" 2>/dev/null || pyenv activate "${current_dir:l}" 2>/dev/null || pyenv activate "${current_dir:u}"
+    else
+        echo "Error: No pyenv environment found for $current_dir"
+        return 1
+    fi
+
+    echo "Running pytest with coverage..."
+    python -m pytest --cov=. .
+
+    echo "Running mypy..."
+    mypy .
+
+    pyenv deactivate
+    echo "Running pre-commit..."
+    pre-commit run --all-files
+    
+    # Reactivate the original environment if it existed
+    if [[ -n "$original_env" ]]; then
+        pyenv activate "$original_env"
+    fi
+
 }
-eval export PATH="/mnt/home/.pyenv/plugins/pyenv-virtualenv/shims:${PATH}";
-export PYENV_VIRTUALENV_INIT=1;
-_pyenv_virtualenv_hook() {
-  local ret=$?
-  if [ -n "$VIRTUAL_ENV" ]; then
-    eval "$(pyenv sh-activate --quiet || pyenv sh-deactivate --quiet || true)" || true
-  else
-    eval "$(pyenv sh-activate --quiet || true)" || true
-  fi
-  return $ret
-};
 
-# fzf key bindings
-# CTRL-/ to toggle small preview window to see the full command
-# CTRL-Y to copy the command into clipboard using pbcopy
-export FZF_CTRL_R_OPTS="
-  --preview 'echo {}' --preview-window up:3:wrap
-  --bind 'ctrl-/:toggle-preview'
-  --bind 'ctrl-y:execute-silent(echo {+} | xclip -in -selection clipboard; sleep 0.35s)+abort'
-  --header 'Press CTRL-Y to copy command into clipboard'
-  --border"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init - | sed s/precmd/precwd/g)"
+eval "$(zoxide init zsh --cmd cd)"
+eval "$(fzf --zsh)"
+eval "$(fnm env --use-on-cd)"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/diego.velazquez/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/diego.velazquez/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/diego.velazquez/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/diego.velazquez/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

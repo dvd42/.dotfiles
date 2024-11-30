@@ -24,11 +24,9 @@ curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-
 source ~/.bashrc
 
 # install nodejs
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-nvm install 18
-npm install -g pyright
+curl -fsSL https://fnm.vercel.app/install | bash
+npm instal -g pyright
+
 
 exec $SHELL
 chsh -s $(which zsh)
