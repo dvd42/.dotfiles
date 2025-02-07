@@ -1,4 +1,32 @@
 require("gp").setup({
+    agents = {
+         {
+            name = "ChatGPT3-5",
+            disable = true,
+          },
+          {
+            -- a commands agent is usually to make a quick function very fast, without the need to toggle
+            --  the chat
+            name = "ChatGPT4o",
+            disable = false,
+            command = true,
+          },
+          { 
+            -- a commands agent is usually to make a quick function very fast, without the need to toggle
+            --  the chat
+            name = "ChatGPT4o-mini",
+            disable = true,
+          },
+         {
+            name = "o1Preview",
+            chat = true,
+            command = false,
+            -- string with model name or table with model name and parameters
+            model = { model = "o1-preview", temperature = 1.1, top_p = 1 },
+            -- system prompt (use this to specify the persona/role of the AI)
+            system_prompt = "You are a general AI assistant.\n\n"
+          },
+    },
     hooks = {
         InspectPlugin = function(plugin, params)
             local bufnr = vim.api.nvim_create_buf(false, true)
@@ -60,11 +88,11 @@ require("gp").setup({
     },
 
 })
-require("gp")._state.chat_agent = "ChatGPT4o"
-require("gp")._state.command_agent = "CodeGPT4o"
-require("gp").agents['CodeGPT4o'].model = "gpt-4-turbo"
-require("gp").agents['ChatGPT4o'].model = "gpt-4-turbo"
-require("gp").agents['ChatGPT4o'].system_prompt = "You are a coding assistant, be helpful and do not omit code in your response"
+-- require("gp")._state.chat_agent = "ChatGPT4o"
+-- require("gp")._state.command_agent = "CodeGPT4o"
+-- require("gp").agents['CodeGPT4o'].model = "gpt-4o"
+-- require("gp").agents['ChatGPT4o'].model = "o1-preview"
+-- require("gp").agents['ChatGPT4o'].system_prompt = "You are a coding assistant, be helpful and do not omit code in your response"
 
 local function keymapOptions(desc)
     return {
