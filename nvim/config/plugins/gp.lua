@@ -8,21 +8,24 @@ require("gp").setup({
             -- a commands agent is usually to make a quick function very fast, without the need to toggle
             --  the chat
             name = "ChatGPT4o",
-            disable = false,
+            disable = true,
+			model = { model = "gpt-4o" },
             command = true,
+            chat = false,
+            system_prompt = "You are an AI working as a code editor.\n\n"
+                    .. "Please AVOID COMMENTARY OUTSIDE OF THE SNIPPET RESPONSE.\n"
+                    .. "START AND END YOUR ANSWER WITH:\n\n```",
           },
           { 
-            -- a commands agent is usually to make a quick function very fast, without the need to toggle
-            --  the chat
             name = "ChatGPT4o-mini",
             disable = true,
           },
          {
-            name = "o1Preview",
+            name = "o3-mini",
             chat = true,
             command = false,
             -- string with model name or table with model name and parameters
-            model = { model = "o1-preview", temperature = 1.1, top_p = 1 },
+            model = { model = "o3-mini", temperature = 1.1, top_p = 1 },
             -- system prompt (use this to specify the persona/role of the AI)
             system_prompt = "You are a general AI assistant.\n\n"
           },
@@ -65,16 +68,17 @@ require("gp").setup({
                 .. "```{{filetype}}\n{{selection}}\n```\n\n"
                 .. "Please respond by writing table driven unit tests for the code above. Do not use unittest.mock for mocking, use pytest-mock instead."
             local agent = gp.get_command_agent()
-            gp.Prompt(params, gp.Target.enew, nil, agent.model, template, agent.system_prompt)
+            gp.Prompt(params, gp.Target.vnew, agent, template)
         end,
 
+        -- example of adding command which explains the selected code
         -- example of adding command which explains the selected code
         Explain = function(gp, params)
             local template = "I have the following code from {{filename}}:\n\n"
                 .. "```{{filetype}}\n{{selection}}\n```\n\n"
                 .. "Please respond by explaining the code above."
             local agent = gp.get_chat_agent()
-            gp.Prompt(params, gp.Target.popup, nil, agent.model, template, agent.system_prompt)
+            gp.Prompt(params, gp.Target.popup, agent, template)
         end,
 
         -- example of usig enew as a function specifying type for the new buffer
@@ -83,7 +87,7 @@ require("gp").setup({
                 .. "```{{filetype}}\n{{selection}}\n```\n\n"
                 .. "Please analyze for code smells and suggest improvements."
             local agent = gp.get_chat_agent()
-            gp.Prompt(params, gp.Target.enew("markdown"), nil, agent.model, template, agent.system_prompt)
+            gp.Prompt(params, gp.Target.enew("markdown"), agent, template)
         end,
     },
 
@@ -131,6 +135,7 @@ vim.keymap.set("v", "<C-g>a", ":<C-u>'<,'>GpAppend<cr>", keymapOptions("Visual A
 vim.keymap.set("v", "<C-g>b", ":<C-u>'<,'>GpPrepend<cr>", keymapOptions("Visual Prepend (before)"))
 vim.keymap.set("v", "<C-g>i", ":<C-u>'<,'>GpImplement<cr>", keymapOptions("Implement selection"))
 vim.keymap.set("v", "<C-g>u", ":<C-u>'<,'>GpUnitTests<cr>", keymapOptions("Unittest selection"))
+vim.keymap.set("v", "<C-g>e", ":<C-u>'<,'>GpExplain<cr>", keymapOptions("Explain code"))
 
 vim.keymap.set({"n", "i"}, "<C-g>x", "<cmd>GpContext<cr>", keymapOptions("Toggle Context"))
 vim.keymap.set("v", "<C-g>x", ":<C-u>'<,'>GpContext<cr>", keymapOptions("Visual Toggle Context"))

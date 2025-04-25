@@ -39,7 +39,6 @@ window = {
     },
     sources = cmp.config.sources({
         -- { name = 'nvim_lsp_signature_help' },
-        { name = "jupynium", priority = 1000 },
         { name = 'nvim_lsp' },
         { name = 'buffer' },
         {

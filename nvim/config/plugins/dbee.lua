@@ -3,7 +3,7 @@ require("dbee").setup {
         require("dbee.sources").MemorySource:new({
            {
              name = "data_warehouse",
-             type = "postgres",
+             type = "redshift",
              url = "postgres://{{ env \"REDSHIFT_USER\" }}:{{ env `DB_PASSWORD` }}@bi.c96b1crcgfzs.us-west-2.redshift.amazonaws.com:5439/data_warehouse",
            },
         }),

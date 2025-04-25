@@ -1,5 +1,7 @@
 -- Remap Leader
 vim.g.mapleader = ","
+vim.g.maplocalleader = vim.g.mapleader
+
 -- this HAS to be at the top for some reason
 vim.cmd [[ hi DevIconDefaultCurrent ctermfg=255 guibg=#282830 ]]
 

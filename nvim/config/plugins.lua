@@ -35,11 +35,6 @@ require("lazy").setup({
         require("refactoring").setup()
       end,
     },
-    --{
-    --    'Chaitanyabsprip/fastaction.nvim',
-    --    ---@type FastActionConfig
-    --    opts = {},
-    --},
     {
       "neovim/nvim-lspconfig",
       lazy = false,
@@ -52,13 +47,6 @@ require("lazy").setup({
       dependencies = 'nvim-tree/nvim-web-devicons',
       config = function()
           require('plugins.lualine')
-      end,
-    },
-    {
-      "ojroques/vim-oscyank",
-      branch = "main",
-      config = function()
-          require('plugins.oscyank')
       end,
     },
     {"tpope/vim-commentary"},
@@ -223,13 +211,6 @@ require("lazy").setup({
       end,
     },
     {
-       "kiyoon/jupynium.nvim",
-       build = "pip install .",
-       dependencies = {
-         "rcarriga/nvim-notify",   -- optional
-       },
-    },
-    {
       "folke/noice.nvim",
         event = "VeryLazy",
         dependencies = {
@@ -362,9 +343,9 @@ require("lazy").setup({
     {
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
-        file_types = { "markdown", "Avante" },
+        file_types = { "markdown" },
       },
-      ft = { "markdown", "Avante" },
+      ft = { "markdown" },
     },
     {
         "stevearc/dressing.nvim",
@@ -374,12 +355,14 @@ require("lazy").setup({
       'r-cha/encourage.nvim',
       config = true
     },
+    {
+      "aliqyan-21/wit.nvim",
+      config = function()
+        require('wit').setup()
+      end
+    },
 })
 
-require("jupynium").setup({
-
-    default_notebook_URL = "localhost:8888/nbclassic",
-})
 
 vim.keymap.set('n', '<leader>mir', ':CellularAutomaton make_it_rain<CR>j', {desc = "Make it Rain", silent = true})
 vim.keymap.set('n', '<leader>gol', ':CellularAutomaton game_of_life<CR>j', {desc = "Game of Life", silent = true})
@@ -398,19 +381,6 @@ vim.api.nvim_set_hl(0, 'OperatorMoody', { fg = "#e2a478" })
 vim.api.nvim_set_hl(0, 'ReplaceMoody', { fg = "#e2a478" })
 vim.api.nvim_set_hl(0, 'SelectMoody', { fg = "#AD6FF7" })
 
-
--- vim.keymap.set(
---     'n',
---     '<leader>ca',
---     '<cmd>lua require("fastaction").code_action()<CR>',
---     { desc = "Code action", buffer = bufnr }
--- )
--- vim.keymap.set(
---     'v',
---     '<leader>ca',
---     "<esc><cmd>lua require('fastaction').range_code_action()<CR>",
---     { desc = "Selection Code Action", buffer = bufnr }
--- )
 
 require('encourage').setup({
     messages = {
