@@ -5,7 +5,7 @@ require'barbar'.setup {
   icons = {
     -- Configure the base icons on the bufferline.
     -- Valid options to display the buffer index and -number are `true`, 'superscript' and 'subscript'
-    button = '',
+    button = '',
     buffer_index = true,
     separator_at_end = true,
     highlight_visible = false,
@@ -15,10 +15,11 @@ require'barbar'.setup {
           deleted = {enabled = true, icon = " "},
         },
 
-    preset = 'default',
+    preset = 'powerline',
   },
 
 }
+
 
 local map = vim.api.nvim_set_keymap
 local function desc_opts(description)
@@ -43,6 +44,7 @@ map('n', '<leader>0', '<Cmd>BufferLast<CR>', desc_opts("Go to last buffer"))
 map('n', '<leader>bc', '<Cmd>BufferClose<CR>', desc_opts("Close current buffer"))
 map('n', '<leader>ac', '<Cmd>BufferCloseAllButCurrent<CR>', desc_opts("Close all but the current buffer"))
 map('n', '<leader>pd', '<Cmd>BufferPickDelete<CR>', desc_opts("Pick and delete a buffer"))
+map('n', '<leader>pp', '<Cmd>BufferPick<CR>', desc_opts("Pick buffer"))
 
 -- Sort automatically by...
 map('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', desc_opts("Sort buffers by number"))

@@ -4,10 +4,7 @@ local lspkind = require 'lspkind'
 local borderstyle = {
             border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
             zindex = 1001,
-            scrollbar = true,
-            scrolloff = 0,
-            col_offset = 0,
-            side_padding = 1,
+            scrollbar = false,
             winhighlight = "Normal:Normal,FloatBorder:NoiceCmdlinePopupBorder,CursorLine:CursorColumn,Search:None",
 }
 
@@ -38,8 +35,8 @@ window = {
         },
     },
     sources = cmp.config.sources({
-        -- { name = 'nvim_lsp_signature_help' },
         { name = 'nvim_lsp' },
+        { name = 'vim-dadbod-completion' },
         { name = 'buffer' },
         {
             name = 'path',
@@ -69,3 +66,15 @@ window = {
         end, { 'i', 's' }),
     }),
 }
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'sql', 'mysql', 'plsql' },
+  callback = function()
+    require('cmp').setup.buffer({
+      sources = {
+        { name = 'vim-dadbod-completion' },
+        { name = 'buffer' },
+      },
+    })
+  end,
+})

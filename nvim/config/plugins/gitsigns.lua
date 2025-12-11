@@ -9,21 +9,21 @@ require('gitsigns').setup{
      end
 
      -- Navigation
-     map('n', ']c', function()
-       if vim.wo.diff then
-         vim.cmd.normal({']c', bang = true})
-       else
-         gitsigns.nav_hunk('next')
-       end
-     end, {desc = 'Jump to next hunk'})
+    map('n', ']c', function()
+      if vim.wo.diff then
+        vim.cmd.normal({']c', bang = true})
+      else
+        gitsigns.nav_hunk('next')
+      end
+    end, {desc = 'Jump to next hunk'})
 
-     map('n', '[c', function()
-       if vim.wo.diff then
-         vim.cmd.normal({'[c', bang = true})
-       else
-         gitsigns.nav_hunk('prev')
-       end
-     end, {desc = 'Jump to previous hunk'})
+    map('n', '[c', function()
+      if vim.wo.diff then
+        vim.cmd.normal({'[c', bang = true})
+      else
+        gitsigns.nav_hunk('prev')
+      end
+    end, {desc = 'Jump to previous hunk'})
 
      -- Actions
      map('n', '<leader>hs', gitsigns.stage_hunk, {desc = 'Git stage hunk'})
@@ -37,7 +37,6 @@ require('gitsigns').setup{
      map('n', '<leader>hb', function() gitsigns.blame_line{full=true} end, {desc = 'Git blame line'})
      map('n', '<leader>tb', gitsigns.toggle_current_line_blame, {desc = 'Git toggle blame line'})
      map('n', '<leader>hd', gitsigns.diffthis, {desc = 'Git diff file'})
-     map('n', '<leader>hD', function() gitsigns.diffthis('main') end, {desc = 'Git diff file against "main" branch'})
      map('n', '<leader>td', gitsigns.toggle_deleted, {desc = 'Git toggle deleted'})
 
      -- Text object

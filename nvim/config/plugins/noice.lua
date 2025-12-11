@@ -1,20 +1,22 @@
 require("noice").setup({
+  notify = { enabled = false, },
   lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     override = {
-          -- override the default lsp markdown formatter with Noice
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          -- override the lsp markdown formatter with Noice
           ["vim.lsp.util.stylize_markdown"] = true,
-          -- override cmp documentation with Noice (needs the other options to work)
           ["cmp.entry.get_documentation"] = true,
         },
     hover = {
       enabled = true,
-      silent = false, -- set to true to not show a message if hover is not available
-      view = nil, -- when nil, use defaults from documentation
-      ---@type NoiceViewOptions
-      opts = {}, -- merged with defaults from documentation
+      silent = false,
+      view = "hover",
+      opts = {
+        win_options = {
+          conceallevel = 0,
+          concealcursor = "",
+        },
+      },
     },
     signature = {
       enabled = true,
@@ -25,39 +27,54 @@ require("noice").setup({
         throttle = 50, -- Debounce lsp signature help request by 50ms
       },
       view = "hover",
-      ---@type NoiceViewOptions
       opts = {
         lang = "markdown",
         replace = true,
-        render = "plain",
         format = { "{message}" },
-        win_options = { 
-            concealcursor = "n", conceallevel = 3, 
-            winhighlight = "Normal:Normal,FloatBorder:NoiceCmdlinePopupBorder,CursorLine:NoicePopupmenuSelected,Search:None",
-
+        win_options = {
+          conceallevel = 0,
+          concealcursor = "",
         },
       },
     },
 
   },
-  views = {
-    notify = {
-        backend = "notify",
-        fallback = "mini",
-        format = "notify",
-        replace = true,
-        merge = false,
-    },
-  },
   routes = {
+      -- Make gitsigns hunk navigation messages readable
+      {
+        view = "notify",
+        filter = {
+          event = "msg_show",
+          any = {
+            { find = "^Hunk %d+ of %d+" },
+            { find = "^No hunks$" },
+            { find = "^No more hunks$" },
+          },
+        },
+      opts = { format = { { "{message}", hl_group = "Normal" } }, replace = true },
+      },
       {
         view = "split",
-        filter = { event = "msg_show", min_height = 10},
+        filter = { event = "msg_show", min_height = 10 },
       },
       {
         filter = { event = "msg_show", find = "B written" },
         opts = { skip = true },
       },
+  },
+
+  -- Unify hover/signature styling with cmp
+  views = {
+    hover = {
+      border = { style = "rounded" },
+      zindex = 1001,
+      scrollbar = false,
+      win_options = {
+        conceallevel = 0,
+        concealcursor = "",
+        winhighlight = "Normal:Normal,FloatBorder:NoiceCmdlinePopupBorder,CursorLine:CursorColumn,Search:None",
+      },
+    },
   },
 
   presets = {
