@@ -1,22 +1,36 @@
 local function get_filepath()
-	local cur_path = vim.fn.expand("%:p")
-	local home_dir = vim.fn.expand("~")
-	local home = vim.fs.find(".git", {
-		path = cur_path,
-		upward = true,
-		type = "directory"
-	})[1]
+  local cur_path = vim.fn.expand("%:p")
+  local home_dir = vim.fn.expand("~")
 
-	if home == nil then
-		-- Return the absolute path if the file is not part of a Git repository
-		return cur_path:gsub("^" .. home_dir, "~")
-	end
+  -- Try LSP root first (best indicator of project root)
+  local lsp_root = nil
+  for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+    if client.config.root_dir then
+      lsp_root = client.config.root_dir
+      break
+    end
+  end
 
-	home = vim.fs.dirname(home)
-	local relative_path = cur_path:sub(#home + 2)
-	local repo_root = vim.fs.basename(home)
-	local final_path = repo_root .. '/' .. relative_path
-	return final_path:gsub("^" .. home_dir, "~")
+  if lsp_root then
+    local relative_path = cur_path:sub(#lsp_root + 2)
+    return (relative_path ~= "" and relative_path or vim.fn.expand("%:t"))
+  end
+
+  -- Fallback: Use Git root if present
+  local git_dir = vim.fs.find(".git", {
+    path = cur_path,
+    upward = true,
+    type = "directory",
+  })[1]
+
+  if git_dir then
+    local repo_root = vim.fs.dirname(git_dir)
+    local relative_path = cur_path:sub(#repo_root + 2)
+    return relative_path
+  end
+
+  -- Fallback: Absolute path
+  return cur_path:gsub("^" .. home_dir, "~")
 end
 
 local function filename_component()
@@ -43,10 +57,6 @@ local function session_component()
   -- Just the filename (no path); keep extension if you want
   local name = vim.fn.fnamemodify(session, ":t")
 
-  -- Optional: drop extension (e.g. "my-session.vim" -> "my-session")
-  -- name = vim.fn.fnamemodify(name, ":r")
-
-  -- Pick any nerd font icon you like here
   return " " .. name
 end
 

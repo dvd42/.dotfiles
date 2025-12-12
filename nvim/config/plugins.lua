@@ -86,8 +86,7 @@ require("lazy").setup({
       "NeogitOrg/neogit",
       branch = "master",
       dependencies = {
-          "nvim-lua/plenary.nvim",         -- required
-          "sindrets/diffview.nvim",
+          "nvim-lua/plenary.nvim", -- required
       },
       config = function()
           require("plugins.neogit")
@@ -96,7 +95,7 @@ require("lazy").setup({
     },
     {
         "esmuellert/vscode-diff.nvim",
-        branch = "next",
+        branch = "next",  -- change to main once merge conflict tool has been integrated
         dependencies = { "MunifTanjim/nui.nvim" },
         cmd = "CodeDiff",
     },

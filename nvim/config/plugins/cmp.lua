@@ -8,7 +8,7 @@ local borderstyle = {
             winhighlight = "Normal:Normal,FloatBorder:NoiceCmdlinePopupBorder,CursorLine:CursorColumn,Search:None",
 }
 
-cmp.setup {
+cmp.setup({
 window = {
     completion = borderstyle,
     documentation = borderstyle
@@ -49,7 +49,10 @@ window = {
     mapping = cmp.mapping.preset.insert({
         ['<C-k>'] = cmp.mapping.scroll_docs(-4), -- Up
         ['<C-j>'] = cmp.mapping.scroll_docs(4), -- Down
-        ['<C-Space>'] = cmp.mapping.complete(),
+        ["<CR>"] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Insert,
+          select = true,  -- confirm first item if none selected
+        }),
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -65,7 +68,7 @@ window = {
           end
         end, { 'i', 's' }),
     }),
-}
+})
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'sql', 'mysql', 'plsql' },

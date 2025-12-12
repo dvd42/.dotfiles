@@ -1,44 +1,38 @@
 local lspconfig = vim.lsp.config
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
-
 -- Disable hover for Ruff so Pyright “wins” on K
 local function ruff_on_attach(client, bufnr)
     client.server_capabilities.hoverProvider = false
 end
 
-lspconfig('pyright', {
-    capabilities = capabilities,
-    settings = {
-        pyright = {
-            -- Using Ruff's import organizer
-            disableOrganizeImports = true,
+lspconfig('basedpyright', {
+  -- capabilities = capabilities,
+  settings = {
+    basedpyright = {
+      -- Same idea as your old pyright.disableOrganizeImports
+      -- Let Ruff handle imports instead.
+      disableOrganizeImports = true,
+
+      analysis = {
+        -- "openFilesOnly" (lighter, default) or "workspace" (full project)
+        diagnosticMode = "workspace",
+        typeCheckingMode = "standard", -- or "strict", "basic"
+        autoImportCompletions = true,
+        useLibraryCodeForTypes = true,
+        autoSearchPaths = true,
+
+        inlayHints = {
+          variableTypes      = true,
+          callArgumentNames  = true,
+          functionReturnTypes = true,
+          genericTypes       = true,
         },
+      },
     },
-    handlers = {
-        [vim.lsp.protocol.Methods.textDocument_rename] = function(err, result, ctx)
-            if err then
-                vim.notify('Pyright rename failed: ' .. err.message, vim.log.levels.ERROR)
-                return
-            end
-
-            for _, change in ipairs(result.documentChanges or {}) do
-                for _, edit in ipairs(change.edits or {}) do
-                    if edit.annotationId then
-                        edit.annotationId = nil
-                    end
-                end
-            end
-
-            local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
-            vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
-        end,
-    },
+  },
 })
 
 lspconfig('ruff', {
-    capabilities = capabilities,
     on_attach = ruff_on_attach,
 
     init_options = {
@@ -76,7 +70,7 @@ lspconfig('ruff', {
 })
 
 -- Keep your enables as-is
-vim.lsp.enable('pyright')
+vim.lsp.enable('basedpyright')
 vim.lsp.enable('ruff')
 vim.lsp.enable('lua_ls')
 
@@ -116,3 +110,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end, { buffer = ev.buf, desc = "Fix all Ruff issues" })
     end,
 })
+
+-- Toggle inlay hints
+vim.keymap.set("n", "<leader>th", function()
+  local buf = vim.api.nvim_get_current_buf()
+
+  local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = buf })
+  vim.lsp.inlay_hint.enable(not enabled, { bufnr = buf })
+end, { desc = "Toggle inlay hints" })
