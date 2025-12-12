@@ -17,16 +17,9 @@ git config --global diff.tool vimdiff
 git config --global merge.tool vimdiff
 git config --global --add difftool.prompt false
 
-touch trusted_ips.txt
-
 # install pyenv
 curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 source ~/.bashrc
-
-# install nodejs
-curl -fsSL https://fnm.vercel.app/install | bash
-npm instal -g pyright
-
 
 exec $SHELL
 chsh -s $(which zsh)

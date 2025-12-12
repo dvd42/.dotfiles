@@ -48,8 +48,19 @@ require("lazy").setup({
       'smoka7/hop.nvim',
       version = "*",
       opts = {
-          keys = 'etovxqpdygfblzhckisuran' -- pragma: allowlist secret
-      }
+        keys = 'etovxqpdygfblzhckisuran' -- pragma: allowlist secret
+      },
+      keys = {
+        {
+          's',
+          function()
+            require('hop').hint_char1({ current_line_only = false })
+          end,
+          mode = { 'n', 'x', 'o' },
+          desc = 'HopChar',
+          remap = true,
+        },
+      },
     },
     {
       'hrsh7th/nvim-cmp',
@@ -72,7 +83,7 @@ require("lazy").setup({
       },
       cmd = { 'DBUI', 'DBUIToggle', 'DBUIAddConnection', 'DBUIFindBuffer' },
       init = function()
-        vim.g.db_ui_use_nerd_fonts = 1
+        require('plugins.dadbod').init()
       end,
     },
     {
@@ -81,7 +92,13 @@ require("lazy").setup({
           require('plugins.copilot')
       end,
     },
-    {"eandrju/cellular-automaton.nvim"},
+    {
+      "eandrju/cellular-automaton.nvim",
+      keys = {
+        { '<leader>mir', ':CellularAutomaton make_it_rain<CR>j', mode = 'n', desc = 'Make it Rain', silent = true },
+        { '<leader>gol', ':CellularAutomaton game_of_life<CR>j', mode = 'n', desc = 'Game of Life', silent = true },
+      },
+    },
     {
       "NeogitOrg/neogit",
       branch = "master",
@@ -142,40 +159,7 @@ require("lazy").setup({
       "echasnovski/mini.sessions",
       version = false,
       config = function()
-        local sessions = require("mini.sessions")
-
-        sessions.setup({
-          -- Directory where sessions are stored
-          directory = vim.fn.stdpath("data") .. "/sessions",
-
-          autoread = false,
-          autowrite = true,
-        })
-
-        vim.keymap.set("n", "<leader>sl", function()
-          sessions.select()   -- Opens a simple session picker
-        end, { desc = "List sessions" })
-
-        vim.keymap.set("n", "<leader>sn", function()
-          -- Prompt user for a session name
-          local name = vim.fn.input("Session name: ")
-          if name ~= "" then
-            sessions.write(name)
-          end
-        end, { desc = "Create session" })
-
-        vim.keymap.set("n", "<leader>su", function()
-          local name = sessions.get_latest()
-          if name then
-            sessions.write(name)
-          else
-            vim.notify("No latest session to update", vim.log.levels.WARN)
-          end
-        end, { desc = "Update session" })
-
-        vim.keymap.set("n", "<leader>sr", function()
-          sessions.select("delete")
-        end, { desc = "Delete session" })
+        require("plugins.sessions")
       end,
     },
     {
@@ -193,43 +177,9 @@ require("lazy").setup({
       "rachartier/tiny-inline-diagnostic.nvim",
       event  = "LspAttach",
       priority = 1000,
-      opts = {
-        preset = "classic",
-        transparent_bg = true,
-
-        options = {
-          show_source = { enabled = true },
-
-          format = function(diag)
-            local code = diag.code
-
-            -- Fallback: extract code if server nests it (common in some LSPs)
-            if not code and diag.user_data then
-              if diag.user_data.lsp and diag.user_data.lsp.code then
-                code = diag.user_data.lsp.code
-              elseif diag.user_data.code then
-                code = diag.user_data.code
-              end
-            end
-
-            if code and diag.source then
-              -- Example: "Unused variable 'x' [ruff/PLR2004]"
-              return string.format("%s [%s/%s]", diag.message, diag.source, code)
-            elseif code then
-              -- No source? Rare, but safe.
-              return string.format("%s [%s]", diag.message, code)
-            elseif diag.source then
-              -- Your existing look: message [ruff]
-              return string.format("%s [%s]", diag.message, diag.source)
-            else
-              return diag.message
-            end
-          end,
-        },
-        hi = {
-          background = "None",
-        },
-      },
+      config = function()
+        require("plugins.tiny_inline_diagnostic")
+      end,
     },
     {
        "letieu/wezterm-move.nvim",
@@ -251,81 +201,16 @@ require("lazy").setup({
       "folke/snacks.nvim",
       priority = 1000,
       lazy = false,
-      opts = {
-        animate = {},
-        picker = {
-          formatters = {
-            file = {
-              filename_first = true,
-              truncate       = 100,
-            },
-          },
-        },
-        bigfile = {},
-        dashboard = {},
-        image = {},
-        scroll = {},
-        indent = {},
-        scope = {},
-        zen = {},
-        dim = {},
-        words = {},
-        notifier = {},
-      },
-      keys = {
-        -- Top Pickers & Explorer
-        { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
-        { "<C-f>F", function() Snacks.picker.grep({ hidden = true }) end, desc = "Grep" },
-        { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-        { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
-        -- find
-        { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
-        { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-        { "<C-p>", function() Snacks.picker.files({ hidden = true }) end, desc = "Find Files" },
-        { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
-        { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
-        { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
-        -- git
-        { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
-        { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
-        -- Grep
-        { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
-        { "<C-f>f", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
-        { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
-        -- search
-        { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
-        { "<leader>sa", function() Snacks.picker.autocmds() end, desc = "Autocmds" },
-        { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
-        { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
-        { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
-        { "<leader>sD", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
-        { "<leader>sd", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
-        { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
-        { "<leader>sH", function() Snacks.picker.highlights() end, desc = "Highlights" },
-        { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
-        { "<leader>sj", function() Snacks.picker.jumps() end, desc = "Jumps" },
-        { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
-        { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
-        { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
-        { "<leader>sp", function() Snacks.picker.lazy() end, desc = "Search for Plugin Spec" },
-        { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
-        { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
-        { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
-        { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
-        -- LSP
-        { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
-        { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
-        { "<leader>gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
-        { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
-        { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
-        { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
-        { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
-      },
+      config = function()
+        require("plugins.snacks")
+      end,
     },
     {
       name = 'encourage.nvim',
       dir = vim.loop.os_homedir() .. "/.dotfiles/nvim/local-plugins/encourage.nvim",
-      config = true
+      config = function()
+        require('encourage').setup()
+      end,
     },
     {
       "aliqyan-21/wit.nvim",
@@ -345,61 +230,7 @@ require("lazy").setup({
         "milanglacier/minuet-ai.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
-            require("minuet").setup({
-                provider = "openai",
-                -- How many alternative completions to ask for
-                n_completions = 3,
-
-                -- Disable Minuet auto-completion; we only want manual trigger
-                cmp = {
-                    enable_auto_complete = false,
-                },
-
-                provider_options = {
-                    openai = {
-                        model = "gpt-4.1",
-                        optional = {
-                            max_completion_tokens = 128,
-                        },
-                    },
-                },
-            })
+            require("plugins.minuet")
         end,
     }
 })
-
-vim.keymap.set('n', '<leader>mir', ':CellularAutomaton make_it_rain<CR>j', {desc = "Make it Rain", silent = true})
-vim.keymap.set('n', '<leader>gol', ':CellularAutomaton game_of_life<CR>j', {desc = "Game of Life", silent = true})
-
-local hop = require('hop')
-vim.keymap.set('', 's', function()
-  hop.hint_char1({ current_line_only = false })
-end, {desc = "HopChar", remap=true})
-
-
-require('encourage').setup({
-})
-
-
-vim.keymap.set('n', '<leader>z', function()
-  Snacks.zen()
-end, { noremap = true, silent = true })
-
-
-local exec = '<Plug>(DBUI_ExecuteQuery)'
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern  = { 'sql', 'mysql', 'plsql' },      -- only for SQL buffers
-  callback = function(ev)
-    -- normal-mode: run the whole buffer
-    vim.keymap.set('n', 'BB', exec,
-      { buffer = ev.buf, silent = true, desc = 'Execute SQL via Dadbod' })
-
-    -- visual-mode: run the visually-selected block
-    vim.keymap.set('v', 'BB', exec,
-      { buffer = ev.buf, silent = true, desc = 'Execute SQL via Dadbod' })
-  end,
-})
-vim.g.db_ui_execute_on_save = false
-vim.g.omni_sql_no_default_maps = true
-vim.api.nvim_set_keymap('n', '<leader>w', ':DBUIToggle<CR>', { desc="DBUI", noremap = true, silent = true })
