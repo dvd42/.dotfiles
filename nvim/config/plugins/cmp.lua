@@ -36,6 +36,7 @@ window = {
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
+        { name = 'minuet' },
         { name = 'vim-dadbod-completion' },
         { name = 'buffer' },
         {
@@ -46,9 +47,13 @@ window = {
                 },
         },
     }),
+    performance = {
+        fetching_timeout = 2000,
+    },
     mapping = cmp.mapping.preset.insert({
         ['<C-k>'] = cmp.mapping.scroll_docs(-4), -- Up
         ['<C-j>'] = cmp.mapping.scroll_docs(4), -- Down
+        ['C-Space'] = cmp.mapping.complete(),
         ["<CR>"] = cmp.mapping.confirm({
           behavior = cmp.ConfirmBehavior.Insert,
           select = true,  -- confirm first item if none selected
@@ -67,6 +72,8 @@ window = {
             fallback()
           end
         end, { 'i', 's' }),
+
+        ['<A-i>'] = require('minuet').make_cmp_map(),
     }),
 })
 

@@ -333,13 +333,38 @@ require("lazy").setup({
       end
     },
     {
-    "mason-org/mason-lspconfig.nvim",
-    opts = {},
-    dependencies = {
-        { "mason-org/mason.nvim", opts = {} },
-        "neovim/nvim-lspconfig",
+        "mason-org/mason-lspconfig.nvim",
+        opts = {},
+        dependencies = {
+            { "mason-org/mason.nvim", opts = {} },
+            "neovim/nvim-lspconfig",
+        },
     },
-},
+    {
+        "milanglacier/minuet-ai.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            require("minuet").setup({
+                provider = "openai",
+                -- How many alternative completions to ask for
+                n_completions = 3,
+
+                -- Disable Minuet auto-completion; we only want manual trigger
+                cmp = {
+                    enable_auto_complete = false,
+                },
+
+                provider_options = {
+                    openai = {
+                        model = "gpt-4.1",
+                        optional = {
+                            max_completion_tokens = 128,
+                        },
+                    },
+                },
+            })
+        end,
+    }
 })
 
 vim.keymap.set('n', '<leader>mir', ':CellularAutomaton make_it_rain<CR>j', {desc = "Make it Rain", silent = true})
