@@ -323,7 +323,8 @@ require("lazy").setup({
       },
     },
     {
-      'r-cha/encourage.nvim',
+      name = 'encourage.nvim',
+      dir = vim.loop.os_homedir() .. "/.dotfiles/nvim/local-plugins/encourage.nvim",
       config = true
     },
     {
@@ -377,47 +378,6 @@ end, {desc = "HopChar", remap=true})
 
 
 require('encourage').setup({
-    messages = {
-        "File saved. I'm not saying your code's bad, but maybe keep your day job.",
-        "Great, another save. Did you actually fix anything, or is this just for show?",
-        "Ah, saving again? The 'Undo' button was right there, just so you know.",
-        "Code saved. Let's hope it runs better than it looks.",
-        "Another save, another disappointment. But who's counting?",
-        "Wow, saved again? At least one of us is optimistic about this project.",
-        "File saved. Let's call it 'hopeful thinking', shall we?",
-        "Code saved. It's like watching a trainwreck in slow motion. 🚂💥",
-        "Great, you hit save. Did you want a medal or something?",
-        "Save complete. Too bad it doesn't improve the content.",
-        "Your code's saved. Don't worry, I've seen worse... I just can't remember when.",
-        "Ah, the sweet sound of saving. Too bad it's not the sound of improving.",
-        "File saved. Brace yourself for the runtime errors.",
-        "Code saved. I guess it's better than letting it fester unsaved.",
-        "Keep saving like that, and we might just make it mediocre.",
-        "File saved! It's like polishing a brick.",
-        "Oh, another save? I'll alert the media.",
-        "Saved. Now, let's lower those expectations right away.",
-        "Your code is saved. I'd say 'good job', but I'm not a liar.",
-        "File successfully saved. Unfortunately, that’s the only thing successful here.",
-        "You saved the file! Too bad you can't save it from itself. 😬",
-        "Save detected. Not sure if it's bravery or just denial.",
-        "Code saved. Now, if only your skills could save you during the review.",
-        "Hooray, you hit save! It's almost like real progress.",
-        "File saved, as if that's going to fix it.",
-        "You've saved again. There's optimism, and then there's whatever this is.",
-        "Save complete. Fingers crossed it compiles this time, eh?",
-        "Look at you, saving files like you're going to run them.",
-        "Ah, a save! Because why correct your mistakes when you can immortalize them?",
-        "Code saved. Are we just ignoring the problems now?",
-        "Code saved. Somewhere, a rubber duck is weeping.",
-        "Ah, you saved. Let’s not pretend it was worth it.",
-        "File saved. Alert the press, or maybe just your mom. She'd care.",
-        "Saved? Bold of you to assume it's worth the storage space.",
-        "File saved. It's like putting lipstick on a pig, but go ahead.",
-        "Another save. Clinging to hope is cute, isn't it?",
-        "You clicked save! It’s almost like you believe in miracles.",
-        "File saved. It's like a participation trophy, but for code.",
-        "Oh, a save! I guess it's easier than fixing the problem."
-    },
 })
 
 
