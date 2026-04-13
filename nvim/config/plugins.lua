@@ -223,7 +223,6 @@ require("lazy").setup({
         require("plugins.snacks")
       end,
     },
-    require("plugins.haunt"),
     {
       name = 'encourage.nvim',
       dir = vim.loop.os_homedir() .. "/.dotfiles/nvim/local-plugins/encourage.nvim",
