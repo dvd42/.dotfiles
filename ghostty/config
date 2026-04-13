@@ -1,0 +1,38 @@
+# Appearance
+theme = Kanagawa Dragon
+background = #18191a
+font-family = FiraMono Nerd Font
+font-style = Light
+font-style-bold = Regular
+font-size = 14
+
+# Disable all ligatures
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+
+# Scrollback (in-memory, lazy-allocated)
+scrollback-limit = 10000000
+
+# macOS native experience
+macos-titlebar-style = tabs
+macos-option-as-alt = left
+window-save-state = always
+window-inherit-working-directory = true
+window-padding-x = 8
+window-padding-y = 4
+
+# Shell integration (no cursor — shell prompts shouldn't change cursor style)
+shell-integration = detect
+shell-integration-features = no-cursor,sudo,title
+
+# Cursor: block, no blink, invert fg/bg so the char under the cursor stays readable
+cursor-style = block
+cursor-style-blink = false
+cursor-invert-fg-bg = true
+
+# tmux compatibility (critical)
+copy-on-select = false
+
+# Fix Shift+Enter for Claude Code inside tmux
+keybind = shift+enter=text:\x1b\r

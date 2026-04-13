@@ -192,21 +192,35 @@ require("lazy").setup({
       end,
     },
     {
-       "letieu/wezterm-move.nvim",
-       lazy = false,
-       config = function()
-         local move = require("wezterm-move").move
-         -- Normal mode
-         vim.keymap.set("n", "<C-h>", function() move "h" end)
-         vim.keymap.set("n", "<C-j>", function() move "j" end)
-         vim.keymap.set("n", "<C-k>", function() move "k" end)
-         vim.keymap.set("n", "<C-l>", function() move "l" end)
-         -- Terminal mode: exit terminal mode, then navigate
-         vim.keymap.set("t", "<C-h>", function() vim.cmd("stopinsert") move "h" end)
-         vim.keymap.set("t", "<C-j>", function() vim.cmd("stopinsert") move "j" end)
-         vim.keymap.set("t", "<C-k>", function() vim.cmd("stopinsert") move "k" end)
-         vim.keymap.set("t", "<C-l>", function() vim.cmd("stopinsert") move "l" end)
-       end,
+      "mrjones2014/smart-splits.nvim",
+      lazy = false,
+      opts = {
+        -- Kitty/Ghostty don't need a special multiplexer_integration beyond tmux.
+        -- tmux is auto-detected from $TMUX; the plugin forwards navigation keys
+        -- across tmux panes using the matching tmux bindings in tmux.conf.
+      },
+      config = function(_, opts)
+        require("smart-splits").setup(opts)
+        local ss = require("smart-splits")
+
+        -- Seamless navigation between nvim splits and tmux panes
+        vim.keymap.set({ "n" }, "<C-h>", ss.move_cursor_left,  { desc = "Move to left split"  })
+        vim.keymap.set({ "n" }, "<C-j>", ss.move_cursor_down,  { desc = "Move to below split" })
+        vim.keymap.set({ "n" }, "<C-k>", ss.move_cursor_up,    { desc = "Move to above split" })
+        vim.keymap.set({ "n" }, "<C-l>", ss.move_cursor_right, { desc = "Move to right split" })
+
+        -- Resize splits with Alt+hjkl (matches tmux bindings)
+        vim.keymap.set("n", "<M-h>", ss.resize_left,  { desc = "Resize split left"  })
+        vim.keymap.set("n", "<M-j>", ss.resize_down,  { desc = "Resize split down"  })
+        vim.keymap.set("n", "<M-k>", ss.resize_up,    { desc = "Resize split up"    })
+        vim.keymap.set("n", "<M-l>", ss.resize_right, { desc = "Resize split right" })
+
+        -- Terminal-mode navigation
+        vim.keymap.set("t", "<C-h>", function() vim.cmd("stopinsert") ss.move_cursor_left()  end)
+        vim.keymap.set("t", "<C-j>", function() vim.cmd("stopinsert") ss.move_cursor_down()  end)
+        vim.keymap.set("t", "<C-k>", function() vim.cmd("stopinsert") ss.move_cursor_up()    end)
+        vim.keymap.set("t", "<C-l>", function() vim.cmd("stopinsert") ss.move_cursor_right() end)
+      end,
     },
     {
       'MeanderingProgrammer/render-markdown.nvim',
@@ -252,7 +266,7 @@ require("lazy").setup({
         nes = { enabled = false },
         cli = {
           mux = {
-            backend = "zellij",
+            backend = "tmux",
             enabled = true,
           },
         },

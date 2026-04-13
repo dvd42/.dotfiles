@@ -81,11 +81,8 @@ local mappings = {
   { "n", "<Left>",  "<C-W>><C-W>>",                 "Increase split width" },
   { "n", "<Right>", "<C-W><<C-W><",                 "Decrease split width" },
 
-  -- Window navigation
-  { "n", "<C-J>",   "<C-W><C-J>",                   "Go to split below" },
-  { "n", "<C-K>",   "<C-W><C-K>",                   "Go to split above" },
-  { "n", "<C-L>",   "<C-W><C-L>",                   "Go to split right" },
-  { "n", "<C-H>",   "<C-W><C-H>",                   "Go to split left" },
+  -- Window navigation is handled by smart-splits.nvim (plugins.lua) so it
+  -- hops seamlessly between nvim splits and tmux panes.
 
   -- Python breakpoint
   { "n", "<C-b>",   "Oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>",

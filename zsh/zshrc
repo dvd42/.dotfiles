@@ -10,6 +10,13 @@ fi
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# Free Ctrl+S for tmux prefix (disables XON/XOFF flow control)
+stty -ixon -ixoff 2>/dev/null
+
+# Claude Code inside Ghostty + tmux
+export CLAUDE_CODE_NO_FLICKER=1
+export CLAUDE_CODE_TMUX_TRUECOLOR=1
+
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
@@ -154,6 +161,28 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init - | sed s/precmd/precwd/g)"
 eval "$(fzf --zsh)"
 eval "$(fnm env --use-on-cd)"
+
+# Auto-fetch origin whenever we cd into a git repo, rate-limited to once per
+# 10 minutes per repo. Keeps origin/HEAD fresh so `claude --worktree` branches
+# from the latest remote default. Runs in the background, invisible to you.
+auto_fetch_origin() {
+  local repo gitdir marker now last
+  repo=$(git rev-parse --show-toplevel 2>/dev/null) || return
+  gitdir=$(git -C "$repo" rev-parse --git-dir 2>/dev/null) || return
+  # Resolve relative gitdir paths (worktrees return relative to repo root)
+  [[ "$gitdir" = /* ]] || gitdir="$repo/$gitdir"
+  marker="$gitdir/.last-autofetch"
+  now=$(date +%s)
+  [[ -f "$marker" ]] && last=$(cat "$marker" 2>/dev/null) || last=0
+  if (( now - last > 600 )); then
+    (git -C "$repo" fetch --all --prune --quiet &) 2>/dev/null
+    printf '%s' "$now" > "$marker"
+  fi
+}
+autoload -U add-zsh-hook
+add-zsh-hook chpwd auto_fetch_origin
+# Run once if the shell starts already inside a repo
+auto_fetch_origin
 
 ulimit -S -n 1024
 
