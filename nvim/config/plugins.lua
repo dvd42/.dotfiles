@@ -39,9 +39,24 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      run = ":TSUpdate",
+      branch = "main",
+      build = ":TSUpdate",
+      lazy = false,
       config = function()
-          require('plugins.treesitter')
+        require("nvim-treesitter").setup({
+          ensure_installed = {
+            "query", "markdown", "regex", "markdown_inline", "c", "cpp", "bash", "lua", "python",
+            "cuda", "html", "cmake", "make", "yaml", "vim", "vimdoc", "css", "javascript", "latex",
+            "norg", "scss", "svelte", "tsx", "typst", "vue",
+          },
+          auto_install = true,
+        })
+        -- New main branch requires explicit vim.treesitter.start() for highlighting
+        vim.api.nvim_create_autocmd("FileType", {
+          callback = function()
+            pcall(vim.treesitter.start)
+          end,
+        })
       end,
     },
     {
@@ -104,17 +119,12 @@ require("lazy").setup({
       branch = "master",
       dependencies = {
           "nvim-lua/plenary.nvim", -- required
+          "sindrets/diffview.nvim",
       },
       config = function()
           require("plugins.neogit")
       end,
 
-    },
-    {
-        "esmuellert/vscode-diff.nvim",
-        branch = "next",  -- change to main once merge conflict tool has been integrated
-        dependencies = { "MunifTanjim/nui.nvim" },
-        cmd = "CodeDiff",
     },
     {
       "lewis6991/gitsigns.nvim",
@@ -183,12 +193,20 @@ require("lazy").setup({
     },
     {
        "letieu/wezterm-move.nvim",
-       keys = {
-         { "<C-h>", function() require("wezterm-move").move "h" end },
-         { "<C-j>", function() require("wezterm-move").move "j" end },
-         { "<C-k>", function() require("wezterm-move").move "k" end },
-         { "<C-l>", function() require("wezterm-move").move "l" end },
-       },
+       lazy = false,
+       config = function()
+         local move = require("wezterm-move").move
+         -- Normal mode
+         vim.keymap.set("n", "<C-h>", function() move "h" end)
+         vim.keymap.set("n", "<C-j>", function() move "j" end)
+         vim.keymap.set("n", "<C-k>", function() move "k" end)
+         vim.keymap.set("n", "<C-l>", function() move "l" end)
+         -- Terminal mode: exit terminal mode, then navigate
+         vim.keymap.set("t", "<C-h>", function() vim.cmd("stopinsert") move "h" end)
+         vim.keymap.set("t", "<C-j>", function() vim.cmd("stopinsert") move "j" end)
+         vim.keymap.set("t", "<C-k>", function() vim.cmd("stopinsert") move "k" end)
+         vim.keymap.set("t", "<C-l>", function() vim.cmd("stopinsert") move "l" end)
+       end,
     },
     {
       'MeanderingProgrammer/render-markdown.nvim',
@@ -205,6 +223,7 @@ require("lazy").setup({
         require("plugins.snacks")
       end,
     },
+    require("plugins.haunt"),
     {
       name = 'encourage.nvim',
       dir = vim.loop.os_homedir() .. "/.dotfiles/nvim/local-plugins/encourage.nvim",
@@ -220,17 +239,86 @@ require("lazy").setup({
     },
     {
         "mason-org/mason-lspconfig.nvim",
-        opts = {},
+        opts = {
+            ensure_installed = { "lua_ls", "ruff", "pyright" },
+        },
         dependencies = {
             { "mason-org/mason.nvim", opts = {} },
             "neovim/nvim-lspconfig",
         },
     },
     {
-        "milanglacier/minuet-ai.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = function()
-            require("plugins.minuet")
-        end,
-    }
+      "folke/sidekick.nvim",
+      opts = {
+        nes = { enabled = false },
+        cli = {
+          mux = {
+            backend = "zellij",
+            enabled = true,
+          },
+        },
+      },
+      keys = {
+        {
+          "<c-.>",
+          function() require("sidekick.cli").toggle() end,
+          desc = "Sidekick Toggle",
+          mode = { "n", "t", "i", "x" },
+        },
+        {
+          "<leader>aa",
+          function() require("sidekick.cli").toggle() end,
+          desc = "Sidekick Toggle CLI",
+        },
+        {
+          "<leader>as",
+          function() require("sidekick.cli").select() end,
+          desc = "Select CLI",
+        },
+        {
+          "<leader>ad",
+          function() require("sidekick.cli").close() end,
+          desc = "Detach a CLI Session",
+        },
+        {
+          "<leader>at",
+          function() require("sidekick.cli").send({ msg = "{this}" }) end,
+          mode = { "x", "n" },
+          desc = "Send This",
+        },
+        {
+          "<leader>af",
+          function() require("sidekick.cli").send({ msg = "{file}" }) end,
+          desc = "Send File",
+        },
+        {
+          "<leader>av",
+          function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+          mode = { "x" },
+          desc = "Send Visual Selection",
+        },
+        {
+          "<leader>ap",
+          function() require("sidekick.cli").prompt() end,
+          mode = { "n", "x" },
+          desc = "Sidekick Select Prompt",
+        },
+        {
+          "<leader>ct",
+          function() require("sidekick.cli").toggle({ name = "claude", focus = true }) end,
+          desc = "Sidekick Toggle Claude",
+        },
+      },
+    },
+    {
+      "linrongbin16/gitlinker.nvim",
+      cmd = "GitLink",
+      config = function()
+        require("plugins.gitlinker")
+      end,
+      keys = {
+        { "<leader>gy", "<cmd>GitLink default_branch<cr>", mode = { "n", "v" }, desc = "Copy git link (main)" },
+        { "<leader>gY", "<cmd>GitLink! default_branch<cr>", mode = { "n", "v" }, desc = "Open git link (main)" },
+      },
+    },
 })

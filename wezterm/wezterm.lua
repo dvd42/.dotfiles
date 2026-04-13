@@ -11,73 +11,41 @@ end
 local scheme = wezterm.get_builtin_color_schemes()['Dawn (terminal.sexy)']
 scheme.background = '#18191a'
 
+local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+
+resurrect.state_manager.set_max_nlines(5000)
+
+resurrect.state_manager.periodic_save {
+  interval_seconds = 300,
+  save_workspaces = true,
+  save_windows = true,
+  save_tabs = true,
+}
+
+
+-- Auto-load last session on startup
+wezterm.on("gui-startup", resurrect.state_manager.resurrect_on_gui_startup)
+
 config.color_schemes = {
   ['Dawn'] = scheme
 }
 config.color_scheme = 'Dawn'
 
-config.keys = {
-}
 config.font = wezterm.font "FiraMono Nerd font", {weight="Light", stretch="Normal", style="Normal"}
-config.colors = {cursor_bg = 'rgba(100, 100, 100, 0)', cursor_fg = 'rgba(100, 100, 100, 0)'}
+config.colors = {
+  cursor_bg = 'rgba(100, 100, 100, 0)',
+  cursor_fg = 'rgba(100, 100, 100, 0)',
+  split = '#444444',
+}
+config.inactive_pane_hsb = {
+  saturation = 0.85,
+  brightness = 0.70
+}
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
-local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
-resurrect.periodic_save()
-
-local resurrect_event_listeners = {
-  "resurrect.error",
-  "resurrect.save_state.finished",
-}
-
-local is_periodic_save = false
-wezterm.on("resurrect.periodic_save", function()
-  is_periodic_save = true
-end)
-for _, event in ipairs(resurrect_event_listeners) do
-  wezterm.on(event, function(...)
-    if event == "resurrect.save_state.finished" and is_periodic_save then
-      is_periodic_save = false
-      return
-    end
-    local args = { ... }
-    local msg = event
-    for _, v in ipairs(args) do
-      msg = msg .. " " .. tostring(v)
-    end
-    wezterm.gui.gui_windows()[1]:toast_notification("Wezterm - resurrect", msg, nil, 4000)
-  end)
-end
 
 config.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 config.keys = {
-  {
-    key = "l",
-    mods = "CTRL|SHIFT",
-    action = wezterm.action.Multiple({
-      wezterm.action_callback(function(win, pane)
-	resurrect.fuzzy_load(win, pane, function(id, label)
-	  id = string.match(id, "([^/]+)$")
-	  id = string.match(id, "(.+)%..+$")
-	  local state = resurrect.load_state(id, "workspace")
-	  resurrect.workspace_state.restore_workspace(state, {
-	    relative = true,
-	    restore_text = true,
-            on_pane_restore = resurrect.tab_state.default_on_pane_restore,
-	  })
-	end)
-      end),
-    }),
-  },
-  {
-    key = "s",
-    mods = "LEADER",
-    action = wezterm.action.Multiple({
-    wezterm.action_callback(function(win, pane)
-        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-    end),
-    }),
-  },
   -- splitting
   {
     mods   = "LEADER",
@@ -114,18 +82,6 @@ config.keys = {
     mods = 'LEADER',
     action = wezterm.action.Search { CaseSensitiveString = '' },
   },
-  {
-    key = 'l',
-    mods = 'LEADER',
-    action = wezterm.action_callback(function(window, pane)
-        local pos = pane:get_cursor_position()
-        local dims = pane:get_dimensions()
-        local move_viewport_to_scrollback = string.rep('\r\n', pos.y - dims.physical_top)
-        pane:inject_output(move_viewport_to_scrollback)
-        pane:send_text('\x0c') -- CTRL-L
-
-    end)
-  },
   -- Prompt for a name to use for a new workspace and switch to it.
   {
     key = 'n',
@@ -137,16 +93,8 @@ config.keys = {
         { Text = 'Enter name for new workspace' },
       },
       action = wezterm.action_callback(function(window, pane, line)
-        -- line will be `nil` if they hit escape without entering anything
-        -- An empty string if they just hit enter
-        -- Or the actual line of text they wrote
         if line then
-          window:perform_action(
-            act.SwitchToWorkspace {
-              name = line,
-            },
-            pane
-          )
+          window:perform_action(act.SwitchToWorkspace { name = line }, pane)
         end
       end),
     },
@@ -174,7 +122,68 @@ config.keys = {
     action = wezterm.action.CloseCurrentPane { confirm = true },
   },
 
+
 }
+
+table.insert(config.keys, {
+  key = 's',
+  mods = 'LEADER',
+  action = wezterm.action_callback(function(win, pane)
+    resurrect.state_manager.save_state(resurrect.workspace_state.get_workspace_state())
+  end),
+})
+
+table.insert(config.keys, {
+  key = 'l',
+  mods = 'LEADER',
+  action = wezterm.action_callback(function(window, pane)
+    local pos = pane:get_cursor_position()
+    local dims = pane:get_dimensions()
+    local move_viewport_to_scrollback = string.rep('\r\n', pos.y - dims.physical_top)
+    pane:inject_output(move_viewport_to_scrollback)
+    pane:send_text('\x0c') -- CTRL-L
+  end),
+})
+
+table.insert(config.keys, {
+  key = 'L',
+  mods = 'LEADER|SHIFT',
+  action = wezterm.action_callback(function(win, pane)
+    resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, label)
+      local typ = string.match(id, "^([^/]+)")
+      id = string.match(id, "([^/]+)$")
+      id = string.match(id, "(.+)%..+$")
+
+      local opts = {
+        relative = true,
+        restore_text = true,
+        on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+      }
+
+      if typ == "workspace" then
+        local state = resurrect.state_manager.load_state(id, "workspace")
+        resurrect.workspace_state.restore_workspace(state, opts)
+      elseif typ == "window" then
+        local state = resurrect.state_manager.load_state(id, "window")
+        resurrect.window_state.restore_window(pane:window(), state, opts)
+      elseif typ == "tab" then
+        local state = resurrect.state_manager.load_state(id, "tab")
+        resurrect.tab_state.restore_tab(pane:tab(), state, opts)
+      end
+    end)
+  end),
+})
+
+table.insert(config.keys, {
+  key = 'D',
+  mods = 'LEADER|SHIFT',
+  action = wezterm.action_callback(function(win, pane)
+    resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
+      resurrect.state_manager.delete_state(id)
+    end)
+  end),
+})
+
 config.skip_close_confirmation_for_processes_named = {}
 
 local function is_vim(pane)
@@ -265,7 +274,8 @@ config.key_tables = {
   search_mode = search,
 }
 
-config.scrollback_lines = 10000
+config.scrollback_lines = 5000
+config.front_end = 'WebGpu'
 config.enable_scroll_bar = true
 
 

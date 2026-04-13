@@ -2,6 +2,7 @@
 
 # Wezterm terminal
 brew install --cask wezterm
+brew install --cask font-fira-mono-nerd-font
 
 ln -sf ~/.dotfiles/wezterm/wezterm.lua ~/.wezterm.lua
 

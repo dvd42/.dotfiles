@@ -9,9 +9,23 @@ Snacks.setup({
         truncate = 100,
       },
     },
+    actions = {
+      sidekick_send = function(...)
+        return require("sidekick.cli.picker.snacks").send(...)
+      end,
+    },
+    win = {
+      input = {
+        keys = {
+          ["<a-a>"] = {
+            "sidekick_send",
+            mode = { "n", "i" },
+          },
+        },
+      },
+    },
   },
   bigfile = {},
-  dashboard = {},
   image = {},
   scroll = {},
   indent = {},
@@ -21,6 +35,11 @@ Snacks.setup({
   words = {},
   notifier = {},
 })
+
+-- Disable Snacks picker match/search highlighting
+for _, hl in ipairs({ "SnacksPickerMatch", "SnacksPickerSearch", "SnacksPickerInputSearch" }) do
+  vim.api.nvim_set_hl(0, hl, {})
+end
 
 vim.keymap.set('n', '<leader>z', function() Snacks.zen() end, { noremap = true, silent = true, desc = 'Zen Mode' })
 

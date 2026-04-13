@@ -36,7 +36,6 @@ window = {
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'minuet' },
         { name = 'vim-dadbod-completion' },
         { name = 'buffer' },
         {
@@ -72,8 +71,6 @@ window = {
             fallback()
           end
         end, { 'i', 's' }),
-
-        ['<A-i>'] = require('minuet').make_cmp_map(),
     }),
 })
 

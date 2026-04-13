@@ -22,6 +22,7 @@ wo.number         = true
 wo.relativenumber = true
 o.winborder       = "rounded"
 o.textwidth       = 100
+opt.formatoptions:remove("t")
 o.showmatch       = true
 o.smartindent     = true
 
@@ -52,9 +53,10 @@ o.softtabstop = 4
 o.shiftwidth  = 4
 
 -- Folding (Tree-sitter)
-wo.foldenable   = false
+wo.foldenable   = true
 opt.foldmethod  = "expr"
 opt.foldexpr    = "v:lua.vim.treesitter.foldexpr()"
+opt.foldlevel   = 99  -- Start with all folds open
 
 -- Split behaviour
 o.splitbelow = true

@@ -1,4 +1,4 @@
 #! /bin/bash
-CHSH=no RUNZSH=no sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+brew install jandedobbeleer/oh-my-posh/oh-my-posh zoxide fzf
 cd
 ln -s -f .dotfiles/zsh/zshrc .zshrc

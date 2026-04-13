@@ -2,6 +2,7 @@ vim.g.barbar_auto_setup = false -- disable auto-setup
 
 require'barbar'.setup {
 
+  animation = false,
   icons = {
     -- Configure the base icons on the bufferline.
     -- Valid options to display the buffer index and -number are `true`, 'superscript' and 'subscript'
@@ -13,8 +14,7 @@ require'barbar'.setup {
           added = {enabled = true, icon =  " "},
           changed = {enabled = true, icon = " "},
           deleted = {enabled = true, icon = " "},
-        },
-
+    },
     preset = 'powerline',
   },
 

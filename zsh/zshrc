@@ -24,7 +24,6 @@ zinit light softmoth/zsh-vim-mode
 
 # # Add in snippets
 zinit snippet OMZP::command-not-found
-zinit snippet OMZP::tmux
 zinit snippet OMZP::git
 
 # # # Load completions
@@ -66,10 +65,11 @@ alias ll="ls -alFh --color"
 alias ls="ls --color"
 alias vim="nvim"
 alias vi="nvim"
-alias takeover="tmux detach -a"
 alias python="python3"
 alias pa="pyenv activate $1"
 alias pd="pyenv deactivate"
+alias lfg='claude --dangerously-skip-permissions'
+
 
 # create new pyenv with dependencies
 new_env() {
@@ -152,7 +152,6 @@ function whoops() {
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init - | sed s/precmd/precwd/g)"
-eval "$(zoxide init zsh --cmd cd)"
 eval "$(fzf --zsh)"
 eval "$(fnm env --use-on-cd)"
 
@@ -161,3 +160,10 @@ if [ -f '/Users/diego.velazquez/google-cloud-sdk/path.zsh.inc' ]; then . '/Users
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/diego.velazquez/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/diego.velazquez/google-cloud-sdk/completion.zsh.inc'; fi
+ulimit -S -n 1024
+
+if [[ -o interactive ]]; then
+  eval "$(zoxide init zsh --cmd cd)"
+fi
+
+. "$HOME/.local/bin/env"

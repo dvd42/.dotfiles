@@ -5,6 +5,7 @@
 #backup dirs
 mkdir undodir
 mkdir backup
+mkdir ~/.config
 
 # set up fd
 mkdir -p ~/.local/bin
@@ -19,7 +20,3 @@ git config --global --add difftool.prompt false
 
 # install pyenv
 curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-source ~/.bashrc
-
-exec $SHELL
-chsh -s $(which zsh)

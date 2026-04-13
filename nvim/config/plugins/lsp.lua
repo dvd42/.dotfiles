@@ -5,18 +5,15 @@ local function ruff_on_attach(client, bufnr)
     client.server_capabilities.hoverProvider = false
 end
 
-lspconfig('basedpyright', {
-  -- capabilities = capabilities,
+lspconfig('pyright', {
   settings = {
-    basedpyright = {
-      -- Same idea as your old pyright.disableOrganizeImports
-      -- Let Ruff handle imports instead.
+    pyright = {
       disableOrganizeImports = true,
-
+    },
+    python = {
       analysis = {
-        -- "openFilesOnly" (lighter, default) or "workspace" (full project)
         diagnosticMode = "workspace",
-        typeCheckingMode = "standard", -- or "strict", "basic"
+        typeCheckingMode = "standard",
         autoImportCompletions = true,
         useLibraryCodeForTypes = true,
         autoSearchPaths = true,
@@ -25,7 +22,6 @@ lspconfig('basedpyright', {
           variableTypes      = true,
           callArgumentNames  = true,
           functionReturnTypes = true,
-          genericTypes       = true,
         },
       },
     },
@@ -68,12 +64,6 @@ lspconfig('ruff', {
         },
     },
 })
-
--- Keep your enables as-is
-vim.lsp.enable('basedpyright')
-vim.lsp.enable('ruff')
-vim.lsp.enable('lua_ls')
-
 
 vim.keymap.set('n', '<leader>i', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end,

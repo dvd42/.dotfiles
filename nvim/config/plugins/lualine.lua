@@ -96,6 +96,20 @@ require("lualine").setup({
         require("noice").api.statusline.mode.get,
         cond = require("noice").api.statusline.mode.has,
       },
+      {
+        function()
+          return " "
+        end,
+        color = function()
+          local status = require("sidekick.status").get()
+          if status then
+            return status.kind == "Error" and "DiagnosticError" or status.busy and "DiagnosticWarn" or "Special"
+          end
+        end,
+        cond = function()
+          return require("sidekick.status").get() ~= nil
+        end,
+      },
 
       { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
       {
@@ -105,6 +119,18 @@ require("lualine").setup({
     lualine_x = {
         {
             session_component,
+        },
+        {
+          function()
+            local status = require("sidekick.status").cli()
+            return " " .. (#status > 1 and #status or "")
+          end,
+          cond = function()
+            return #require("sidekick.status").cli() > 0
+          end,
+          color = function()
+            return "Special"
+          end,
         },
         {
           'tabs',

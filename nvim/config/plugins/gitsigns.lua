@@ -36,7 +36,6 @@ require('gitsigns').setup{
      map('n', '<leader>hp', gitsigns.preview_hunk, {desc = 'Git preview hunk'})
      map('n', '<leader>hb', function() gitsigns.blame_line{full=true} end, {desc = 'Git blame line'})
      map('n', '<leader>tb', gitsigns.toggle_current_line_blame, {desc = 'Git toggle blame line'})
-     map('n', '<leader>hd', gitsigns.diffthis, {desc = 'Git diff file'})
      map('n', '<leader>td', gitsigns.toggle_deleted, {desc = 'Git toggle deleted'})
 
      -- Text object
