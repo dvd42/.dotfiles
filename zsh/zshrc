@@ -54,7 +54,7 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^r' history-incremental-search-backward
 
-HISTSIZE=10000
+HISTSIZE=100000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISDUP=erase
@@ -67,6 +67,7 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
+
 # # Aliases
 alias ll="ls -alFh --color"
 alias ls="ls --color"
@@ -76,6 +77,15 @@ alias python="python3"
 alias pa="pyenv activate $1"
 alias pd="pyenv deactivate"
 alias lfg='claude --dangerously-skip-permissions'
+
+# Coder dev box helper
+coder-create() {
+  coder create \
+    --parameter "default_shell=bash" \
+    --parameter "dotfiles_uri=git@github.com:braincompany/sandbox.git" \
+    -y \
+    "$@"
+}
 
 
 # create new pyenv with dependencies
@@ -160,6 +170,17 @@ function whoops() {
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init - | sed s/precmd/precwd/g)"
 eval "$(fzf --zsh)"
+
+# Reload history from disk before invoking fzf's Ctrl+R widget so commands
+# written to ~/.zsh_history by external tools (e.g. Claude Code hooks) show up.
+if (( $+widgets[fzf-history-widget] )); then
+  _fzf_history_widget_with_reload() {
+    fc -R 2>/dev/null
+    zle fzf-history-widget
+  }
+  zle -N _fzf_history_widget_with_reload
+  bindkey '^r' _fzf_history_widget_with_reload
+fi
 eval "$(fnm env --use-on-cd)"
 
 # Auto-fetch origin whenever we cd into a git repo, rate-limited to once per

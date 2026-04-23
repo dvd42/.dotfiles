@@ -27,10 +27,10 @@ while IFS= read -r line; do
   x="${line:0:1}"
   y="${line:1:1}"
   if [[ "$x" == "?" ]]; then
-    (( untracked++ ))
+    (( ++untracked ))
   else
-    [[ "$x" != " " && "$x" != "?" ]] && (( staged++ ))
-    [[ "$y" != " " && "$y" != "?" ]] && (( modified++ ))
+    [[ "$x" != " " && "$x" != "?" ]] && (( ++staged ))
+    [[ "$y" != " " && "$y" != "?" ]] && (( ++modified ))
   fi
 done < <(git -C "$path" status --porcelain 2>/dev/null)
 
