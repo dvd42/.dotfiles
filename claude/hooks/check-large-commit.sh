@@ -38,7 +38,18 @@ if [ -d "$ML_DIR" ]; then
       BLOCK=1
     fi
 
-    # --- Check 3: Typecheck (ty) on the whole ml/ tree. ---
+    # --- Check 3: Ruff format --check on staged .py files ---
+    FORMAT_OUTPUT=$(cd "$ML_DIR" && uv run --group lint ruff format --check $ABS_FILES 2>&1)
+    FORMAT_EXIT=$?
+    if [ $FORMAT_EXIT -ne 0 ] && [ -n "$FORMAT_OUTPUT" ]; then
+      if [ -n "$WARNINGS" ]; then
+        WARNINGS="$WARNINGS\n\n"
+      fi
+      WARNINGS="${WARNINGS}RUFF FORMAT ERRORS in staged files:\n${FORMAT_OUTPUT}\n\nFix with: uv run ruff format <file>"
+      BLOCK=1
+    fi
+
+    # --- Check 4: Typecheck (ty) on the whole ml/ tree. ---
     # ty does cross-file resolution, so per-file checking can miss downstream
     # breakage (e.g. renaming a module attribute a caller still references).
     # Only runs when at least one Python file under ml/ is staged.
