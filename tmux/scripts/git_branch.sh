@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Output: " <branch> [+N] [~N] [?N] [↑N] [↓N]"
 #   +N = staged changes
 #   ~N = unstaged modifications
@@ -58,4 +58,7 @@ if [[ -n "$default_branch" && "$branch" != "${default_branch#origin/}" ]]; then
   fi
 fi
 
-printf ' %s%s%s' "$branch" "$suffix" "$base_info"
+# Strip Claude's auto-generated "worktree-" branch prefix purely for display —
+# the worktree dir name is already visible in the window name, so the prefix
+# is redundant. Only affects the printed string; the actual branch is unchanged.
+printf ' %s%s%s' "${branch#worktree-}" "$suffix" "$base_info"

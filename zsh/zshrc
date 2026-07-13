@@ -1,4 +1,10 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+path=("/opt/homebrew/bin" "/opt/homebrew/sbin" $path)
+fpath=("/opt/homebrew/share/zsh/site-functions" $fpath)
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
+
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PYENV_ROOT="$HOME/.pyenv"
@@ -77,6 +83,16 @@ alias python="python3"
 alias pa="pyenv activate $1"
 alias pd="pyenv deactivate"
 alias lfg='claude --dangerously-skip-permissions'
+
+# Restore terminal state (color attributes, cursor visibility) after Claude
+# Code exits — its TUI sometimes leaves the prompt rendered against stale
+# attributes so the oh-my-posh theme looks "default" until you reload.
+claude() {
+  command claude "$@"
+  local rc=$?
+  printf '\e[0m\e[?25h'
+  return $rc
+}
 
 # Coder dev box helper
 coder-create() {
@@ -167,8 +183,8 @@ function whoops() {
 
 }
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init - | sed s/precmd/precwd/g)"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init - | sed s/precmd/precwd/g)"
 eval "$(fzf --zsh)"
 
 # Reload history from disk before invoking fzf's Ctrl+R widget so commands
@@ -212,3 +228,7 @@ if [[ -o interactive ]]; then
 fi
 
 . "$HOME/.local/bin/env"
+
+# External editor for Codex CLI and other terminal tools.
+export VISUAL=vim
+export EDITOR=vim

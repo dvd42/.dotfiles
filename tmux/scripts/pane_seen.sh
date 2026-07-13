@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Record when a tmux pane was last focused.
 # Called from after-select-pane hook and from claude_window_dot.sh.
 set -euo pipefail

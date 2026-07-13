@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Print a colored "●" per Claude pane in the given tmux window.
 # Color reflects session state from ~/.claude_karma/live-sessions/.
 #
@@ -15,22 +15,12 @@
 
 set -euo pipefail
 
-# --ansi: emit truecolor ANSI escapes instead of tmux-format codes.
-# Used by the window picker (fzf --ansi) since fzf doesn't parse tmux formats.
-ansi_mode=0
-if [[ "${1:-}" == "--ansi" ]]; then
-  ansi_mode=1
-  shift
-fi
-
 window_target="${1:-}"
 [[ -n "$window_target" ]] || exit 0
 
 live_dir="$HOME/.claude_karma/live-sessions"
 state_dir="${TMUX_ASSISTANT_RESURRECT_DIR:-${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/tmux-assistant-resurrect}"
 pane_seen_dir="${TMPDIR:-/tmp}/tmux-pane-seen"
-cache_dir="${TMPDIR:-/tmp}/tmux-claude-dots"
-mkdir -p "$cache_dir"
 now_epoch=$(date +%s)
 # Age cutoff only applies to the cwd-fallback matcher (where false positives
 # are possible). The session_id matcher is 1:1 with a running PID, so the
@@ -40,16 +30,11 @@ cwd_cutoff=$((now_epoch - 86400))  # 24h
 # Keep each attached client's focused pane fresh so sitting in a pane for
 # a long time never makes it look stale. client_active_pane is unreliable
 # on some tmux builds, so resolve via display-message -t <client_tty>.
-# Skip in --ansi mode: that path is used by the window picker, which fires
-# many parallel invocations per prefix+w and doesn't need to refresh here
-# (the 5s status-bar tick already handles it).
-if (( !ansi_mode )); then
-  while IFS= read -r client_tty; do
-    [[ -n "$client_tty" ]] || continue
-    pid=$(tmux display-message -t "$client_tty" -p '#{pane_id}' 2>/dev/null || true)
-    [[ -n "$pid" ]] && "$(dirname "$0")/pane_seen.sh" "$pid" 2>/dev/null || true
-  done < <(tmux list-clients -F '#{client_tty}' 2>/dev/null)
-fi
+while IFS= read -r client_tty; do
+  [[ -n "$client_tty" ]] || continue
+  pid=$(tmux display-message -t "$client_tty" -p '#{pane_id}' 2>/dev/null || true)
+  [[ -n "$pid" ]] && "$(dirname "$0")/pane_seen.sh" "$pid" 2>/dev/null || true
+done < <(tmux list-clients -F '#{client_tty}' 2>/dev/null)
 
 color_for() {
   case "$1" in
@@ -89,8 +74,7 @@ state_for_filter() {
 pane_info=$(tmux list-panes -t "$window_target" -F '#{pane_id} #{pane_tty}' 2>/dev/null)
 [[ -n "$pane_info" ]] || exit 0
 
-tmux_out=""
-ansi_out=""
+out=""
 while IFS=' ' read -r pane_id tty; do
   [[ -n "$tty" ]] || continue
   tty_name=$(basename "$tty")
@@ -144,23 +128,8 @@ while IFS=' ' read -r pane_id tty; do
   fi
 
   color=$(color_for "$state")
-  # Build both formats simultaneously so we can stream one and cache both.
-  # The cache lets window_picker.sh skip the expensive jq work entirely.
-  tmux_out="${tmux_out:+${tmux_out} }#[fg=${color}]●"
-  rgb=$(printf '%d;%d;%d' "0x${color:1:2}" "0x${color:3:2}" "0x${color:5:2}")
-  ansi_out="${ansi_out:+${ansi_out} }$(printf '\x1b[38;2;%sm●\x1b[0m' "$rgb")"
+  out="${out:+${out} }#[fg=${color}]●"
 done <<< "$pane_info"
 
-# Persist both formats. ':' is valid in macOS filenames but we swap for '_'
-# to keep cache files easy to eyeball.
-safe_target="${window_target//:/_}"
-printf '%s' "$tmux_out" >"$cache_dir/$safe_target.tmux"
-printf '%s' "$ansi_out" >"$cache_dir/$safe_target.ansi"
-
-if (( ansi_mode )); then
-  [[ -n "${ansi_out:-}" ]] || exit 0
-  printf '%s' "$ansi_out"
-else
-  [[ -n "${tmux_out:-}" ]] || exit 0
-  printf '%s' "$tmux_out"
-fi
+[[ -n "${out:-}" ]] || exit 0
+printf '%s' "$out"
